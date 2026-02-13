@@ -15,10 +15,12 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 | Time (Pacific)     | Duration    | Session                                                     | Speaker(s)        | Helper(s) |
 | :----------------- | :---------- | :---------------------------------------------------------- | :---------------- | :-------- |
 | 8:00 AM – 8:30 AM  | 30 min      | Check-in & Registration                                     | -                 | -         |
-| 8:30 AM - 9:15 AM  | 45 min      | Welcome & Overview                                          | Andrea Zonca      | -         |
-| 9:15 AM - 12:00 PM | 2 hr 45 min | Data Management: Data Storage, Data Transfers, File Systems | Marty Kandes      |           |
+| 8:30 AM - 9:00 AM  | 30 min      | Welcome & Overview                                          | Andrea Zonca      | -         |
+| 9:00 AM - 10:15 AM | 1 hr 15 min | Parallel Computing Concepts                                 | Nicole Wolter (TBC) |           |
+| 10:15 AM - 10:30 AM | 15 min      | Break                                                      | -                 | -         |
+| 10:30 AM - 12:00 PM | 1 hr 30 min | Running Batch and Interactive Jobs                          | Mary Thomas       |           |
 | 12:00 PM - 1:30 PM | 1 hr 30 min | Lunch                                                       | -                 | -         |
-| 1:30 PM - 3:15 PM  | 1 hr 45 min | Running Batch and Interactive Jobs                          | Mary Thomas       |           |
+| 1:30 PM - 3:15 PM  | 1 hr 45 min | High Throughput Computing                                   | Marty Kandes      |           |
 | 3:15 PM - 3:30 PM  | 15 min      | Break                                                       | -                 | -         |
 | 3:30 PM - 4:45 PM  | 1 hr 15 min | Code Migration & Software Environments                      | Mahidhar Tatineni |           |
 | 5:30 PM - 7:00 PM  | 1 hr 30 min | Evening Reception                                           | -                 | -         |
@@ -28,9 +30,9 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 | Time (Pacific)      | Duration    | Session                                | Speaker(s)          | Helper(s) |
 | :------------------ | :---------- | :------------------------------------- | :------------------ | :-------- |
 | 8:00 AM – 8:30 AM   | 30 min      | Check-in & Light Breakfast             | -                   | -         |
-| 8:30 AM - 9:45 AM   | 1 hr 15 min | Parallel Computing Concepts            | Nicole Wolter (TBC) |           |
+| 8:30 AM - 9:45 AM   | 1 hr 15 min | Data Management: Data Storage, Data Transfers, File Systems | Marty Kandes        |           |
 | 9:45 AM - 10:00 AM  | 15 min      | Break                                  | -                   | -         |
-| 10:00 AM - 12:00 PM | 2 hr        | High Throughput Computing              | Marty Kandes        |           |
+| 10:00 AM - 12:00 PM | 2 hr        | Data Management (Continued)            | Marty Kandes        |           |
 | 11:45 AM - 12:15 PM | 30 min      | Data Center Tour                       | -                   | -         |
 | 12:15 PM - 1:30 PM  | 1 hr 15 min | Lunch                                  | -                   | -         |
 | 1:30 PM – 2:15 PM   | 45 min      | Getting Help                           | Nicole Wolter       |           |
