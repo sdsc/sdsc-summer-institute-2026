@@ -22,7 +22,7 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 | 12:00 PM - 1:30 PM | 1 hr 30 min | Lunch                                                       | -                 | -         |
 | 1:30 PM - 3:15 PM  | 1 hr 45 min | High Throughput Computing                                   | Marty Kandes      |           |
 | 3:15 PM - 3:30 PM  | 15 min      | Break                                                       | -                 | -         |
-| 3:30 PM - 4:45 PM  | 1 hr 15 min | Code Migration & Software Environments                      | Mahidhar Tatineni |           |
+| 3:30 PM - 5:00 PM   | 1 hr 30 min | Code Migration & Software Environments                      | Yuwu Chen |           |
 | 5:30 PM - 7:00 PM  | 1 hr 30 min | Evening Reception                                           | -                 | -         |
 
 ## Tuesday, August 4
