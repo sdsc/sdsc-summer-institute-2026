@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** Nicole Wolter
+**Presented by:** [Nicole Wolter](https://www.sdsc.edu/education/on-demand-learning/202602-Linux-Tools-for-Text-Processing.html)

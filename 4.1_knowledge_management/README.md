@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** Subhasis Dasgupta
+**Presented by:** [Subhasis Dasgupta](https://scil.ucsd.edu/team)

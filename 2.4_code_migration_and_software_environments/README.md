@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** Yuwu Chen
+**Presented by:** [Yuwu Chen](https://www.sdsc.edu/education/on-demand-learning/202512-R-for-HPC.html)

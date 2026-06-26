@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** Fernando Garzon
+**Presented by:** [Fernando Garzon](https://www.sdsc.edu/events/202610-Using-Regular-Expressions-Linux-Tools.html)

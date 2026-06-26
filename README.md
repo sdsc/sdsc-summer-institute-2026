@@ -1,4 +1,4 @@
-# sdsc-summer-institute-206
+# SDSC Summer Institute 2026
 <a name="top"></a>
 
 This repository hosts all material and slides for the SDSC Summer Institute 2026.
