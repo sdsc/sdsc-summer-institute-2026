@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** Andreas Goetz
+**Presented by:** [Andreas Goetz](](https://www.sdsc.edu/research/researcher_spotlight/goetz_andreas.html)

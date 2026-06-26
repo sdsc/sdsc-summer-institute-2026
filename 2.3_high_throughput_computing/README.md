@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** Marty Kandes
+**Presented by:** [Marty Kandes](https://github.com/mkandes)

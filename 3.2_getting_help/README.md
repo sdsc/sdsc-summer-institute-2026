@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** Nicole Wolter
+**Presented by:** [Nicole Wolter](https://www.sdsc.edu/research/researcher_spotlight/wolter_nicole.html)

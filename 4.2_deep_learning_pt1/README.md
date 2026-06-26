@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** Mai Nguyen, Paul Rodriguez
+**Presented by:** [Mai Nguyen](https://www.sdsc.edu/research/researcher_spotlight/nguyen_mai.html), [Paul Rodriguez](https://www.coursera.org/instructor/~13847302)

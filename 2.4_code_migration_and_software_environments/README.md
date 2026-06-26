@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** Yuwu Chen
+**Presented by:** [[Yuwu Chen](https://www.sdsc.edu/research/researcher_spotlight/chen_yuwu.html)

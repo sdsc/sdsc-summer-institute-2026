@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** Igor Sfiligoi
+**Presented by:** [Igor Sfiligoi](https://www.sdsc.edu/research/researcher_spotlight/sfiligoi_igor.html)

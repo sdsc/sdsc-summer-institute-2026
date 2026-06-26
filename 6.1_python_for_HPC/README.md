@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** Andrea Zonca
+**Presented by:** [Andrea Zonca](https://www.sdsc.edu/research/experts/zonca_andrea.html)

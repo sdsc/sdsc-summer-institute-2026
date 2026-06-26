@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** Mary Thomas
+**Presented by:** [Mary Thomas](https://www.sdsc.edu/research/researcher_spotlight/thomas_mary.html)
