@@ -8,6 +8,6 @@
 **Summary:** 
 
 **Presenters:** 
-- [Mary Thomas](https://www.sdsc.edu/research/researcher_spotlight/thomas_mary.html) (Welcome & Orientation)
-- [Cindy Wong](https://www.sdsc.edu/) (Log)
-- [Marty Kandes](https://github.com/mkandes) (Accounts, Login, Environment)
+- [Mary Thomas](https://www.sdsc.edu/research/experts/thomas_mary.html) (Welcome & Orientation)
+- Cindy Wong (Logistics)
+- [Marty Kandes](https://www.sdsc.edu/research/experts/kandes-marty.html) (Accounts, Login, Environment)

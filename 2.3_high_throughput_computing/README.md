@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** [Marty Kandes](https://github.com/mkandes)
+**Presented by:** [Marty Kandes](https://www.sdsc.edu/research/experts/kandes-marty.html)

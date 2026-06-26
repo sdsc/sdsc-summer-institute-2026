@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** [Mahidhar Tatineni](https://www.sdsc.edu/research/researcher_spotlight/tatineni_mahidhar.html)
+**Presented by:** [Mahidhar Tatineni](https://www.sdsc.edu/research/experts/tatineni_mahidhar.html)
