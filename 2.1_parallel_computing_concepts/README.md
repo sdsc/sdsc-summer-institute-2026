@@ -3,13 +3,8 @@
 
 **Date:** Monday, August 3, 2026
 
-**Summary:** Advanced cyberinfrastructure users, whether they develop their own software or run 3rd party applications, should understand fundamental parallel computing concepts. Here we cover supercomputer architectures, the differences between threads and processes, implementations of parallelism (e.g., OpenMP and MPI), strong and weak scaling, limitations on scalability (Amdahl's and Gustafson's Laws) and benchmarking.
+**Time:** 9:00 AM - 10:15 AM Pacific
 
-**Presented by:** [Nicole Wolter](https://www.sdsc.edu/research/researcher_spotlight/wolter_nicole.html) (TBC)
+**Summary:** 
 
-### Reading and Presentations:
-* **Lecture material:** To be announced
-
-### TASKS: None at this time.
-
-[Back to Top](#top)
+**Presented by:** Nicole Wolter (TBC)

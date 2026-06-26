@@ -3,14 +3,8 @@
 
 **Date:** Tuesday, August 4, 2026
 
-**Summary:** This session provides an overview of the various support channels and resources available to HPC users at SDSC and beyond. Learn how to effectively seek help for technical issues, access documentation, and engage with the research computing community.
+**Time:** 1:30 PM – 2:15 PM Pacific
 
-**Presented by:** [Nicole Wolter](https://www.sdsc.edu/research/researcher_spotlight/wolter_nicole.html)
+**Summary:** 
 
-### Reading and Presentations:
-* **Lecture material:** To be announced
-* **Support resources:** To be announced
-
-### TASKS: None at this time.
-
-[Back to Top](#top)
+**Presented by:** Nicole Wolter

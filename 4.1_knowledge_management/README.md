@@ -3,14 +3,8 @@
 
 **Date:** Wednesday, August 5, 2026
 
-**Summary:** In this session, we explore knowledge management techniques for scientific computing. Topics include ontology development, document management, leveraging large language models (LLMs) for knowledge pipelines, and knowledge graph technology for organizing and accessing research information.
+**Time:** 8:30 AM - 10:30 AM Pacific
 
-**Presented by:** [Subhasis Dasgupta](https://adil.sdsc.edu/team-members/subhasis_dasgupta/)
+**Summary:** 
 
-### Reading and Presentations:
-* **Lecture material:** To be announced
-* **Hands-on exercises:** To be announced
-
-### TASKS: None at this time.
-
-[Back to Top](#top)
+**Presented by:** Subhasis Dasgupta

@@ -3,14 +3,8 @@
 
 **Date:** Friday, August 7, 2026
 
-**Summary**: This session covers Python programming for high-performance computing. Topics include parallel Python libraries (mpi4py, multiprocessing), NumPy, SciPy, and optimizing Python code for HPC environments.
+**Time:** 8:30 AM – 11:20 AM Pacific
 
-**Presented by:** [Andrea Zonca](https://www.sdsc.edu/research/experts/zonca_andrea.html)
+**Summary:** 
 
-### Reading and Presentations:
-* **Lecture material:** To be announced
-* **Hands-on exercises:** To be announced
-
-### TASKS: None at this time.
-
-[Back to Top](#top)
+**Presented by:** Andrea Zonca

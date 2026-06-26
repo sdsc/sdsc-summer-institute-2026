@@ -3,14 +3,8 @@
 
 **Date:** Thursday, August 6, 2026
 
-**Summary:** This session covers essential best practices for scientific computing including version control, code organization, testing, documentation, reproducibility, and collaboration tools.
+**Time:** 8:30 AM - 10:00 AM Pacific
 
-**Presented by:** [Fernando Garzon](https://www.linkedin.com/in/fgarzonm)
+**Summary:** 
 
-### Reading and Presentations:
-* **Lecture material:** To be announced
-* **Hands-on exercises:** To be announced
-
-### TASKS: None at this time.
-
-[Back to Top](#top)
+**Presented by:** Fernando Garzon
