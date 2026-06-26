@@ -7,4 +7,4 @@
 
 **Summary:** 
 
-**Presented by:** [Subhasis Dasgupta](https://adil.sdsc.edu/team-members/subhasis_dasgupta/)
+**Presented by:** Subhasis Dasgupta
