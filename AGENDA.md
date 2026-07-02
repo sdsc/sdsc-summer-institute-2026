@@ -6,9 +6,9 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 
 | Time (Pacific)     | Duration    | Session                                                                         | Speaker(s)   | Helper(s) |
 | :----------------- | :---------- | :------------------------------------------------------------------------------ | :----------- | :-------- |
-| 9:00 AM – 9:15 AM  | 30 min      | Preparation Day - Welcome & Orientation                                         | Andrea Zonca | -         |
+| 9:00 AM – 9:15 AM  | 15 min      | Preparation Day - Welcome & Orientation                                         | Andrea Zonca | -         |
 | 9:15 AM - 9:30 AM  | 15 min      | Logistics - Things to Know                                                      | Susan Rathbun   |           |
-| 9:30 AM - 11:00 AM | 1 hr 15 min | Accounts, Login, Environment, Running Jobs and Logging into Expanse User Portal | Marty Kandes |           |
+| 9:30 AM - 11:00 AM | 1 hr 30 min | Accounts, Login, Environment, Running Jobs and Logging into Expanse User Portal | Marty Kandes |           |
 
 ## Monday, August 3
 
@@ -34,8 +34,8 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 | 9:45 AM - 10:00 AM  | 15 min      | Break                                  | -                   | -         |
 | 10:00 AM - 11:45 AM | 1 hr 45 min | Data Management (Continued)            | Marty Kandes        |           |
 | 11:45 AM - 12:15 PM | 30 min      | Data Center Tour: Presentation         | Andrea Zonca, Andreas Goetz | -         |
-| 12:15 PM - 12:30 PM | 15 min      | Data Center Tour: Walk-throughs (2 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
-| 12:30 PM - 1:30 PM  | 1 hr        | Lunch                                  | -                   | -         |
+| 12:15 PM - 1:30 PM  | 1 hr 15 min | Lunch                                  | -                   | -         |
+| 12:15 PM - 12:35 PM | 20 min      | Data Center Tour: Walk-throughs (2 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
 | 1:30 PM – 2:15 PM   | 45 min      | Getting Help                           | Nicole Wolter       |           |
 | 2:15 PM - 4:45 PM   | 2 hr 30 min | Parallel Computing using MPI & Open MP | Igor Sfiligoi       |           |
 
@@ -47,7 +47,7 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 | 8:30 AM - 10:30 AM  | 2 hr        | Knowledge Management       | Subhasis Dasgupta          | Andy Liang |
 | 10:30 AM - 12:00 PM | 1 hr 30 min | Deep Learning - Part 1     | Mai Nguyen, Paul Rodriguez |           |
 | 12:00 PM - 1:30 PM  | 1 hr 30 min | Lunch                      | -                          | -         |
-| 12:00 PM - 12:20 PM | 20 min      | Data Center Tour: Walk-throughs (3 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
+| 12:00 PM - 12:20 PM | 20 min      | Data Center Tour: Walk-throughs (2 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
 | 1:30 PM - 5:00 PM   | 3 hr 30 min | Deep Learning – Part 2     | Mai Nguyen, Paul Rodriguez |           |
 
 ## Thursday, August 6
@@ -59,7 +59,7 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 | 10:00 AM - 12:00 PM | 2 hr        | Performance Tuning                      | Igor Sfiligoi   |           |
 | 12:00 PM - 12:05 PM | 5 min       | Group Photo                             | -               | -         |
 | 12:05 PM - 1:30 PM  | 1 hr 25 min | Lunch                                   | -               | -         |
-| 12:05 PM - 12:25 PM | 20 min      | Data Center Tour: Walk-throughs (3 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
+| 12:05 PM - 12:25 PM | 20 min      | Data Center Tour: Walk-throughs (2 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
 | 1:30 PM - 4:45 PM   | 3 hr 15 min | GPU Computing and Programming           | Andreas Goetz   |           |
 
 ## Friday, August 7
@@ -69,4 +69,4 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 | 8:00 AM – 8:30 AM   | 30 min      | Check-in & Light Breakfast                      | -                 | -         |
 | 8:30 AM – 11:20 AM  | 2 hr 50 min | Python for HPC                                  | Andrea Zonca      |           |
 | 11:20 AM - 11:45 AM | 25 min      | Overview of SDSC Supercomputers                 | Mahidhar Tatineni | -         |
-| 11:45 AM - Noon     | 15 min      | Closing Remarks what to do next access accounts | Andrea Zonca      | -         |
+| 11:45 AM - 12:00 PM     | 15 min      | Closing Remarks what to do next access accounts | Andrea Zonca      | -         |
