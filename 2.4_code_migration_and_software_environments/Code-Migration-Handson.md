@@ -59,12 +59,12 @@ In the second part of this hands-on section, we will build a Singularity image o
        singularity exec lolcow.sif cowsay hello
        singularity exec lolcow.sif sh -c 'fortune | cowsay'
   
-## Hands-on session 3: working with Python or R (pick one to work)
+## Hands-on session 3: working with Python
 We first start an interactive session, if the interactive session started in Hands-on session 2 has ended.
 
     srun --pty --partition=shared --nodes=1 --ntasks-per-node=1 --cpus-per-task=8 --mem=16G -A sdp173 -t 01:30:00 --wait 0 /bin/bas
 
-- The Python part includes installing Miniforge3 and pyjokes 
+- Install Miniforge3 and then pyjokes 
 
 1. Download and install miniforge3, make it available by alias
 
@@ -83,38 +83,6 @@ We first start an interactive session, if the interactive session started in Han
         mamba install pyjokes
         pyjokes
 
-- The R part includes installing and running R package praise. Choose either one of below to add R to your user environment:
-
-    - Load the system R module and install it with `install.packages()` 
-
-            module reset
-            module spider r
-            module load cpu/0.15.4 gcc/9.2.0 r/4.0.2-openblas
-            # start an R console
-            R 
-
-      The next commands are running in the R console. 
-
-            install.packages("praise")
-            library(praise)
-            praise()
-
-    - Create an R conda environment with miniforge3
-
-            wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
-            bash Miniforge3-Linux-x86_64.sh -b -s
-            alias miniforge='eval "$($HOME/miniforge3/bin/conda shell.bash hook)"' # alias can be added to ~/.bashrc
-            miniforge
-            mamba create -n r-praise
-            conda activate r-praise
-            mamba install r-praise
-            # start an R console
-            R 
-
-      The next two commands are running in the R console. 
-
-            library(praise)
-            praise()
 
 ## Hands-on session 4: install from source
 
