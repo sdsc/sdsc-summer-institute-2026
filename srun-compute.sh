@@ -4,10 +4,10 @@
 #
 # Requests an interactive srun on the Expanse compute partition with:
 #   1 node, 128 CPUs, 242 GB memory, 4 hour time limit
-#   Account: sds166
+#   Account: sdp173
 
 srun \
-  --account=sds166 \
+  --account=sdp173 \
   --partition=compute \
   --nodes=1 \
   --ntasks-per-node=1 \

@@ -4,10 +4,10 @@
 #
 # Requests an interactive srun on the Expanse GPU shared partition with:
 #   1 node, 1 GPU, 10 CPUs, 92 GB memory, 4 hour time limit
-#   Account: sds166
+#   Account: sdp173
 
 srun \
-  --account=sds166 \
+  --account=sdp173 \
   --partition=gpu-shared \
   --nodes=1 \
   --ntasks-per-node=1 \
