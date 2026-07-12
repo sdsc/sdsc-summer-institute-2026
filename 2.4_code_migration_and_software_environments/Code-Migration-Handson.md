@@ -39,6 +39,8 @@ In the first part of this hands-on section, we will copy over a PyTorch example 
            
 3. Check the output file
 
+       cat pytorch-cpu-shared.*
+
 In the second part of this hands-on section, we will build a Singularity image on Expanse. 
 1. First, start an interactive session
 
