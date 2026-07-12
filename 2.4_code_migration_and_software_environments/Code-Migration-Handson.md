@@ -94,7 +94,8 @@ We first start an interactive session, if the interactive session started in Han
 
     srun --pty --partition=shared --nodes=1 --ntasks-per-node=1 --cpus-per-task=8 --mem=16G -A sdp173 -t 01:30:00 --wait 0 /bin/bash
 
-1. Set up module environment
+1. Set up module environment.  
+   The ncurses module is available only in the cpu/0.15.4 software stack, so this example explicitly loads that stack instead of the current default cpu/0.17.3. 
 
        module reset
        module load cpu/0.15.4 gcc/10.2.0  ncurses/6.2
