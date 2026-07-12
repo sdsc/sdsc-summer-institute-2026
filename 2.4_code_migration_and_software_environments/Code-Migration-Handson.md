@@ -22,7 +22,7 @@ We will run a few module commands to search and load the system-wide installed M
        module list
        module show matlab/2022b
    
-4. Check if the path to the MATLAB executable is correctly set
+3. Check if the path to the MATLAB executable is correctly set
 
        which matlab
 
@@ -62,9 +62,9 @@ In the second part of this hands-on section, we will build a Singularity image o
 ## Hands-on session 3: working with Python
 We first start an interactive session, if the interactive session started in Hands-on session 2 has ended.
 
-    srun --pty --partition=shared --nodes=1 --ntasks-per-node=1 --cpus-per-task=8 --mem=16G -A sdp173 -t 01:30:00 --wait 0 /bin/bas
+    srun --pty --partition=shared --nodes=1 --ntasks-per-node=1 --cpus-per-task=8 --mem=16G -A sdp173 -t 01:30:00 --wait 0 /bin/bash
 
-- Install Miniforge3 and then pyjokes 
+Install Miniforge3 and then pyjokes 
 
 1. Download and install miniforge3, make it available by alias
 
@@ -73,12 +73,12 @@ We first start an interactive session, if the interactive session started in Han
         alias miniforge='eval "$($HOME/miniforge3/bin/conda shell.bash hook)"' # alias can be added to ~/.bashrc
         miniforge 
 
-3. Create and activate a conda environment 
+2. Create and activate a conda environment 
 
         mamba create -n pyjokes
         conda activate pyjokes
    
-4. Install pyjokes and run it
+3. Install pyjokes and run it
 
         mamba install pyjokes
         pyjokes
@@ -90,14 +90,14 @@ This example compiles cmatrix from source.
 
 We first start an interactive session, if the interactive session started in Hands-on session 2 or 3 has ended.
 
-    srun --pty --partition=shared --nodes=1 --ntasks-per-node=1 --cpus-per-task=8 --mem=16G -A sdp173 -t 01:30:00 --wait 0 /bin/bas
+    srun --pty --partition=shared --nodes=1 --ntasks-per-node=1 --cpus-per-task=8 --mem=16G -A sdp173 -t 01:30:00 --wait 0 /bin/bash
 
 1. Set up module environment
 
        module reset
        module load cpu/0.15.4 gcc/10.2.0  ncurses/6.2
 
-3. Build from source
+2. Build from source
 
        git clone https://github.com/abishekvashok/cmatrix
        cd cmatrix
@@ -106,10 +106,10 @@ We first start an interactive session, if the interactive session started in Han
        make
        make install
 
-4. Add the bin path to PATH
+3. Add the bin path to PATH
 
        export PATH=$HOME/cmatrix/install/bin:$PATH
 
-5. Run executable `cmatrix`
+4. Run executable `cmatrix`
 
        cmatrix
