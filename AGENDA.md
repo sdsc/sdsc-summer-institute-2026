@@ -23,6 +23,7 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 | 1:30 PM - 3:15 PM  | 1 hr 45 min | High Throughput Computing                                   | Marty Kandes      |           |
 | 3:15 PM - 3:30 PM  | 15 min      | Break                                                       | -                 | -         |
 | 3:30 PM - 5:00 PM   | 1 hr 30 min | Code Migration & Software Environments                      | Yuwu Chen |           |
+| 5:00 PM - 5:05 PM   | 5 min       | Day Survey                                                  | Andrea Zonca | -         |
 | 5:30 PM - 7:00 PM  | 1 hr 30 min | Evening Reception                                           | -                 | -         |
 
 ## Tuesday, August 4
@@ -38,6 +39,7 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 | 12:15 PM - 1:30 PM  | 1 hr 15 min | Lunch                                  | -                   | -         |
 | 1:30 PM – 2:15 PM   | 45 min      | Getting Help                           | Nicole Wolter       |           |
 | 2:15 PM - 4:45 PM   | 2 hr 30 min | Parallel Computing using MPI & Open MP | Igor Sfiligoi       |           |
+| 4:45 PM - 4:50 PM   | 5 min       | Day Survey                                                  | Andrea Zonca | -         |
 
 ## Wednesday, August 5
 
@@ -49,6 +51,7 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 | 12:00 PM - 1:30 PM  | 1 hr 30 min | Lunch                      | -                          | -         |
 | 12:00 PM - 12:20 PM | 20 min      | Data Center Tour: Walk-throughs (3 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
 | 1:30 PM - 5:00 PM   | 3 hr 30 min | Deep Learning – Part 2     | Mai Nguyen, Paul Rodriguez |           |
+| 5:00 PM - 5:05 PM   | 5 min       | Day Survey                                                  | Andrea Zonca | -         |
 
 ## Thursday, August 6
 
@@ -61,6 +64,7 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 | 12:05 PM - 1:30 PM  | 1 hr 25 min | Lunch                                   | -               | -         |
 | 12:05 PM - 12:25 PM | 20 min      | Data Center Tour: Walk-throughs (3 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
 | 1:30 PM - 4:45 PM   | 3 hr 15 min | GPU Computing and Programming           | Andreas Goetz   |           |
+| 4:45 PM - 4:50 PM   | 5 min       | Day Survey                                                  | Andrea Zonca | -         |
 
 ## Friday, August 7
 
@@ -69,4 +73,4 @@ Helper(s) convention: blank means a helper is needed (TBD); `-` means no helper 
 | 8:00 AM – 8:30 AM   | 30 min      | Check-in & Light Breakfast                      | -                 | -         |
 | 8:30 AM – 11:20 AM  | 2 hr 50 min | Python for HPC                                  | Andrea Zonca      |           |
 | 11:20 AM - 11:45 AM | 25 min      | Overview of SDSC Supercomputers                 | Mahidhar Tatineni | -         |
-| 11:45 AM - 12:00 PM     | 15 min      | Closing Remarks what to do next access accounts | Andrea Zonca      | -         |
+| 11:45 AM - 12:00 PM | 15 min      | Closing Remarks, Survey, Next Steps & ACCESS    | Andrea Zonca      | -         |
