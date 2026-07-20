@@ -47,7 +47,7 @@ Helper(s) convention: `(CCR)` = student helper earning Co-Curricular Record cred
 | :------------------ | :---------- | :------------------------- | :------------------------- | :-------- |
 | 8:00 AM – 8:30 AM   | 30 min      | Check-in & Light Breakfast | -                          | -         |
 | 8:30 AM - 10:30 AM  | 2 hr        | Knowledge Management       | Subhasis Dasgupta, Andy Liang | Mitchell Moundraty (CCR) |
-| 10:30 AM - 12:00 PM | 1 hr 30 min | Deep Learning - Part 1     | Mai Nguyen, Paul Rodriguez | Jennifer Chen (CCR) (To be confirmed) |
+| 10:30 AM - 12:00 PM | 1 hr 30 min | Deep Learning - Part 1     | Mai Nguyen, Paul Rodriguez | Jennifer Chen (non-CCR) |
 | 12:00 PM - 1:30 PM  | 1 hr 30 min | Lunch                      | -                          | -         |
 | 12:00 PM - 12:20 PM | 20 min      | Data Center Tour: Walk-throughs (3 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
 | 1:30 PM - 5:00 PM   | 3 hr 30 min | Deep Learning – Part 2     | Mai Nguyen, Paul Rodriguez | Rena Tokhi (CCR) |
@@ -58,8 +58,8 @@ Helper(s) convention: `(CCR)` = student helper earning Co-Curricular Record cred
 | Time (Pacific)      | Duration    | Session                                 | Speaker(s)      | Helper(s) |
 | :------------------ | :---------- | :-------------------------------------- | :-------------- | :-------- |
 | 8:00 AM – 8:30 AM   | 30 min      | Check-in & Light Breakfast              | -               | -         |
-| 8:30 AM - 10:00 AM  | 1 hr 30 min | Best Practices for Scientific Computing | Fernando Garzon | Arjun Singh (CCR) (To be confirmed) |
-| 10:00 AM - 12:00 PM | 2 hr        | Performance Tuning                      | Igor Sfiligoi   | Arjun Singh (CCR) (To be confirmed) |
+| 8:30 AM - 10:00 AM  | 1 hr 30 min | Best Practices for Scientific Computing | Fernando Garzon | Richard Kim (To be confirmed) |
+| 10:00 AM - 12:00 PM | 2 hr        | Performance Tuning                      | Igor Sfiligoi   | Richard Kim (To be confirmed) |
 | 12:00 PM - 12:05 PM | 5 min       | Group Photo                             | -               | -         |
 | 12:05 PM - 1:30 PM  | 1 hr 25 min | Lunch                                   | -               | -         |
 | 12:05 PM - 12:25 PM | 20 min      | Data Center Tour: Walk-throughs (3 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
