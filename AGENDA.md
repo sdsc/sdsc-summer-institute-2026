@@ -71,6 +71,6 @@ Helper(s) convention: `(CCR)` = student helper earning Co-Curricular Record cred
 | Time (Pacific)      | Duration    | Session                                         | Speaker(s)        | Helper(s) |
 | :------------------ | :---------- | :---------------------------------------------- | :---------------- | :-------- |
 | 8:00 AM – 8:30 AM   | 30 min      | Check-in & Light Breakfast                      | -                 | -         |
-| 8:30 AM – 11:20 AM  | 2 hr 50 min | Python for HPC                                  | Andrea Zonca      | Zay Htet (CCR) |
+| 8:30 AM – 11:20 AM  | 2 hr 50 min | Python for HPC                                  | Andrea Zonca      | Zay Htet (CCR), Mitchell Moundraty (CCR) |
 | 11:20 AM - 11:45 AM | 25 min      | Overview of SDSC Supercomputers                 | Mahidhar Tatineni | -         |
 | 11:45 AM - 12:00 PM | 15 min      | Closing Remarks, Survey, Next Steps & ACCESS    | Andrea Zonca      | -         |
