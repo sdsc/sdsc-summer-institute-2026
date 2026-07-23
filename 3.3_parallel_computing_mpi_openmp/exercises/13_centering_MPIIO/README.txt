@@ -57,7 +57,9 @@ Just one additional note:
 
 Once you have done the necessary code changes:
 # get an interactive allocation and setup the environment
-salloc --partition=<given_partition> --res=<reservation> --account=<given_account> --nodes=2 --mem=64G -n 4 -c 16 -t 00:30:00
+salloc --partition=shared --reservation=si26cpu --account=sdp173 --nodes=1 --mem=64G -n 4 -c 16 -t 00:30:00
+(Adapt partition/reservation/account if needed)
+
 module load gcc/10.2.0 openmpi/4.1.3 python/3.8.12 py-numpy/1.20.3
 
 # Build the executable

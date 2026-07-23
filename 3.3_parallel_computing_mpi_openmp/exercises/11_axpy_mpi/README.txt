@@ -8,9 +8,10 @@ Build and test setup
 --------------------
 
 Get an MPI allocation:
-salloc --partition=<given_partition> --res=<reservation> --account=<given_account> --nodes=1 --mem=32G -n 8 -c 4 -t 00:30:00
+salloc --partition=shared --reservation=si26cpu --account=sdp173 --nodes=1 --mem=32G -n 8 -c 4 -t 00:30:00
+(Adapt partition/reservation/account if needed)
 
-(Note that you are still no the login node)
+(Note that you are still on the login node)
 
 You can check which node the MPI executable will run with
 srun -n 1 hostname
@@ -55,7 +56,10 @@ But that is not necessary.
 exit
 )
 Request an allocation spanning 2 nodes:
-salloc --partition=<given_partition> --res=<reservation> --account=<given_account> --nodes=1 --mem=32G -n 8 -c 4 -t 00:30:00
+Note: We cannot use the shared partition, since it is not meant for multi-node jobs.
+      We will use the preempt partition for this quick test.
+
+salloc --partition=preempt --reservation=si26cpu --account=sdp173 --nodes=2 --mem=32G -n 8 -c 4 -t 00:30:00
 
 You can check which nodes the MPI executable will run with
 srun -n 8 hostname
