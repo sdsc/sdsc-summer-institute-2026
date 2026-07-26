@@ -9,9 +9,9 @@ srun --partition=shared --reservation=si26cpu --account=sdp173 --pty --nodes=1 -
 Build a real application
 ------------------------
 
-We will profile a real application, namely bowtie2, a popular bionformatics short aligner.
+We will profile a real application, namely bowtie2, a popular bioinformatics short aligner.
 
-The source files are avaialble on github (github.com/BenLangmead/bowtie2/), but we also have them pre-stages on Expanse:
+The source files are available on github (github.com/BenLangmead/bowtie2/), but we also have them pre-staged on Expanse:
 ################
 tar -xzf /expanse/lustre/projects/sdp173/sfiligoi/bowtie2/source/v2.5.0.tar.gz 
 
@@ -35,7 +35,7 @@ rm -f out.sam; /bin/time ./bowtie2-align-l --wrapper basic-0 -p 31 -k 16 --seed 
 Sampling profiling
 ------------------
 
-An easy way to get an idea of where most of the time is spent, is tu use the 
+An easy way to get an idea of where most of the time is spent, is to use the 
 perf
 sampling profiler:
 
