@@ -13,7 +13,14 @@ void run_parallel(int N) {
   int bufsize = 2+N/10000;
 
   std::atomic_int *cnts = new std::atomic_int[bufsize];
+  for (int i=0; i<bufsize; i++) cnts[i].store(0);
 
+  /*
+   * Note: Since bufsize<N, at least two iterations
+   *       will write in the same location.
+   *       However, += is atomic, so we are guaranteed that
+   *       there are no race conditions even when run in parallel.
+   */
 #pragma omp parallel for
   for (int i=0; i<N; i++) cnts[idx(i)] += val(i);
 

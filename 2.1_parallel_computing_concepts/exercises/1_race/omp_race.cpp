@@ -12,7 +12,17 @@ void run_parallel(int N) {
   int bufsize = 2+N/10000;
 
   int *cnts = new int[bufsize];
+  for (int i=0; i<bufsize; i++) cnts[i] = 0;
 
+  /*
+   * Note: The += in this loop abviously has a race condition
+   *       if run in parallel.
+   *       Since bufsize<N, at least two iterations
+   *       will write in the same location.
+   *
+   * No reasonable compiler would auto-vectorize this code.
+   * But pragma omp parallel forces parallelization.
+   */
 #pragma omp parallel for
   for (int i=0; i<N; i++) cnts[idx(i)] += val(i);
 
