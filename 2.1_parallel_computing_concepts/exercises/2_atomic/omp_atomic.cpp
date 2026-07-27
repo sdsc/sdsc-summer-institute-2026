@@ -1,5 +1,5 @@
 /*
- * Example of a race condition.
+ * Example of using atomics to avoid a race condition.
  */
 
 #include <cstdlib>
