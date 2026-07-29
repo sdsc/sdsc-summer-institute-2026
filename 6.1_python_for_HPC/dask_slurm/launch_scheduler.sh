@@ -7,18 +7,18 @@
 # The scheduler writes its address to ~/.dask_scheduler.json, which the worker
 # job reads to find the scheduler.
 
-set -u
+set -euo pipefail
 
-SCHEDULER_FILE="$HOME/.dask_scheduler.json"
+SCHEDULER_FILE="${DASK_SCHEDULER_FILE:-$HOME/.dask_scheduler.json}"
 
 # Bind the scheduler to the node's public IP so worker nodes on other hosts
 # can reach it. The dashboard runs on :8787 for the Dask Lab Extension.
-PUBLIC_IP=$(ip route get 1 | awk '{print $(NF-2);exit}')
+PUBLIC_IP="${DASK_SCHEDULER_HOST:-$(hostname -I | awk '{print $1}')}"
 
 echo "Launching dask scheduler on $PUBLIC_IP:8786"
 echo "Dashboard: http://$PUBLIC_IP:8787/status"
 echo "Scheduler file: $SCHEDULER_FILE"
-echo "Waiting for workers — you will see a line each time one connects."
+echo "Waiting for workers. You will see a line each time one connects."
 echo
 
 dask scheduler \

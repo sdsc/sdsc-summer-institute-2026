@@ -101,3 +101,5 @@ dmypy.json
 *.out
 *.swp
 mydask.html
+test-results/
+*.nbconvert.ipynb

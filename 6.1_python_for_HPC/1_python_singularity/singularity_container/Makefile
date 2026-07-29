@@ -1,11 +1,13 @@
 img = dask-numba-si26.sif
 recipe = Singularity.anaconda3-dask-numba
+singularity = singularity
+build_flags = --fakeroot
 
 build: ${recipe} clean
-	sudo singularity build ${img} ${recipe}
+	${singularity} build ${build_flags} ${img} ${recipe}
 
 clean:
-	sudo rm -f ${img}
+	rm -f ${img}
 
 copy: ${img}
-	scp ${img} login.expanse.sdsc.edu:/expanse/lustre/projects/sds166/zonca/
+	scp ${img} expanse:/expanse/lustre/projects/sds166/zonca/

@@ -10,7 +10,9 @@ dependencies:
   - numba
   - pandas
   - matplotlib
+  - graphviz
   - ipycytoscape
+  - psutil
   - h5py
   - Pillow
   - ipywidgets

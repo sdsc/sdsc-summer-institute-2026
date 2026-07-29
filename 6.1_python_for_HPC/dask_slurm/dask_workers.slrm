@@ -3,13 +3,22 @@
 #SBATCH --output="dask-workers.%j.%N.out"
 #SBATCH --partition=compute
 #SBATCH --reservation=si26cpu
-#SBATCH --account=gue998
+#SBATCH --qos=normal-eot
+#SBATCH --account=sdp173
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=128
 #SBATCH --export=ALL
-#SBATCH --mem=240G
-#SBATCH -t 0:10:00
+#SBATCH --mem=242G
+#SBATCH --time=00:10:00
 
-srun --exact --ntasks=2 --ntasks-per-node=1 --unbuffered \
-    bash -c 'source ../0_python_condaenv_scratch/stage_condaenv.sh pythonhpc && source ./launch_worker.sh'
+set -euo pipefail
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+export PYHPC_STAGE_SCRIPT="${SCRIPT_DIR}/../0_python_condaenv_scratch/stage_condaenv.sh"
+export PYHPC_WORKER_SCRIPT="${SCRIPT_DIR}/launch_worker.sh"
+export DASK_WORKER_THREADS="${SLURM_CPUS_PER_TASK}"
+export DASK_WORKER_MEMORY="240GB"
+
+srun --exact --ntasks="${SLURM_NNODES}" --ntasks-per-node=1 --unbuffered \
+    bash -c 'source "$PYHPC_STAGE_SCRIPT" pythonhpc && exec "$PYHPC_WORKER_SCRIPT"'

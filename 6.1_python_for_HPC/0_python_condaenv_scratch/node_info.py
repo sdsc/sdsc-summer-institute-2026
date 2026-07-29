@@ -10,7 +10,8 @@ slurm_procid = os.environ.get("SLURM_PROCID", "N/A")
 slurm_localid = os.environ.get("SLURM_LOCALID", "N/A")
 slurm_nodeid = os.environ.get("SLURM_NODEID", "N/A")
 
-def log(msg):
+
+def log(msg: str) -> None:
     print(f"[{hostname} | rank={slurm_procid}] {msg}", flush=True)
 
 log(f"Memory: {total_memory_gb:.2f} GB")

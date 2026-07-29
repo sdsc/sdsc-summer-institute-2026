@@ -7,9 +7,12 @@
 #   Account: sdp173
 #   Conda environment from environment.yaml (cached via conda-pack)
 #
-# Uncomment --reservation and --qos during the Summer Institute (Aug 3-7), then comment them out after.
+# The reservation and QOS are required for SI26 production sessions.
+# Instructors should use TESTING.md and the debug queue before the institute.
 
-NOTEBOOK_FOLDER=$(pwd -P)  # Use current folder as the notebook working directory
+set -euo pipefail
+
+NOTEBOOK_FOLDER=$(pwd -P)
 
 /cm/shared/apps/sdsc/galyleo/galyleo launch \
   --account sdp173 \
@@ -20,7 +23,7 @@ NOTEBOOK_FOLDER=$(pwd -P)  # Use current folder as the notebook working director
   --memory 242 \
   --time-limit 04:00:00 \
   --conda-yml environment.yaml \
-  --notebook-dir ${NOTEBOOK_FOLDER} \
+  --notebook-dir "${NOTEBOOK_FOLDER}" \
   --interface lab \
   --cache \
   --quiet

@@ -1,62 +1,112 @@
 # Dask workers on Expanse
 
-This directory launches a **Dask distributed cluster** that spans multiple Expanse
-compute nodes. The notebook `5_dask/4_multinode_distributed_array.ipynb` connects
-to the cluster built here.
+The multi-node capstone uses three roles:
 
-The cluster has two parts:
-
-1. A **scheduler** running on the same node as your Jupyter notebook.
-2. A **worker job** (this directory's `dask_workers.slrm`) running on one or more
-   *other* compute nodes, connecting back to the scheduler.
-
-## 0. Edit the worker script for your allocation
-
-Open `dask_workers.slrm` and set the SLURM directives to your allocation. The SI26
-values below are placeholders — replace them with your own `--account` and
-`--reservation` if you are running outside the institute:
-
-```bash
-#SBATCH --account=gue998        # SI26 training allocation
-#SBATCH --reservation=si26cpu   # SI26 CPU reservation
+```text
+Jupyter notebook
+      |
+      v
+Dask scheduler on the Jupyter node
+      |
+      +-----------------------+
+      v                       v
+worker on compute node 1   worker on compute node 2
 ```
 
-## 1. Start the scheduler (on the notebook node)
+The scheduler tracks the graph. Workers store chunks and execute tasks. The
+notebook requests results through the scheduler.
 
-Open a terminal *inside JupyterLab* (so it runs on the same node as the notebook)
-and run:
+## Production SI26 settings
+
+`dask_workers.slrm` follows the CPU `srun` settings on repository `main`:
+
+- Account: `sdp173`
+- Partition: `compute`
+- Reservation: `si26cpu`
+- QOS: `normal-eot`
+- Nodes: 2
+- One worker per node
+- 128 threads and 242 GB requested per node
+- Ten-minute limit
+
+These are production institute settings. Instructors testing before the event
+must not submit this script. Use [`../TESTING.md`](../TESTING.md) and the debug
+queue.
+
+## 1. Start the scheduler
+
+Open a terminal inside JupyterLab so the scheduler runs on the same node as the
+notebook:
 
 ```bash
+cd 6.1_python_for_HPC
 bash dask_slurm/launch_scheduler.sh
 ```
 
-Leave that terminal open — the scheduler runs in the foreground and prints a line
-each time a worker connects. The scheduler writes its address to
-`~/.dask_scheduler.json`, which the worker job reads to find it.
+Leave the terminal open. The scheduler writes its connection information to:
 
-## 2. Submit the worker job (from the login node)
-
-The Singularity container does not include SLURM commands, so submit the worker
-job from a terminal on the Expanse **login node**:
-
-```bash
-sbatch dask_slurm/dask_workers.slrm
+```text
+~/.dask_scheduler.json
 ```
 
-Within a minute or two you should see the workers from the worker nodes connect
-in the scheduler terminal.
+The home directory is visible from the worker nodes, so they can use the same
+file.
+
+## 2. Submit workers
+
+From an Expanse login-node terminal:
+
+```bash
+cd 6.1_python_for_HPC
+sbatch dask_slurm/dask_workers.slrm
+squeue -u "$USER"
+```
+
+Submit the script from any working directory. It resolves its supporting files
+relative to the script location.
+
+Within a minute or two, the scheduler terminal should report two workers. If it
+does not:
+
+```bash
+squeue -u "$USER"
+ls -1 dask-workers.*.out
+```
+
+Read the newest output file for the first error.
 
 ## 3. Connect from the notebook
 
-Back in `5_dask/4_multinode_distributed_array.ipynb`, the first code cell connects
-to the scheduler and waits for at least one worker. Once `client` is set, every
-`.compute()` ships the task graph to the distributed workers.
+Open `5_dask/4_multinode_distributed_array.ipynb`. Its connection cell reads
+`~/.dask_scheduler.json`, waits for at least one worker, and prints worker
+addresses and thread counts.
 
-## Teardown
+The dashboard is available through Jupyter Server Proxy at:
 
-When you are done, `Ctrl-C` the scheduler in its terminal and `scancel` the worker
-job from the login node:
+```text
+/proxy/8787/status
+```
+
+## 4. Stop everything
+
+From the login node:
 
 ```bash
-scancel <job_id_from_sbatch>
+scancel <worker_job_id>
 ```
+
+In the scheduler terminal, press `Ctrl-C`.
+
+Confirm the job is gone:
+
+```bash
+squeue -u "$USER"
+```
+
+Removing stale scheduler state before a new run is safe:
+
+```bash
+rm -f "$HOME/.dask_scheduler.json"
+```
+
+Do not leave worker jobs running after the capstone.

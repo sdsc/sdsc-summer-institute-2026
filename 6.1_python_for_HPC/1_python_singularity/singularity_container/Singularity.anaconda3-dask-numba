@@ -10,7 +10,7 @@ From: ghcr.io/mkandes/naked-singularity:ubuntu-22.04
     AUTHOR_NAME Andrea Zonca
     AUTHOR_EMAIL zonca@sdsc.edu
 
-    LAST_UPDATED 20220708
+    LAST_UPDATED 20260729
 
 %setup
 
@@ -22,6 +22,8 @@ From: ghcr.io/mkandes/naked-singularity:ubuntu-22.04
     export PATH="${MAMBA_ROOT_PREFIX}/envs/${ENV_NAME}/bin:${PATH}"
 
 %post -c /bin/bash
+
+    set -e
 
     # Set system locale
     export LC_ALL='C'
@@ -46,7 +48,7 @@ From: ghcr.io/mkandes/naked-singularity:ubuntu-22.04
     source ${HOME}/.bashrc
 
     $MAMBA create -n $ENV_NAME -c conda-forge --yes \
-    'python==3.11' \
+    'python==3.12' \
     'jupyterlab' \
     'dask' \
     'dask-labextension' \
@@ -55,6 +57,9 @@ From: ghcr.io/mkandes/naked-singularity:ubuntu-22.04
     'python-graphviz' \
     'pandas' \
     'matplotlib' \
+    'graphviz' \
+    'ipycytoscape' \
+    'psutil' \
     'h5py' \
     'Pillow' \
     'ipywidgets' \
@@ -79,3 +84,6 @@ From: ghcr.io/mkandes/naked-singularity:ubuntu-22.04
 %runscript
 
 %test
+
+    python --version
+    python -c "import numpy, numba, dask, distributed, pandas, psutil, graphviz"
