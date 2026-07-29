@@ -4,6 +4,8 @@
 
 #SBATCH --partition=shared
 
+#SBATCH --constraint="lustre"
+
 #SBATCH --nodes=1
 
 #SBATCH --ntasks=1
@@ -37,6 +39,12 @@ module load singularitypro
 ROOT="$SLURM_SUBMIT_DIR"
 
 JOBDIR="/scratch/$USER/job_$SLURM_JOB_ID/kg-db"
+
+IMAGE_DIR="/expanse/lustre/projects/sdp173/zliang7/containers"
+
+WEAVIATE_IMAGE="$IMAGE_DIR/weaviate.sif"
+
+NEO4J_IMAGE="$IMAGE_DIR/neo4j.sif"
 
 
 
@@ -90,9 +98,9 @@ echo "Runtime data directory: $JOBDIR"
 
 
 
-test -f "$ROOT/images/weaviate_1.38.1.sif"
+test -r "$WEAVIATE_IMAGE"
 
-test -f "$ROOT/images/neo4j_2026.05.0.sif"
+test -r "$NEO4J_IMAGE"
 
 
 
@@ -110,7 +118,7 @@ export SINGULARITYENV_GRPC_PORT="$WEAVIATE_GRPC_PORT"
 
 
 
-singularity instance start --cleanenv --writable-tmpfs --bind "$JOBDIR/weaviate:/var/lib/weaviate" "$ROOT/images/weaviate_1.38.1.sif" "weaviate-$SLURM_JOB_ID"
+singularity instance start --cleanenv --writable-tmpfs --bind "$JOBDIR/weaviate:/var/lib/weaviate" "$WEAVIATE_IMAGE" "weaviate-$SLURM_JOB_ID"
 
 
 
@@ -134,7 +142,7 @@ export SINGULARITYENV_NEO4J_server_bolt_advertised__address="$SLURMD_NODENAME:$N
 
 
 
-singularity instance start --cleanenv --writable-tmpfs --bind "$JOBDIR/neo4j/data:/data,$JOBDIR/neo4j/logs:/logs" "$ROOT/images/neo4j_2026.05.0.sif" "neo4j-$SLURM_JOB_ID"
+singularity instance start --cleanenv --writable-tmpfs --bind "$JOBDIR/neo4j/data:/data,$JOBDIR/neo4j/logs:/logs" "$NEO4J_IMAGE" "neo4j-$SLURM_JOB_ID"
 
 
 

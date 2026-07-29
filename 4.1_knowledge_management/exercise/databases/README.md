@@ -1,10 +1,18 @@
 ## 1. Submit The Database Job
 
-Load Slurm and submit the job:
+Load Slurm and run the launcher:
 
 ```bash
 module load slurm
-sbatch --export=ALL,DEMO_COPY=1,DB_PASSWORD="$(openssl rand -hex 12)" kg-db.sbatch
+bash launch_kg_db.sh
+```
+
+The launcher creates the `logs` directory, generates a Neo4j password, and
+submits `kg-db.sbatch`. The batch job uses the shared container images at:
+
+```text
+/expanse/lustre/projects/sdp173/zliang7/containers/weaviate.sif
+/expanse/lustre/projects/sdp173/zliang7/containers/neo4j.sif
 ```
 
 Slurm prints a job id:
