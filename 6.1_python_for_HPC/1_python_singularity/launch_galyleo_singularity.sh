@@ -7,7 +7,7 @@
 #   Account: sdp173
 #   Singularity container: datascience-notebook_latest.sif
 
-galyleo launch \
+/cm/shared/apps/sdsc/galyleo/galyleo launch \
   --account sdp173 \              # Slurm account for the Summer Institute allocation
   --partition shared \            # Expanse shared partition
   --cpus 4 \                      # 4 CPUs for the interactive session

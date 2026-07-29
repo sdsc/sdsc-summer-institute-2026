@@ -9,7 +9,7 @@
 
 NOTEBOOK_FOLDER=$(pwd -P)  # Use current folder as the notebook working directory
 
-galyleo launch \
+/cm/shared/apps/sdsc/galyleo/galyleo launch \
   --account sdp173 \              # Slurm account for the Summer Institute allocation
   --partition compute \           # Expanse compute partition
   --cpus 128 \                    # 128 CPUs for the interactive session
