@@ -13,8 +13,10 @@ remain in the notebooks.
 
 The deck uses the official `SDSC-UCSanDiego-HSDSC.potx` template shared by
 Cindy Wong with SI26 instructors. It preserves the template's native Teko and
-Source Sans 3 typography, photography, current logos, institutional footers,
-and navy, white, blue, and yellow visual system.
+Source Sans 3 typography, current logos, institutional footers, and navy,
+white, blue, and yellow visual system. Photography is reserved for the title
+slide. The remaining slides use simple, spacious text-first layouts so the
+notebooks stay at the center of instruction.
 
 ## Accessibility
 

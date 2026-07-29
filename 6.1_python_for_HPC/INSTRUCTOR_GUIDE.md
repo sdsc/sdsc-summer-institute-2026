@@ -50,6 +50,7 @@ Question prompt: "Which part of your own Python workflow currently feels slow?"
 - Use only `3_numba/0_basics.ipynb` in the core presentation.
 - Run the uncompiled baseline before the compiled version.
 - Explicitly separate first-call compilation from steady-state timing.
+- Pause near 8:55 for questions before starting the hands-on portion.
 - Give 12 minutes for the sum-of-squares exercise.
 - At minute 9, ask for sticky-note status and announce three minutes remaining.
 - Debrief correctness first, then performance.
@@ -61,6 +62,7 @@ Question prompt: "When would vectorized NumPy be preferable to Numba?"
 - Ask participants to predict both outcomes before running either benchmark.
 - Use at most eight workers even on a 128-core node. The purpose is to reveal
   the execution model, not saturate the machine.
+- Pause near 9:27 for questions before comparing the schedulers.
 - Give 12 minutes for the predict-then-check activity.
 - Call out process startup and serialization overhead.
 
@@ -71,6 +73,7 @@ Question prompt: "What data would be expensive to send to another process?"
 - Use the file-processing story in `1_delayed.ipynb`.
 - Move to `2_multicore_array.ipynb` only after learners can describe a task
   graph.
+- Pause near 9:52 for questions when moving from delayed tasks to arrays.
 - Give 15 minutes for the chunk-choice exercise.
 - Ask learners to explain why a very small chunk and a very large chunk can
   both be poor choices.
@@ -89,6 +92,7 @@ Question prompt: "What must Dask know before it can schedule the work?"
 - Use at most two worker nodes per participant and keep the job to ten minutes.
 - Show `client.scheduler_info()` before the array computation.
 - Ask participants to identify where the notebook, scheduler, and workers run.
+- Pause near 10:36 for questions after workers connect and before computation.
 - Give 18 minutes for setup and execution.
 - Cancel worker jobs promptly after the result is verified.
 

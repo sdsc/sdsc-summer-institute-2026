@@ -10,32 +10,33 @@ The template defines:
 - Source Sans 3 for body text.
 - White and SDSC navy slide families with blue and yellow accents.
 - Current San Diego Supercomputer Center and UC San Diego marks.
-- Large, branded photography with one key image per slide.
+- A branded photograph on the title slide only.
+- Simple, full-width text-first layouts for the remaining slides.
 - A gray institutional footer on every content slide.
 
 Narrative text remains native and editable. Body text is 20 to 22 points. The
-deck uses the official template imagery as SDSC context rather than as evidence
-for a technical claim.
+deck reserves photography for the opening and uses generous whitespace during
+the notebook-led instruction.
 
-| Output | Narrative role | Native template exemplar | Media mapping |
+| Output | Narrative role | Official template family | Media mapping |
 | --- | --- | --- | --- |
 | 1. Python for HPC | Title and setup | `p1` | Keep official SDSC title photograph |
-| 2. What you will be able to do | Learning objectives | `p2` | Keep UC San Diego campus photograph |
-| 3. How today works | Participation and accessibility | `p8` | Keep SDSC building photograph |
-| 4. Start with evidence | Performance workflow | `p3` | Keep compute-rack photograph |
-| 5. Numba compiles the hot loop | Concept transition | `p6` | Keep scientific visualization photograph |
-| 6. Hands-on 1 | Timed exercise prompt | `p3` | Keep compute-rack photograph |
-| 7. Threads and processes | Concept transition | `p6` | Keep scientific visualization photograph |
-| 8. Hands-on 2 | Predict-then-check prompt | `p2` | Keep UC San Diego campus photograph |
-| 9. Dask separates graph from execution | Concept transition | `p3` | Keep compute-rack photograph |
-| 10. Chunks are the unit of array work | Chunking decision | `p6` | Keep scientific visualization photograph |
-| 11. From one node to multiple nodes | Distributed-system roles | `p5` | Keep regional photograph to reinforce scope |
-| 12. Capstone: run the cluster | Timed exercise prompt | `p3` | Keep compute-rack photograph |
-| 13. AI is a hypothesis generator | AI review workflow | `p6` | Keep scientific visualization photograph |
-| 14. AI exercise | Timed exercise prompt | `p2` | Keep UC San Diego campus photograph |
-| 15. Choose the smallest useful layer | Performance decision map | `p5` | Keep regional photograph to reinforce scope |
-| 16. What you take home | Recap and questions | `p9` | Keep SDSC building photograph |
+| 2. What you will be able to do | Learning objectives | White, `p14` | No slide-local media |
+| 3. How today works | Participation and accessibility | Navy, `p16` | No slide-local media |
+| 4. Start with evidence | Performance workflow | White, `p14` | No slide-local media |
+| 5. Numba compiles the hot loop | Concept transition | Navy, `p16` | No slide-local media |
+| 6. Hands-on 1 | Timed exercise prompt | White, `p14` | No slide-local media |
+| 7. Threads and processes | Concept transition | Navy, `p16` | No slide-local media |
+| 8. Hands-on 2 | Predict-then-check prompt | White, `p14` | No slide-local media |
+| 9. Dask separates graph from execution | Concept transition | White, `p14` | No slide-local media |
+| 10. Chunks are the unit of array work | Chunking decision | Navy, `p16` | No slide-local media |
+| 11. From one node to multiple nodes | Distributed-system roles | Navy, `p16` | No slide-local media |
+| 12. Capstone: run the cluster | Timed exercise prompt | White, `p14` | No slide-local media |
+| 13. AI is a hypothesis generator | AI review workflow | Navy, `p16` | No slide-local media |
+| 14. AI exercise | Timed exercise prompt | White, `p14` | No slide-local media |
+| 15. Choose the smallest useful layer | Performance decision map | Navy, `p16` | No slide-local media |
+| 16. What you take home | Recap and questions | White, `p18` | No slide-local media |
 
 Speaker cues are stored as native speaker notes and repeated in `SLIDES.md`.
-The final 16-slide export was inspected as a complete contact sheet after two
-consolidated visual repair passes.
+The final 16-slide export was inspected as a complete contact sheet and at full
+resolution after two complete review passes.
