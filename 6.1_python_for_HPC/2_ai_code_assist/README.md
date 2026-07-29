@@ -1,6 +1,6 @@
 # Python Development with AI Code Assistants
 
-This guide provides a brief overview of setting up AI code assistants for Python development, focusing on VS Code with GitHub Copilot and the Gemini CLI.
+This guide provides a brief overview of setting up AI code assistants for Python development, focusing on VS Code with GitHub Copilot and the GitHub Copilot CLI.
 
 ## 1. VS Code + GitHub Copilot
 
@@ -12,10 +12,11 @@ This guide provides a brief overview of setting up AI code assistants for Python
 *   **Academic Discount**: GitHub Copilot Pro is available for free to students, teachers, and maintainers of popular open-source repositories. You can apply for this through the GitHub Student Developer Pack.
     *   [GitHub Education](https://education.github.com/pack)
 
-## 2. Gemini CLI
+## 2. GitHub Copilot CLI
 
-The **Gemini CLI** is an open-source AI agent that allows users to access the Gemini AI model directly from their terminal, assisting with various software engineering tasks.
-*   [Official Gemini CLI Documentation](https://gemini-cli.xyz/)
-*   **Usage with Personal Google Account**: When logged in with a personal Google account, you can use the `gemini-2.5-flash` model with a limit of 60 requests per minute (RPM) and 1,000 requests per day (RPD).
+**GitHub Copilot CLI** is a terminal-based AI assistant that lets you interact with Copilot directly from your command line, helping with code generation, debugging, and software engineering tasks.
+*   [Official GitHub Copilot CLI Documentation](https://github.com/github/copilot-cli)
+*   **Academic Discount**: Free for students and teachers through the GitHub Student Developer Pack.
+    *   [GitHub Education](https://education.github.com/pack)
 
 **Note**: You cannot use these AI assistants directly on Expanse. Instead, develop locally, push your changes to GitHub, and then pull them from Expanse.

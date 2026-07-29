@@ -37,11 +37,11 @@ By the end of this session you will be able to:
 ## Folder structure
 
 **Setup**
-* `launch_galyleo.sh` — launch the Jupyter environment on Expanse via [galyleo](https://github.com/mkandes/galyleo)
+* `launch_galyleo_compute.sh` — launch the Jupyter environment on Expanse via [galyleo](https://github.com/mkandes/galyleo)
 * `environment.yaml` — conda environment used by the notebooks
 * `0_python_condaenv_scratch/` — stage a cached conda environment on the local SSD of compute nodes
 * `1_python_singularity/` — build and launch a Singularity container with the Python environment
-* `2_ai_code_assist/` — notes on using AI code assistants (Copilot, Gemini CLI) for Python development
+* `2_ai_code_assist/` — notes on using AI code assistants (Copilot, Copilot CLI) for Python development
 
 **Notebooks (in order)**
 * `3_numba/` — early win: speed up Python with one decorator (`@jit`), then `prange`, ufuncs, and a groupby exercise
