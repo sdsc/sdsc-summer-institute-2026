@@ -8,7 +8,8 @@ Build and test setup
 --------------------
 
 Start an interactive session with
-srun --partition=<given_partition> --res=<reservation> --account=<given_account> --pty --nodes=1 --ntasks-per-node=1 --mem=32G -c 16 -t 00:30:00 /bin/bash
+srun --partition=shared --reservation=si26cpu --account=sdp173 --pty --nodes=1 --ntasks-per-node=1 --mem=32G -c 16 -t 00:30:00 /bin/bash
+(Adapt partition/reservation/account if needed)
 
 Then load the correct compiler
 module load gcc/10.2.0

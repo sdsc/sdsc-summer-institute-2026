@@ -6,5 +6,8 @@
 **Time:** 9:00 AM - 10:15 AM Pacific
 
 **Summary:** 
+This session provides an introduction to both why everyone needs parallel computing skills,
+and how to go about it.
+No programming experience needed.
 
-**Presented by:** [Nicole Wolter](https://www.sdsc.edu/education/on-demand-learning/202602-Linux-Tools-for-Text-Processing.html) (TBC)
+**Presented by:** [Igor Sfiligoi](https://www.sdsc.edu/research/experts/sfiligoi_igor.html)
