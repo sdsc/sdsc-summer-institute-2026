@@ -6,12 +6,16 @@
 #   1 node, 128 CPUs, 242 GB memory, 4 hour time limit
 #   Account: sdp173
 #   Conda environment from environment.yaml (cached via conda-pack)
+#
+# Uncomment --reservation and --qos during the Summer Institute (Aug 3-7), then comment them out after.
 
 NOTEBOOK_FOLDER=$(pwd -P)  # Use current folder as the notebook working directory
 
 /cm/shared/apps/sdsc/galyleo/galyleo launch \
   --account sdp173 \
   --partition compute \
+  --reservation si26cpu \
+  --qos normal-eot \
   --cpus 128 \
   --memory 242 \
   --time-limit 04:00:00 \
