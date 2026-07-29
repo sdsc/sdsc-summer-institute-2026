@@ -1,132 +1,146 @@
 # Python for HPC
 
 SDSC Summer Institute 2026
-Andrea Zonca, SDSC
 
-Speaker cue: Begin at 8:30. Keep the title slide visible during setup.
+Andrea Zonca
+
+Friday, August 7 | 8:30 AM to 11:20 AM
+
+Speaker cue: Begin at 8:30. Keep this slide visible while participants finish
+the import check.
 
 ---
 
 # What you will be able to do
 
-- Compile and benchmark a numerical Python loop with Numba.
-- Choose threads or processes by reasoning about the GIL and overhead.
-- Choose Dask chunks and scale one expression from one node to multiple nodes.
+- Compile and benchmark a numerical loop with Numba.
+- Choose threads or processes from workload evidence.
+- Choose Dask chunks and scale one expression across nodes.
 
-Speaker cue: These are decisions learners should be able to make, not a list of
-libraries to memorize.
+Speaker cue: State these as decisions learners will make, not libraries they
+must memorize.
 
 ---
 
 # How today works
 
-- Core path: one Numba exercise, one scheduler exercise, one Dask capstone.
-- Deep dives are labeled optional and can be completed later.
-- Blue sticky note: I am stuck or need help.
-- Yellow sticky note: I am ready to continue.
+- Core path: Numba, scheduler choice, and a Dask capstone.
+- Deep dives are optional and ready for later.
+- Blue note means stuck. Yellow means ready.
+- Questions are welcome at every transition.
 
 Speaker cue: Ask learners to place a yellow note after the import check.
+Acknowledge the range of prior experience.
 
 ---
 
 # Start with evidence
 
-1. Verify the answer.
-2. Profile or time a baseline.
-3. Change one layer: compile, schedule, chunk, or distribute.
-4. Verify again.
-5. Compare steady-state time and resources.
+- Verify the answer.
+- Time or profile a baseline.
+- Change one layer at a time.
+- Verify again and compare steady-state cost.
 
-Speaker cue: Faster output is not useful if the numerical answer changed.
+Speaker cue: Faster output is not useful if the numerical answer changed. Open
+the core Numba notebook.
 
 ---
 
-# Numba: compile the hot loop
+# Numba compiles the hot loop
 
-- `@njit` turns a supported Python function into machine code.
+- `@njit` turns supported Python into machine code.
 - The first call compiles a signature.
 - Warm up before timing.
-- Numba helps loops that do not vectorize cleanly.
+- Best target: a numerical loop that does not vectorize cleanly.
 
-Speaker cue: Open `3_numba/0_basics.ipynb`.
+Speaker cue: Run the baseline first. Separate compilation time from steady-state
+execution.
 
 ---
 
 # Hands-on 1: benchmark fairly
 
 - Complete `sum_of_squares`.
-- Check it against NumPy.
+- Check the result against NumPy.
 - Warm up the compiled function.
-- Time both implementations.
-- Explain the result in one sentence.
+- Time both versions and explain the evidence.
+- 12 minutes. Blue means help. Yellow means ready.
 
-12 minutes. Blue means help. Yellow means ready.
+Speaker cue: At minute 9, read the sticky notes and announce three minutes
+remaining. Debrief correctness before speed.
 
 ---
 
 # Threads and processes
 
-- Threads share memory and one CPython interpreter.
+- Threads share memory and one interpreter.
 - The GIL limits simultaneous pure-Python bytecode.
-- Processes have separate interpreters and memory.
-- Data transfer and startup are not free.
+- Processes use separate interpreters and memory.
+- Startup and serialization are real costs.
 
-Speaker cue: Ask for predictions before running the notebook.
+Speaker cue: Ask for predictions before running either benchmark. Use only four
+workers.
 
 ---
 
 # Hands-on 2: predict, then check
 
-- CPU-bound pure Python: threads or processes?
-- Waiting on I/O: threads or processes?
-- Use at most eight workers.
-- Explain any result that differs from your prediction.
+- Predict CPU-bound pure Python.
+- Predict waiting work.
+- Run both schedulers with four workers.
+- Explain any result that surprises you.
+- 12 minutes. Discuss with a neighbor.
 
-12 minutes. Blue means help. Yellow means ready.
+Speaker cue: Ask what data would be expensive to send to another process.
+Invite one pair to share a surprise.
 
 ---
 
 # Dask separates graph from execution
 
-- Delayed functions create tasks.
+- Delayed calls build tasks instead of running immediately.
 - Dependencies form a directed acyclic graph.
-- A scheduler decides when and where tasks run.
+- The scheduler decides when and where tasks run.
 - `compute()` triggers execution.
 
-Speaker cue: Use the file-processing example before arrays.
+Speaker cue: Use the file-processing example before introducing arrays.
 
 ---
 
 # Chunks are the unit of array work
 
 - Too small: scheduling overhead dominates.
-- Too large: poor parallelism and memory pressure.
+- Too large: memory pressure and weak parallelism.
 - Useful chunks fit memory and keep workers busy.
-- Inspect `.chunks`, `.numblocks`, and `.nbytes`.
+- Inspect chunks, blocks, and bytes before `compute()`.
 
-Speaker cue: Open `5_dask/2_multicore_array.ipynb`.
+Speaker cue: Open the one-node Dask array notebook. Ask why both extremes can be
+poor choices.
 
 ---
 
 # From one node to multiple nodes
 
-- Notebook: builds the graph and requests the result.
-- Scheduler: tracks dependencies and assigns tasks.
-- Workers: hold chunks and execute tasks.
-- The Dask array expression does not change.
+- Notebook builds the graph and requests a result.
+- Scheduler tracks dependencies and assigns tasks.
+- Workers hold chunks and execute tasks.
+- The Dask array expression stays the same.
 
-Speaker cue: Draw the three roles and name their Expanse nodes.
+Speaker cue: Name the physical node used by each role. Emphasize that the Python
+expression does not change.
 
 ---
 
 # Capstone: run the cluster
 
-1. Start the scheduler in the Jupyter terminal.
-2. Submit the two-node worker job from the login node.
-3. Connect with the scheduler file.
-4. Verify workers, compute, then cancel the job.
+- Start the scheduler on the Jupyter node.
+- Submit the worker job from a login terminal.
+- Verify workers on distinct nodes.
+- Compute, inspect evidence, then cancel the job.
+- 18 minutes. Clean up before moving on.
 
-18 minutes. Blue means help. Yellow means ready.
+Speaker cue: Helpers circulate during setup. If workers do not connect promptly,
+use the instructor cluster.
 
 ---
 
@@ -134,7 +148,7 @@ Speaker cue: Draw the three roles and name their Expanse nodes.
 
 - Provide environment, limits, and correctness criteria.
 - Ask for one small change and an explanation.
-- Inspect every command and resource request.
+- Inspect commands and resource requests.
 - Test correctness before performance.
 - Keep only evidence-backed improvements.
 
@@ -145,33 +159,36 @@ Speaker cue: AI may help with one command or function, not the whole exercise.
 # AI exercise: ask, inspect, test
 
 - Ask for one Numba optimization.
-- Identify resource and package assumptions.
-- Check that compilation is excluded from timing.
-- Run the correctness test and benchmark twice.
+- Find package and resource assumptions.
+- Check that timing excludes compilation.
+- Run correctness and benchmark tests.
 - Accept, revise, or reject the suggestion.
 
-8 minutes. Be ready to explain your decision.
+Speaker cue: Give eight minutes. Participants without an approved assistant can
+review the supplied prompt and checklist with a partner.
 
 ---
 
 # Choose the smallest useful layer
 
 - Hot numerical loop: Numba.
-- Independent waiting tasks: threads or delayed.
-- CPU-bound Python tasks: processes.
+- Waiting tasks: threads or delayed.
+- CPU-bound Python: processes.
 - Chunked array: Dask array.
 - More than one node: distributed scheduler.
 
-Speaker cue: Profiling and correctness wrap every choice.
+Speaker cue: Profiling and correctness wrap every choice. Ask learners which
+layer matches one of their workflows.
 
 ---
 
 # What you take home
 
-- Tested notebooks with core and optional paths.
+- Tested core and optional notebooks.
 - Production SI26 SLURM and Galyleo templates.
 - A debug-queue validation workflow.
-- A repeatable AI review checklist.
-- One decision map for the next slow Python program.
+- An AI review checklist.
+- One decision map for your next slow program.
 
-Speaker cue: Invite final questions and point to each directory README.
+Speaker cue: Invite final questions. Point to the directory READMEs and remind
+everyone to cancel worker jobs.

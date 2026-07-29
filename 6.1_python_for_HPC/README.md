@@ -21,7 +21,7 @@ and transitions.
 
 Presentation:
 
-- [Google Slides deck](https://docs.google.com/presentation/d/1qsrad1U_iKDUTgGeznmEvafJpdZRELL-HX64tUIidCE/edit?usp=sharing)
+- [Google Slides deck](https://docs.google.com/presentation/d/1-aMB0CObn17n5KSDIbXWiiAnl5nN6rg5q4ni8lYor0U/edit?usp=sharing)
 - [PDF copy](slides/Python_for_HPC_SI26.pdf)
 
 ## Learning objectives
