@@ -10,13 +10,13 @@
 NOTEBOOK_FOLDER=$(pwd -P)  # Use current folder as the notebook working directory
 
 /cm/shared/apps/sdsc/galyleo/galyleo launch \
-  --account sdp173 \              # Slurm account for the Summer Institute allocation
-  --partition compute \           # Expanse compute partition
-  --cpus 128 \                    # 128 CPUs for the interactive session
-  --memory 242 \                  # 242 GB memory (in GB)
-  --time-limit 04:00:00 \         # 4 hour time limit
-  --conda-yml environment.yaml \  # Conda environment definition file
-  --notebook-dir ${NOTEBOOK_FOLDER} \  # Working directory for JupyterLab
-  --interface lab \               # Use JupyterLab interface (options: lab, notebook, voila)
-  --cache \                       # Cache conda environment using conda-pack for faster restarts
-  --quiet                         # Suppress non-essential output
+  --account sdp173 \
+  --partition compute \
+  --cpus 128 \
+  --memory 242 \
+  --time-limit 04:00:00 \
+  --conda-yml environment.yaml \
+  --notebook-dir ${NOTEBOOK_FOLDER} \
+  --interface lab \
+  --cache \
+  --quiet
