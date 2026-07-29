@@ -1,0 +1,84 @@
+entity_types:
+  - Organization
+  - Dataset
+  - Method
+  - Place
+  - Concept
+
+canonical_entities:
+  San Diego Supercomputer Center:
+    type: Organization
+    aliases:
+      - SDSC
+      - San Diego Supercomputer Center
+    description: Research computing organization coordinating the tutorial demo.
+  Center for Hydrology:
+    type: Organization
+    aliases:
+      - Center for Hydrology
+      - Hydrology Center
+    description: Example research group that shares water sensor observations.
+  California:
+    type: Place
+    aliases:
+      - California
+      - CA
+    description: Geographic focus of the drought planning examples.
+  Satellite Imagery:
+    type: Dataset
+    aliases:
+      - satellite imagery
+      - Remote Sensing Imagery
+      - remote sensing imagery
+    description: Image observations used to monitor land and water conditions.
+  River Sensor Data:
+    type: Dataset
+    aliases:
+      - river sensors
+      - sensor data
+      - stream gauge observations
+    description: In-situ water measurements from river and stream sensors.
+  Climate Reports:
+    type: Dataset
+    aliases:
+      - climate reports
+      - seasonal climate outlooks
+    description: Reports used to interpret drought and water conditions.
+  Drought Planning:
+    type: Concept
+    aliases:
+      - drought planning
+      - water planning
+    description: Planning activity that combines observations and reports.
+  Semantic Search:
+    type: Method
+    aliases:
+      - semantic search
+      - vector search
+    description: Retrieval method that finds text chunks by meaning.
+  Knowledge Graph:
+    type: Method
+    aliases:
+      - knowledge graph
+      - graph representation
+    description: Graph representation of entities and relationships.
+  Weaviate:
+    type: Method
+    aliases:
+      - Weaviate
+      - vector store
+    description: Vector database used for semantic search over document chunks.
+  Neo4j:
+    type: Method
+    aliases:
+      - Neo4j
+      - graph database
+    description: Graph database used to store normalized relationships.
+
+relationship_types:
+  - USES
+  - PRODUCES
+  - SHARES_WITH
+  - STORES_IN
+  - SUPPORTS
+  - MENTIONS
