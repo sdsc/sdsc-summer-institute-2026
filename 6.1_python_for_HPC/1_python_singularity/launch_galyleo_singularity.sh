@@ -8,13 +8,13 @@
 #   Singularity container: datascience-notebook_latest.sif
 
 /cm/shared/apps/sdsc/galyleo/galyleo launch \
-  --account sdp173 \              # Slurm account for the Summer Institute allocation
-  --partition shared \            # Expanse shared partition
-  --cpus 4 \                      # 4 CPUs for the interactive session
-  --memory 16 \                   # 16 GB memory (in GB)
-  --time-limit 00:30:00 \         # 30 minute time limit
-  --env-modules singularitypro \  # Load the Singularity Pro environment module
-  --sif /expanse/lustre/scratch/$USER/temp_project/datascience-notebook_latest.sif \  # Path to Singularity container image
-  --bind /expanse,/scratch \      # Bind-mount /expanse and /scratch inside the container
-  --interface lab \               # Use JupyterLab interface (options: lab, notebook, voila)
-  --quiet                         # Suppress non-essential output
+  --account sdp173 \
+  --partition shared \
+  --cpus 4 \
+  --memory 16 \
+  --time-limit 00:30:00 \
+  --env-modules singularitypro \
+  --sif /expanse/lustre/scratch/$USER/temp_project/datascience-notebook_latest.sif \
+  --bind /expanse,/scratch \
+  --interface lab \
+  --quiet
