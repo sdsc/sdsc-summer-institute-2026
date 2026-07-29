@@ -21,7 +21,7 @@ notebooks stay at the center of instruction.
 ## Accessibility
 
 - All essential slide content is present in `SLIDES.md`.
-- Narrative body text is at least 20 points.
+- Content-slide body text is 36 points.
 - Slides use high-contrast text and short native bullet lists.
 - Exercise slides repeat the blue and yellow sticky-note meanings in words.
 - Code details stay in notebooks, where participants can zoom and copy text.

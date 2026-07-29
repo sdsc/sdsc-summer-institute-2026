@@ -14,9 +14,9 @@ The template defines:
 - Simple, full-width text-first layouts for the remaining slides.
 - A gray institutional footer on every content slide.
 
-Narrative text remains native and editable. Body text is 20 to 22 points. The
-deck reserves photography for the opening and uses generous whitespace during
-the notebook-led instruction.
+Narrative text remains native and editable. Content-slide headings are 54
+points and body text is 36 points. The deck reserves photography for the
+opening and uses generous whitespace during the notebook-led instruction.
 
 | Output | Narrative role | Official template family | Media mapping |
 | --- | --- | --- | --- |
