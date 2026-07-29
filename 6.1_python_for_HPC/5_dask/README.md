@@ -14,8 +14,8 @@ scheduler. Dask arrays add NumPy-like operations over explicit chunks.
 
 ## Optional deep dives
 
-- [`0_dask_graphs.ipynb`](0_dask_graphs.ipynb): inspect unoptimized and
-  optimized graphs.
+- [`0_dask_graphs.ipynb`](0_dask_graphs.ipynb): inspect a task graph and see
+  how chunk size changes its structure.
 - [`3_multicore_array_outofcore.ipynb`](3_multicore_array_outofcore.ipynb):
   reason about virtual arrays larger than memory and compute a bounded slice.
 

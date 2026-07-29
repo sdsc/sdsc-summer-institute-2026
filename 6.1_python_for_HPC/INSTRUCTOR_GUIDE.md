@@ -60,8 +60,8 @@ Question prompt: "When would vectorized NumPy be preferable to Numba?"
 ### 9:15 to 9:40: Threads and processes
 
 - Ask participants to predict both outcomes before running either benchmark.
-- Use at most eight workers even on a 128-core node. The purpose is to reveal
-  the execution model, not saturate the machine.
+- Use four workers even on a 128-core node. The purpose is to reveal the
+  execution model, not saturate the machine.
 - Pause near 9:27 for questions before comparing the schedulers.
 - Give 12 minutes for the predict-then-check activity.
 - Call out process startup and serialization overhead.
@@ -74,7 +74,7 @@ Question prompt: "What data would be expensive to send to another process?"
 - Move to `2_multicore_array.ipynb` only after learners can describe a task
   graph.
 - Pause near 9:52 for questions when moving from delayed tasks to arrays.
-- Give 15 minutes for the chunk-choice exercise.
+- Give 5 minutes for the delayed reduction and 10 minutes for chunk choice.
 - Ask learners to explain why a very small chunk and a very large chunk can
   both be poor choices.
 

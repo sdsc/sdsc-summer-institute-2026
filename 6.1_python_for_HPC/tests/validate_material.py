@@ -62,6 +62,26 @@ def validate_notebooks(errors: list[str]) -> None:
         cells = notebook.get("cells", [])
         if not cells:
             fail(errors, f"{relative}: notebook has no cells")
+            continue
+
+        markdown_text = "\n".join(
+            "".join(cell.get("source", []))
+            for cell in cells
+            if cell.get("cell_type") == "markdown"
+        )
+        introduction = "".join(cells[0].get("source", []))
+        if not re.search(
+            r"\*\*(?:Core notebook|Core capstone|Optional deep dive),",
+            introduction,
+        ):
+            fail(errors, f"{relative}: first cell does not label its lesson tier")
+        if "## Takeaway" not in markdown_text:
+            fail(errors, f"{relative}: missing a Takeaway section")
+
+        cell_ids = [cell.get("id") for cell in cells if cell.get("id")]
+        if len(cell_ids) != len(set(cell_ids)):
+            fail(errors, f"{relative}: contains duplicate cell IDs")
+
         for index, cell in enumerate(cells):
             if cell.get("cell_type") not in {"markdown", "code", "raw"}:
                 fail(errors, f"{relative}: cell {index} has invalid type")
@@ -69,6 +89,55 @@ def validate_notebooks(errors: list[str]) -> None:
                 fail(errors, f"{relative}: cell {index} has no source")
             if cell.get("cell_type") == "code" and cell.get("outputs"):
                 fail(errors, f"{relative}: cell {index} contains saved output")
+            if (
+                cell.get("cell_type") == "code"
+                and cell.get("execution_count") is not None
+            ):
+                fail(
+                    errors,
+                    f"{relative}: cell {index} has a saved execution count",
+                )
+
+
+def validate_lesson_alignment(errors: list[str]) -> None:
+    required_snippets = {
+        "3_numba/0_basics.ipynb": ("**12 minutes.**",),
+        "4_threads_vs_processes/threads_vs_processes.ipynb": (
+            "**12 minutes.**",
+            "n_workers = min(4, os.cpu_count() or 1)",
+        ),
+        "5_dask/1_delayed.ipynb": ("**5 minutes.**",),
+        "5_dask/2_multicore_array.ipynb": (
+            "**10 minutes.**",
+            "da.sin(dask_array) * dask_array * da.log(dask_array)",
+        ),
+        "5_dask/4_multinode_distributed_array.ipynb": (
+            "18 minutes hands-on",
+            "client.wait_for_workers(2",
+            "assert len(worker_hosts) >= 2",
+            "da.sin(array) * array * da.log(array)",
+        ),
+        "2_ai_code_assist/README.md": ("**8 minutes.**",),
+        "README.md": (
+            "reserve 65 minutes",
+            "or 38% of the full session",
+        ),
+        "slides/SLIDES.md": (
+            "12 minutes. Blue means help. Yellow means ready.",
+            "12 minutes. Discuss with a neighbor.",
+            "18 minutes. Clean up before moving on.",
+            "Give eight minutes.",
+        ),
+    }
+
+    for relative, snippets in required_snippets.items():
+        text = (SESSION_ROOT / relative).read_text(encoding="utf-8")
+        for snippet in snippets:
+            if snippet not in text:
+                fail(
+                    errors,
+                    f"{relative}: missing aligned lesson text: {snippet}",
+                )
 
 
 def validate_shell(errors: list[str]) -> None:
@@ -214,6 +283,7 @@ def validate_markdown_links(errors: list[str]) -> None:
 def main() -> int:
     errors: list[str] = []
     validate_notebooks(errors)
+    validate_lesson_alignment(errors)
     validate_shell(errors)
     validate_production_slurm(errors)
     validate_environments(errors)

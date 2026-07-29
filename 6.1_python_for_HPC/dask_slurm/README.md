@@ -78,8 +78,8 @@ Read the newest output file for the first error.
 ## 3. Connect from the notebook
 
 Open `5_dask/4_multinode_distributed_array.ipynb`. Its connection cell reads
-`~/.dask_scheduler.json`, waits for at least one worker, and prints worker
-addresses and thread counts.
+`~/.dask_scheduler.json`, waits for both workers, and prints worker hosts,
+addresses, and thread counts.
 
 The dashboard is available through Jupyter Server Proxy at:
 

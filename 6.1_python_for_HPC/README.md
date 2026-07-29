@@ -92,9 +92,9 @@ the blue sticky note so a helper can come to you.
 | 11:08 to 11:20 | Decision map, take-home artifacts, and questions | Slides |
 
 The agenda allocates 170 minutes from 8:30 AM to 11:20 AM. The blocks above
-total exactly 170 minutes, including the 10-minute break. The five exercises
-reserve 65 minutes, or 38% of the full session, for hands-on work. Exercise
-timing is part of the plan, not optional padding.
+total exactly 170 minutes, including the 10-minute break. The hands-on
+activities reserve 65 minutes, or 38% of the full session. Exercise timing is
+part of the plan, not optional padding.
 
 ## Optional deep dives
 

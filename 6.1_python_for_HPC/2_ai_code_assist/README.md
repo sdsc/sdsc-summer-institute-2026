@@ -52,7 +52,7 @@ from silently changing the problem or inventing resources.
 
 ## Hands-on: ask, inspect, test
 
-Choose one function from `3_numba/0_basics.ipynb`.
+**8 minutes.** Choose one function from `3_numba/0_basics.ipynb`.
 
 1. Ask an assistant for one optimization using the prompt pattern above.
 2. Before running the answer, identify:

@@ -103,7 +103,8 @@ Invite one pair to share a surprise.
 - The scheduler decides when and where tasks run.
 - `compute()` triggers execution.
 
-Speaker cue: Use the file-processing example before introducing arrays.
+Speaker cue: Use the file-processing example. Give five minutes for the delayed
+reduction, then move to arrays.
 
 ---
 
@@ -114,8 +115,8 @@ Speaker cue: Use the file-processing example before introducing arrays.
 - Useful chunks fit memory and keep workers busy.
 - Inspect chunks, blocks, and bytes before `compute()`.
 
-Speaker cue: Open the one-node Dask array notebook. Ask why both extremes can be
-poor choices.
+Speaker cue: Give ten minutes for the chunk comparison. Ask why both extremes
+can be poor choices.
 
 ---
 
@@ -126,8 +127,8 @@ poor choices.
 - Workers hold chunks and execute tasks.
 - The Dask array expression stays the same.
 
-Speaker cue: Name the physical node used by each role. Emphasize that the Python
-expression does not change.
+Speaker cue: Name the physical node used by each role. Confirm two distinct
+worker hosts. Emphasize that the Python expression does not change.
 
 ---
 
