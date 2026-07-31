@@ -15,10 +15,10 @@ SIF_PATH="${PYHPC_SIF_PATH:-/expanse/lustre/projects/sds166/zonca/dask-numba-si2
 cd "$SESSION_ROOT"
 mkdir -p "$RESULTS_DIR"
 
-source 0_python_condaenv_scratch/stage_condaenv.sh pythonhpc
+source support/condaenv_scratch/stage_condaenv.sh pythonhpc
 
 python tests/validate_material.py
-python 0_python_condaenv_scratch/node_info.py
+python support/condaenv_scratch/node_info.py
 python tests/execute_local_notebooks.py
 mv \
   "$RESULTS_DIR/local-notebooks.json" \

@@ -79,7 +79,7 @@ Read the newest output file for the first error.
 
 ## 3. Connect from the notebook
 
-Open `5_dask/4_multinode_distributed_array.ipynb`. Its connection cell reads
+Open `3_dask/4_multinode_distributed_array.ipynb`. Its connection cell reads
 `~/.dask_scheduler.json`, waits for both workers, and prints worker hosts,
 addresses, and thread counts.
 

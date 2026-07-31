@@ -57,7 +57,7 @@ Question prompt: "Which part of your own Python workflow currently feels slow?"
 ### 8:42 to 9:15: Numba
 
 - Use slides 9 through 14.
-- Use only `3_numba/0_basics.ipynb` in the core presentation.
+- Use only `1_numba/0_basics.ipynb` in the core presentation.
 - Run and time the original Python version before the compiled version.
 - Introduce only `@jit`. Do not discuss old decorator defaults or aliases.
 - Explain that the first call compiles and runs the function. Later calls reuse
@@ -132,7 +132,7 @@ Question prompt: "What changed in the Python expression when we added nodes?"
 
 - Use slides 39 through 43 only if the recap ends early. Otherwise assign the
   section as take-home material.
-- Use the short workflow in `2_ai_code_assist/README.md`.
+- Use the short workflow in `4_ai_code_assist/README.md`.
 - AI may suggest an individual command or review a small function.
 - AI should not write the entire exercise solution.
 - Require participants to inspect resource requests and run the provided tests.

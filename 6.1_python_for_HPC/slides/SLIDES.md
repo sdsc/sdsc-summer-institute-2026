@@ -96,7 +96,7 @@ notebook.
 
 - Time check: 8:42 AM.
 - Goal: speed up one slow numerical loop and time it fairly.
-- Core file: `3_numba/0_basics.ipynb`.
+- Core file: `1_numba/0_basics.ipynb`.
 
 Speaker cue: This is the early win. Stay in the basics notebook and leave the
 other Numba notebooks for later.
@@ -117,7 +117,7 @@ do not help students complete this lesson.
 
 # NUMBA | Open this notebook
 
-- Open folder 3_numba.
+- Open folder 1_numba.
 - Open 0_basics.ipynb.
 - Run through "Compare with NumPy."
 - Predict each timing before you run it.
@@ -189,7 +189,7 @@ or processes.
 
 # THREADS OR PROCESSES | Open this notebook
 
-- Open folder 4_threads_vs_processes.
+- Open folder 2_threads_vs_processes.
 - Open threads_vs_processes.ipynb.
 - Read the mental model.
 - Predict both comparisons before running them.
@@ -271,7 +271,7 @@ summary waits for all file counts. The scheduler assigns work to workers.
 
 # DASK | Open the delayed notebook
 
-- Open folder 5_dask.
+- Open folder 3_dask.
 - Open 1_delayed.ipynb.
 - Run through "Delay calls, then compute once."
 - Inspect what exists before compute().
@@ -308,7 +308,7 @@ single best chunk size for every calculation.
 
 # DASK | Open the array notebook
 
-- In folder 5_dask, open 2_multicore_array.ipynb.
+- In folder 3_dask, open 2_multicore_array.ipynb.
 - Run through "Choose chunks."
 - Compare the NumPy result with the Dask plan.
 - Stop at "Your turn."
@@ -377,7 +377,7 @@ physical node used by each role.
 
 # CAPSTONE | Open this notebook
 
-- Open folder 5_dask.
+- Open folder 3_dask.
 - Open 4_multinode_distributed_array.ipynb.
 - Run "Start the cluster."
 - Open the Dask dashboard and confirm two worker hosts.
@@ -474,7 +474,7 @@ or whether a scientific result is valid.
 
 # AI | Open this page
 
-- Open folder 2_ai_code_assist.
+- Open folder 4_ai_code_assist.
 - Open README.md.
 - Read "A useful HPC prompt."
 - Choose one function from the Numba notebook.

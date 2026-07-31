@@ -101,23 +101,23 @@ def validate_notebooks(errors: list[str]) -> None:
 
 def validate_lesson_alignment(errors: list[str]) -> None:
     required_snippets = {
-        "3_numba/0_basics.ipynb": ("**12 minutes.**",),
-        "4_threads_vs_processes/threads_vs_processes.ipynb": (
+        "1_numba/0_basics.ipynb": ("**12 minutes.**",),
+        "2_threads_vs_processes/threads_vs_processes.ipynb": (
             "**12 minutes.**",
             "n_workers = min(4, os.cpu_count() or 1)",
         ),
-        "5_dask/1_delayed.ipynb": ("**5 minutes.**",),
-        "5_dask/2_multicore_array.ipynb": (
+        "3_dask/1_delayed.ipynb": ("**5 minutes.**",),
+        "3_dask/2_multicore_array.ipynb": (
             "**10 minutes.**",
             "da.sin(dask_array) * dask_array * da.log(dask_array)",
         ),
-        "5_dask/4_multinode_distributed_array.ipynb": (
+        "3_dask/4_multinode_distributed_array.ipynb": (
             "18 minutes hands-on",
             "client.wait_for_workers(2",
             "assert len(worker_hosts) >= 2",
             "da.sin(array) * array * da.log(array)",
         ),
-        "2_ai_code_assist/README.md": ("**8 minutes.**",),
+        "4_ai_code_assist/README.md": ("**8 minutes.**",),
         "README.md": (
             "reserve 57 minutes",
             "or about 34% of the full session",
@@ -161,6 +161,31 @@ def validate_lesson_alignment(errors: list[str]) -> None:
         )
 
 
+def validate_folder_layout(errors: list[str]) -> None:
+    expected = {
+        "1_numba",
+        "2_threads_vs_processes",
+        "3_dask",
+        "4_ai_code_assist",
+        "support/condaenv_scratch",
+        "support/python_singularity",
+    }
+    old = {
+        "0_python_condaenv_scratch",
+        "1_python_singularity",
+        "2_ai_code_assist",
+        "3_numba",
+        "4_threads_vs_processes",
+        "5_dask",
+    }
+    for relative in expected:
+        if not (SESSION_ROOT / relative).is_dir():
+            fail(errors, f"missing expected folder: {relative}")
+    for relative in old:
+        if (SESSION_ROOT / relative).exists():
+            fail(errors, f"old folder still exists: {relative}")
+
+
 def validate_shell(errors: list[str]) -> None:
     for path in SHELL_FILES:
         result = subprocess.run(
@@ -179,7 +204,7 @@ def validate_shell(errors: list[str]) -> None:
 
 def validate_production_slurm(errors: list[str]) -> None:
     required = {
-        "0_python_condaenv_scratch/python_expanse.slurm",
+        "support/condaenv_scratch/python_expanse.slurm",
         "dask_slurm/dask_workers.slrm",
     }
     directives = {
@@ -216,7 +241,7 @@ def validate_production_slurm(errors: list[str]) -> None:
             fail(errors, f"launch_galyleo_compute.sh: missing {flag}")
 
     shared_launcher = (
-        SESSION_ROOT / "1_python_singularity/launch_galyleo_singularity.sh"
+        SESSION_ROOT / "support/python_singularity/launch_galyleo_singularity.sh"
     ).read_text(encoding="utf-8")
     for flag in (
         "--account sdp173",
@@ -226,7 +251,7 @@ def validate_production_slurm(errors: list[str]) -> None:
         if flag not in shared_launcher:
             fail(
                 errors,
-                "1_python_singularity/launch_galyleo_singularity.sh: "
+                "support/python_singularity/launch_galyleo_singularity.sh: "
                 f"missing {flag}",
             )
     if re.search(r"^\s*--qos\b", shared_launcher, flags=re.MULTILINE):
@@ -252,7 +277,7 @@ def validate_environments(errors: list[str]) -> None:
 
     definition = (
         SESSION_ROOT
-        / "1_python_singularity/singularity_container/"
+        / "support/python_singularity/singularity_container/"
         "Singularity.anaconda3-dask-numba"
     ).read_text(encoding="utf-8")
     for text in ("'python==3.12'", "%test", "import numpy, numba, dask"):
@@ -266,6 +291,10 @@ def validate_text(errors: list[str]) -> None:
         "SI25": re.compile(r"\bSI25\b"),
         "si25cpu": re.compile(r"\bsi25cpu\b"),
         "wrong dashboard port": re.compile(r"proxy/22222"),
+        "old lesson folder": re.compile(
+            r"\b(?:0_python_condaenv_scratch|1_python_singularity|"
+            r"2_ai_code_assist|3_numba|4_threads_vs_processes|5_dask)\b"
+        ),
     }
     unclear_student_phrases = {
         "steady-state": re.compile(r"\bsteady-state\b", re.IGNORECASE),
@@ -334,6 +363,7 @@ def main() -> int:
     errors: list[str] = []
     validate_notebooks(errors)
     validate_lesson_alignment(errors)
+    validate_folder_layout(errors)
     validate_shell(errors)
     validate_production_slurm(errors)
     validate_environments(errors)

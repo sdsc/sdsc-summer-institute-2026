@@ -38,8 +38,8 @@ The script includes account `sdp173`, reservation `si26cpu`, and QOS
 ## Instructor testing
 
 Do not submit the production script while validating the lesson. Follow
-[`../TESTING.md`](../TESTING.md), request the debug queue directly, and source
-the staging script inside that allocation.
+[`../../TESTING.md`](../../TESTING.md), request the debug queue directly, and
+source the staging script inside that allocation.
 
 ## Expected output
 

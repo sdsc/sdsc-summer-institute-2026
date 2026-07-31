@@ -15,7 +15,7 @@
 set -euo pipefail
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
-export PYHPC_STAGE_SCRIPT="${SCRIPT_DIR}/../0_python_condaenv_scratch/stage_condaenv.sh"
+export PYHPC_STAGE_SCRIPT="${SCRIPT_DIR}/../support/condaenv_scratch/stage_condaenv.sh"
 export PYHPC_WORKER_SCRIPT="${SCRIPT_DIR}/launch_worker.sh"
 export DASK_WORKER_THREADS="${SLURM_CPUS_PER_TASK}"
 export DASK_WORKER_MEMORY="240GB"

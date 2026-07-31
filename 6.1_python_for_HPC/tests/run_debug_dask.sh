@@ -25,7 +25,7 @@ SCHEDULER_LOG="${RUN_DIR}/scheduler.log"
 WORKER_LOG="${RUN_DIR}/workers.log"
 NOTEBOOK_LOG="${RUN_DIR}/notebook.log"
 FIRST_NODE=$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n 1)
-export PYHPC_STAGE_SCRIPT="${SESSION_ROOT}/0_python_condaenv_scratch/stage_condaenv.sh"
+export PYHPC_STAGE_SCRIPT="${SESSION_ROOT}/support/condaenv_scratch/stage_condaenv.sh"
 export PYHPC_WORKER_SCRIPT="${SESSION_ROOT}/dask_slurm/launch_worker.sh"
 
 cleanup() {
@@ -97,7 +97,7 @@ PY
 
 python -m jupyter nbconvert \
   --to notebook \
-  --execute "$SESSION_ROOT/5_dask/4_multinode_distributed_array.ipynb" \
+  --execute "$SESSION_ROOT/3_dask/4_multinode_distributed_array.ipynb" \
   --ExecutePreprocessor.timeout=300 \
   --output-dir "$RUN_DIR" \
   --output "capstone.executed.ipynb" \
