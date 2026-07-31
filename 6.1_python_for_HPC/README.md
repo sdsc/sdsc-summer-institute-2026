@@ -97,15 +97,15 @@ the blue sticky note so a helper can come to you.
 | 8:30 to 8:42 | Setup, goals, and a simple performance workflow | Slides 1 to 8 and this README |
 | 8:42 to 9:15 | Numba early win and hands-on exercise | Slides 9 to 14 and [`3_numba/0_basics.ipynb`](3_numba/0_basics.ipynb) |
 | 9:15 to 9:40 | Threads, processes, and predict-then-check exercise | Slides 15 to 20 and [`4_threads_vs_processes/threads_vs_processes.ipynb`](4_threads_vs_processes/threads_vs_processes.ipynb) |
-| 9:40 to 10:10 | Dask tasks, chunks, and hands-on exercise | Slides 21 to 28, [`5_dask/1_delayed.ipynb`](5_dask/1_delayed.ipynb), then [`5_dask/2_multicore_array.ipynb`](5_dask/2_multicore_array.ipynb) |
-| 10:10 to 10:20 | Break and cluster setup | Slides 29 to 30 and [`dask_slurm/README.md`](dask_slurm/README.md) |
-| 10:20 to 10:52 | Multi-node capstone | Slides 31 to 35 and [`5_dask/4_multinode_distributed_array.ipynb`](5_dask/4_multinode_distributed_array.ipynb) |
-| 10:52 to 11:08 | AI-assisted HPC workflow | Slides 36 to 40 and [`2_ai_code_assist/README.md`](2_ai_code_assist/README.md) |
-| 11:08 to 11:20 | Decision map, take-home files, and questions | Slides 41 to 43 |
+| 9:40 to 9:50 | Break | Slide 21 |
+| 9:50 to 10:20 | Dask tasks, chunks, and hands-on exercise | Slides 22 to 29, [`5_dask/1_delayed.ipynb`](5_dask/1_delayed.ipynb), then [`5_dask/2_multicore_array.ipynb`](5_dask/2_multicore_array.ipynb) |
+| 10:20 to 10:30 | Cluster setup | Slide 30 and [`dask_slurm/README.md`](dask_slurm/README.md) |
+| 10:30 to 11:02 | Multi-node capstone | Slides 31 to 35 and [`5_dask/4_multinode_distributed_array.ipynb`](5_dask/4_multinode_distributed_array.ipynb) |
+| 11:02 to 11:20 | Decision map, take-home files, and questions | Slides 36 to 38 |
 
 The agenda allocates 170 minutes from 8:30 AM to 11:20 AM. The blocks above
 total exactly 170 minutes, including the 10-minute break. The hands-on
-activities reserve 65 minutes, or 38% of the full session. Exercise timing is
+activities reserve 57 minutes, or about 34% of the full session. Exercise timing is
 part of the plan, not optional padding. Each section divider in the deck shows
 the clock time the class should reach it.
 
@@ -113,6 +113,9 @@ the clock time the class should reach it.
 
 These files are for early finishers and post-session study:
 
+- Slides 39 to 43 and [`2_ai_code_assist/README.md`](2_ai_code_assist/README.md):
+  a short AI-assisted review exercise. Use this optional appendix only if the
+  recap ends early; otherwise it is take-home material.
 - [`3_numba/1_numpy.ipynb`](3_numba/1_numpy.ipynb): how Numba handles different
   NumPy array types and custom array functions.
 - [`3_numba/2_threads.ipynb`](3_numba/2_threads.ipynb): use several threads
@@ -133,8 +136,9 @@ Not completing a deep dive is not falling behind.
   cached Conda environment on compute-node local SSD.
 - [`1_python_singularity/`](1_python_singularity/README.md): optional container
   workflow.
-- [`2_ai_code_assist/`](2_ai_code_assist/README.md): use an AI assistant while
-  retaining responsibility for resource requests and validation.
+- [`2_ai_code_assist/`](2_ai_code_assist/README.md): optional practice using an
+  AI assistant while retaining responsibility for resource requests and
+  validation.
 - [`3_numba/`](3_numba/README.md): single-core and threaded compilation.
 - [`4_threads_vs_processes/`](4_threads_vs_processes/README.md): the GIL and
   scheduler choice.

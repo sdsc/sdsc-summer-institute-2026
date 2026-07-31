@@ -27,7 +27,7 @@ assigns ready tasks. Workers store chunks and perform those tasks.
 - Nodes: 2
 - One worker per node
 - 128 threads and 242 GB requested per node
-- Ten-minute limit
+- 30-minute limit, with immediate cancellation after the result is verified
 
 These are production institute settings. Instructors testing before the event
 must not submit this script. Use [`../TESTING.md`](../TESTING.md) and the debug

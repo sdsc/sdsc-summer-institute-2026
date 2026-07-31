@@ -119,19 +119,25 @@ def validate_lesson_alignment(errors: list[str]) -> None:
         ),
         "2_ai_code_assist/README.md": ("**8 minutes.**",),
         "README.md": (
-            "reserve 65 minutes",
-            "or 38% of the full session",
+            "reserve 57 minutes",
+            "or about 34% of the full session",
+            "Slides 39 to 43",
+            "optional appendix",
         ),
         "slides/SLIDES.md": (
             "12 minutes. Blue means help. Yellow means ready.",
             "12 minutes. Discuss with a neighbor.",
             "18 minutes. Clean up before moving on.",
             "Give eight minutes.",
+            "4 of 7 | Break",
+            "5 of 7 | Dask tasks and chunks",
+            "7 of 7 | Recap",
             "It creates or reuses the pythonhpc Conda environment.",
             "The GIL is a CPython rule",
             "A task graph is a plan",
             "Save the job number. Wait for two workers.",
             'Stop before "Build an array across the workers."',
+            "OPTIONAL | AI-assisted workflow",
         ),
     }
 
@@ -187,6 +193,15 @@ def validate_production_slurm(errors: list[str]) -> None:
         for directive in directives:
             if directive not in text:
                 fail(errors, f"{relative}: missing {directive}")
+
+    worker_script = (
+        SESSION_ROOT / "dask_slurm/dask_workers.slrm"
+    ).read_text(encoding="utf-8")
+    if "#SBATCH --time=00:30:00" not in worker_script:
+        fail(
+            errors,
+            "dask_slurm/dask_workers.slrm: expected a 30-minute limit",
+        )
 
     compute_launcher = (
         SESSION_ROOT / "launch_galyleo_compute.sh"

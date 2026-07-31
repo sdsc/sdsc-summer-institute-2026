@@ -59,3 +59,17 @@ runner and did not cause failures.
 The final worker and scheduler processes were stopped by the test cleanup. The
 resulting SLURM step cancellation messages were expected, and no jobs remained
 in the queue.
+
+### Schedule and deck refresh
+
+The live path now ends with the recap on slides 36 through 38. The AI material
+is an optional appendix on slides 39 through 43.
+
+- The native Google Slides deck contains 43 slides in the intended order.
+- All standard slide titles and bullets match `slides/SLIDES.md`.
+- All 43 speaker-note pages match the source.
+- The exported PDF contains 43 pages.
+- The full-deck contact sheet and both native diagrams passed visual review.
+- The worker-job limit is 30 minutes, which covers the 18-minute capstone
+  exercise. Learners still cancel the job as soon as they verify the result.
+- `python tests/validate_material.py`: passed after the refresh.

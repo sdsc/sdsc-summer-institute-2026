@@ -39,14 +39,15 @@ Questions are welcome at every transition.
 - Setup and performance workflow.
 - Numba, then threads and processes.
 - Dask on one node, then two nodes.
-- AI review, recap, and take-home material.
+- Recap and take-home material.
 
-Speaker cue: Optional deep dives stay out of the live path. Acknowledge that
-some learners are new to every tool and others have prior experience.
+Speaker cue: AI practice and other deep dives stay out of the live path.
+Acknowledge that some learners are new to every tool and others have prior
+experience.
 
 ---
 
-# 1 of 8 | Setup
+# 1 of 7 | Setup
 
 - Time check: 8:30 AM.
 - Goal: open Jupyter and verify the environment.
@@ -83,17 +84,15 @@ to circulate and prioritize blue notes.
 
 # SETUP | Measure one change at a time
 
-- Check that the current answer is correct.
-- Time the current version.
-- Make one change.
-- Check the answer and time it again.
+- Flow: Check answer -> Time current version -> Make one change -> Check answer and time again.
 
-Speaker cue: Ask, "Which part of your own Python workflow currently feels
-slow?" Then transition to the first notebook.
+Speaker cue: Read the four boxes from left to right. Ask, "Which part of your
+own Python workflow currently feels slow?" Then transition to the first
+notebook.
 
 ---
 
-# 2 of 8 | Numba
+# 2 of 7 | Numba
 
 - Time check: 8:42 AM.
 - Goal: speed up one slow numerical loop and time it fairly.
@@ -164,7 +163,7 @@ the notebook only after learners can explain why the first call is not timed.
 
 ---
 
-# 3 of 8 | Threads and processes
+# 3 of 7 | Threads and processes
 
 - Time check: 9:15 AM.
 - Goal: predict the useful execution model.
@@ -236,9 +235,20 @@ would collect for their own workload.
 
 ---
 
-# 4 of 8 | Dask tasks and chunks
+# 4 of 7 | Break
 
 - Time check: 9:40 AM.
+- Break ends at 9:50 AM.
+- The Dask section starts after the break.
+
+Speaker cue: Give everyone the full break. Keep cluster setup for its own block
+later in the session.
+
+---
+
+# 5 of 7 | Dask tasks and chunks
+
+- Time check: 9:50 AM.
 - Goal: build a graph, then choose useful chunks.
 - Notebooks: delayed, then multicore array.
 
@@ -279,7 +289,7 @@ Avoid walking through every library call.
 - 5 minutes. Blue means help. Yellow means ready.
 - Then explain what compute() changed.
 
-Speaker cue: Pause near 9:52 and invite questions. Debrief the graph before
+Speaker cue: Pause near 10:02 and invite questions. Debrief the graph before
 opening the array notebook.
 
 ---
@@ -324,55 +334,44 @@ Speaker cue: Ask learners to predict both extremes before running them.
 - A graph is a plan, not a result.
 - Chunks control scheduling and memory.
 - NumPy can still win for small in-memory work.
-- Time check: 10:10 AM.
+- Time check: 10:20 AM.
 
 Speaker cue: Ask why both a tiny chunk and a huge chunk can be poor choices.
-Close both notebooks before the break.
+Close both notebooks before cluster setup.
 
 ---
 
-# 5 of 8 | Break and cluster setup
-
-- Time check: 10:10 AM.
-- Break ends at 10:20 AM.
-- Helpers can start cluster setup with ready learners.
-
-Speaker cue: Anyone who needs the full break can watch the capstone demo and
-still meet the learning objectives.
-
----
-
-# CLUSTER SETUP | Two terminals
+# CLUSTER SETUP | 10 minutes
 
 - In both terminals, cd 6.1_python_for_HPC.
 - In a Jupyter terminal, run bash dask_slurm/launch_scheduler.sh.
 - In a login terminal, run sbatch dask_slurm/dask_workers.slrm.
 - Save the job number. Wait for two workers.
 
-Speaker cue: Keep both terminals visible. The worker script uses the SI26
-production reservation and QOS. Helpers should circulate during setup.
+Speaker cue: Start at 10:20. Keep both terminals visible. The worker script has
+a 30-minute limit and uses the SI26 production reservation and QOS. Helpers
+should circulate during setup.
 
 ---
 
-# 6 of 8 | Multi-node capstone
+# 6 of 7 | Multi-node capstone
 
-- Time check: 10:20 AM.
+- Time check: 10:30 AM.
 - Goal: run one Dask expression on two worker nodes.
 - Notebook: multi-node distributed array.
 
-Speaker cue: Limit every participant to the provided two-node, ten-minute
-worker job.
+Speaker cue: Limit every participant to the provided two-node worker job.
+Cancel it as soon as the result is verified.
 
 ---
 
 # CAPSTONE | Three roles
 
-- Notebook builds the task graph and requests a result.
-- Scheduler tracks what must finish first and assigns tasks.
-- Workers hold chunks and execute tasks.
+- Flow: Notebook asks for a result -> Scheduler assigns ready tasks -> Workers on node 1 and node 2 run tasks and hold chunks.
 - The array expression does not change.
 
-Speaker cue: Ask learners to identify the physical node used by each role.
+Speaker cue: Read the diagram from left to right. Ask learners to identify the
+physical node used by each role.
 
 ---
 
@@ -396,7 +395,7 @@ that learner to the instructor cluster.
 - Confirm the expected value.
 - 18 minutes. Blue means help. Yellow means ready.
 
-Speaker cue: 18 minutes. Clean up before moving on. Pause near 10:36 and invite
+Speaker cue: 18 minutes. Clean up before moving on. Pause near 10:46 and invite
 questions after workers connect. The evidence must show two distinct worker
 hosts.
 
@@ -407,18 +406,54 @@ hosts.
 - What changed when we added nodes?
 - What stayed the same in the Python expression?
 - Cancel the worker job and stop the scheduler.
-- Time check: 10:52 AM.
+- Time check: 11:02 AM.
 
 Speaker cue: Require cleanup before moving on. Ask for `squeue -u "$USER"` as
 evidence that the worker job is gone.
 
 ---
 
-# 7 of 8 | AI-assisted workflow
+# 7 of 7 | Recap
 
-- Time check: 10:52 AM.
+- Time check: 11:02 AM.
+- Goal: choose the smallest useful layer.
+- Final questions end at 11:20 AM.
+
+Speaker cue: Return to the performance workflow and ask learners to map one of
+their own workloads.
+
+---
+
+# RECAP | Decision map
+
+- Slow numerical loop: Numba.
+- Waiting tasks: threads or delayed.
+- Python calculations: processes.
+- Chunked or multi-node array: Dask.
+
+Speaker cue: Check the answer and time the current version before making a
+choice. Add nodes only after the one-node version works.
+
+---
+
+# RECAP | What you take home
+
+- Core notebooks and optional practice notebooks.
+- Production SI26 SLURM and Galyleo templates.
+- A debug-queue validation workflow.
+- Time check: 11:20 AM. Questions?
+
+Speaker cue: Point to the directory READMEs and optional deep dives. Remind
+everyone to confirm that no worker jobs remain. End here unless recap and
+questions finish early.
+
+---
+
+# OPTIONAL | AI-assisted workflow
+
+- Use only if recap and questions end early.
 - Goal: test whether a suggestion is correct and useful.
-- Page: AI code-assist README.
+- Otherwise, this section is take-home material.
 
 Speaker cue: Learners may use an approved assistant for one command or function,
 not for the entire exercise solution.
@@ -467,42 +502,7 @@ At four minutes, ask learners whether the suggestion changed the problem.
 - Plausible output is not evidence.
 - Generated SLURM needs a line-by-line resource review.
 - Keep only a verified improvement.
-- Time check: 11:08 AM.
+- Optional section. Stop when needed.
 
 Speaker cue: Ask, "Which part of the answer must you verify before submitting a
 job?" Invite at least one rejection or revision example.
-
----
-
-# 8 of 8 | Recap
-
-- Time check: 11:08 AM.
-- Goal: choose the smallest useful layer.
-- Final questions end at 11:20 AM.
-
-Speaker cue: Return to the performance workflow and ask learners to map one of
-their own workloads.
-
----
-
-# RECAP | Decision map
-
-- Slow numerical loop: Numba.
-- Waiting tasks: threads or delayed.
-- Python calculations: processes.
-- Chunked or multi-node array: Dask.
-
-Speaker cue: Check the answer and time the current version before making a
-choice. Add nodes only after the one-node version works.
-
----
-
-# RECAP | What you take home
-
-- Core notebooks and optional practice notebooks.
-- Production SI26 SLURM and Galyleo templates.
-- A debug-queue validation workflow.
-- Time check: 11:20 AM. Questions?
-
-Speaker cue: Point to the directory READMEs and optional deep dives. Remind
-everyone to confirm that no worker jobs remain.

@@ -1,9 +1,11 @@
 # Supporting slides
 
-The slides are the session control center. They guide transitions, identify the
-exact notebook or page to open, mark where to stop, display exercise timing,
-prompt each debrief, and show a clock target at every section divider. Technical
-detail and executable code remain in the notebooks.
+The slides are the session control center. Slides 1 through 38 guide the live
+session. Slides 39 through 43 are an optional AI appendix. The deck guides
+transitions, identifies the exact notebook or page to open, marks where to
+stop, displays exercise timing, prompts each debrief, and shows a clock target
+at every section divider. Technical detail and executable code remain in the
+notebooks.
 
 - [`SLIDES.md`](SLIDES.md): accessible text source and speaker cues.
 - [`Python_for_HPC_SI26.pdf`](Python_for_HPC_SI26.pdf): exported participant
@@ -22,6 +24,8 @@ notebooks stay at the center of instruction.
 
 - All essential slide content is present in `SLIDES.md`.
 - Content-slide body text is 36 points.
+- Two native diagrams show the performance workflow and the Dask roles. Their
+  meaning is also written in `SLIDES.md`.
 - Slides use high-contrast text and short native bullet lists.
 - Exercise slides repeat the blue and yellow sticky-note meanings in words.
 - Code details stay in notebooks, where participants can zoom and copy text.

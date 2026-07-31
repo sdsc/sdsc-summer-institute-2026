@@ -81,42 +81,57 @@ Question prompt: "When is a clear NumPy expression already good enough?"
 
 Question prompt: "What data would be expensive to send to another process?"
 
-### 9:40 to 10:10: Dask tasks and chunks
+### 9:40 to 9:50: Break
 
-- Use slides 21 through 28.
+- Use slide 21.
+- Give everyone the full break.
+- Keep cluster setup for the next block so no learner must choose between
+  resting and completing a core activity.
+
+### 9:50 to 10:20: Dask tasks and chunks
+
+- Use slides 22 through 29.
 - Use the file-processing story in `1_delayed.ipynb`.
 - Move to `2_multicore_array.ipynb` only after learners can describe a task
   graph.
-- Pause near 9:52 for questions when moving from delayed tasks to arrays.
+- Pause near 10:02 for questions when moving from delayed tasks to arrays.
 - Give 5 minutes for the delayed final summary and 10 minutes for chunk choice.
 - Ask learners to explain why a very small chunk and a very large chunk can
   both be poor choices.
 
 Question prompt: "What must Dask know before it can schedule the work?"
 
-### 10:10 to 10:20: Break and cluster setup
+### 10:20 to 10:30: Cluster setup
 
-- Use slides 29 and 30.
-- Helpers start the scheduler and worker setup with participants who want to run
-  the capstone.
-- Anyone who needs a break can watch the capstone demo without losing a core
-  learning objective.
+- Use slide 30.
+- Start the scheduler, then submit the worker job.
+- Wait for two workers before opening the capstone notebook.
+- Move anyone whose workers do not connect promptly to the instructor cluster.
 
-### 10:20 to 10:52: Multi-node capstone
+### 10:30 to 11:02: Multi-node capstone
 
 - Use slides 31 through 35.
-- Use at most two worker nodes per participant and keep the job to ten minutes.
+- Use at most two worker nodes per participant. The job has a 30-minute limit,
+  and learners cancel it as soon as they verify the result.
 - Show `client.scheduler_info()` before the array computation.
 - Ask participants to identify where the notebook, scheduler, and workers run.
-- Pause near 10:36 for questions after workers connect and before computation.
+- Pause near 10:46 for questions after workers connect and before computation.
 - Give 18 minutes for setup and execution.
 - Cancel worker jobs promptly after the result is verified.
 
 Question prompt: "What changed in the Python expression when we added nodes?"
 
-### 10:52 to 11:08: AI-assisted workflow
+### 11:02 to 11:20: Recap
 
-- Use slides 36 through 40.
+- Use slides 36 through 38.
+- Return to the performance decision map.
+- Ask participants to choose one take-home file.
+- Invite final questions and point to the optional deep dives.
+
+### Optional appendix: AI-assisted workflow
+
+- Use slides 39 through 43 only if the recap ends early. Otherwise assign the
+  section as take-home material.
 - Use the short workflow in `2_ai_code_assist/README.md`.
 - AI may suggest an individual command or review a small function.
 - AI should not write the entire exercise solution.
@@ -125,13 +140,6 @@ Question prompt: "What changed in the Python expression when we added nodes?"
 
 Question prompt: "Which part of this answer must you verify before submitting a
 job?"
-
-### 11:08 to 11:20: Recap
-
-- Use slides 41 through 43.
-- Return to the performance decision map.
-- Ask participants to choose one take-home file.
-- Invite final questions and point to the optional deep dives.
 
 ## Recovery options
 
@@ -159,6 +167,6 @@ If time is short:
 1. Keep the Numba exercise.
 2. Keep the threads-versus-processes prediction.
 3. Demonstrate the Dask capstone from the instructor cluster.
-4. Assign AI and all deep dives as take-home material.
+4. End with the recap and assign the optional appendix as take-home material.
 
 Do not accelerate through concepts to preserve every notebook.
