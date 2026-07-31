@@ -1,15 +1,15 @@
 # Supporting slides
 
-The slides guide transitions, exercise timing, sticky-note checks, and the final
-performance decision map. Most technical explanation and all executable code
-remain in the notebooks.
+The slides are the session control center. They guide transitions, identify the
+exact notebook or page to open, mark where to stop, display exercise timing,
+prompt each debrief, and show a clock target at every section divider. Technical
+detail and executable code remain in the notebooks.
 
 - [`SLIDES.md`](SLIDES.md): accessible text source and speaker cues.
 - [`Python_for_HPC_SI26.pdf`](Python_for_HPC_SI26.pdf): exported participant
   copy.
 - [Google Slides deck](https://docs.google.com/presentation/d/1-aMB0CObn17n5KSDIbXWiiAnl5nN6rg5q4ni8lYor0U/edit?usp=sharing).
-- [`DECK_PLAN.md`](DECK_PLAN.md): mapping from each output slide to the official
-  SDSC template's native exemplars.
+- [`DECK_PLAN.md`](DECK_PLAN.md): construction, timing, and template mapping.
 
 The deck uses the official `SDSC-UCSanDiego-HSDSC.potx` template shared by
 Cindy Wong with SI26 instructors. It preserves the template's native Teko and

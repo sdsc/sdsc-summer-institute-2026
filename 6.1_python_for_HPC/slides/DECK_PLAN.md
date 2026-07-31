@@ -16,27 +16,44 @@ The template defines:
 
 Narrative text remains native and editable. Content-slide headings are 54
 points and body text is 36 points. The deck reserves photography for the
-opening and uses generous whitespace during the notebook-led instruction.
+opening. All other slides use generous whitespace so learners can keep the
+notebook beside the slide.
 
-| Output | Narrative role | Official template family | Media mapping |
+## Narrative structure
+
+The 43-slide deck is the session control center:
+
+| Slides | Time | Section | Coordination role |
 | --- | --- | --- | --- |
-| 1. Python for HPC | Title and setup | `p1` | Keep official SDSC title photograph |
-| 2. What you will be able to do | Learning objectives | White, `p14` | No slide-local media |
-| 3. How today works | Participation and accessibility | Navy, `p16` | No slide-local media |
-| 4. Start with evidence | Performance workflow | White, `p14` | No slide-local media |
-| 5. Numba compiles the hot loop | Concept transition | Navy, `p16` | No slide-local media |
-| 6. Hands-on 1 | Timed exercise prompt | White, `p14` | No slide-local media |
-| 7. Threads and processes | Concept transition | Navy, `p16` | No slide-local media |
-| 8. Hands-on 2 | Predict-then-check prompt | White, `p14` | No slide-local media |
-| 9. Dask separates graph from execution | Concept transition | White, `p14` | No slide-local media |
-| 10. Chunks are the unit of array work | Chunking decision | Navy, `p16` | No slide-local media |
-| 11. From one node to multiple nodes | Distributed-system roles | Navy, `p16` | No slide-local media |
-| 12. Capstone: run the cluster | Timed exercise prompt | White, `p14` | No slide-local media |
-| 13. AI is a hypothesis generator | AI review workflow | Navy, `p16` | No slide-local media |
-| 14. AI exercise | Timed exercise prompt | White, `p14` | No slide-local media |
-| 15. Choose the smallest useful layer | Performance decision map | Navy, `p16` | No slide-local media |
-| 16. What you take home | Recap and questions | White, `p18` | No slide-local media |
+| 1 to 8 | 8:30 to 8:42 | Setup | Goals, participation system, launch, import check, workflow |
+| 9 to 14 | 8:42 to 9:15 | Numba | Divider, introduction, notebook launch, question pause, exercise, debrief |
+| 15 to 20 | 9:15 to 9:40 | Threads and processes | Divider, mental model, notebook launch, question pause, exercise, debrief |
+| 21 to 28 | 9:40 to 10:10 | Dask tasks and chunks | Divider, two introductions, two notebook launches, two exercises, debrief |
+| 29 to 30 | 10:10 to 10:20 | Break and setup | Divider and two-terminal cluster instructions |
+| 31 to 35 | 10:20 to 10:52 | Multi-node capstone | Divider, role model, notebook launch, exercise, cleanup debrief |
+| 36 to 40 | 10:52 to 11:08 | AI workflow | Divider, review loop, page launch, exercise, debrief |
+| 41 to 43 | 11:08 to 11:20 | Recap | Divider, decision map, take-home artifacts |
+
+Every section divider states its section number and target clock time. Every
+core file has an explicit launch slide that says what to open and where to
+stop. Every activity is followed by a debrief before the next section begins.
+
+## Template mapping
+
+- Slide 1 uses the official photographic title layout.
+- Slides 5, 9, 15, 21, 29, 31, 36, and 41 use the navy divider family.
+- Slides 2 to 4 and all introduction, launch, activity, and debrief slides use
+  the white text-first family.
+- Slide 43 uses the white closing family.
+- No slide-local media appears after the title slide.
 
 Speaker cues are stored as native speaker notes and repeated in `SLIDES.md`.
-The final 16-slide export was inspected as a complete contact sheet and at full
-resolution after two complete review passes.
+The exported deck must be checked as a complete contact sheet and at full
+resolution. The review must confirm:
+
+1. 43 slides in the intended order.
+2. 43 populated speaker-note pages.
+3. 54-point titles and 36-point body text.
+4. No clipped or overlapping text.
+5. Exact notebook paths and clock targets.
+6. No images after the title slide.

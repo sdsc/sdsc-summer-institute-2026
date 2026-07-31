@@ -36,9 +36,14 @@ During exercises:
 
 ## Detailed run of show
 
+The native deck is the clock and navigation source for the room. Leave each
+"Open this notebook" or exercise slide visible while participants work. Advance
+only after the corresponding debrief slide. Section dividers show the target
+clock time, so helpers and the instructor can make the same pacing decision.
+
 ### 8:30 to 8:42: Setup and map
 
-- Show slides 1 through 4.
+- Show slides 1 through 8.
 - Ask participants to run the four-package import check.
 - Do not begin the Numba demo until most laptops show yellow.
 - Name the three learning objectives and the core versus deep-dive distinction.
@@ -47,8 +52,11 @@ Question prompt: "Which part of your own Python workflow currently feels slow?"
 
 ### 8:42 to 9:15: Numba
 
+- Use slides 9 through 14.
 - Use only `3_numba/0_basics.ipynb` in the core presentation.
 - Run the uncompiled baseline before the compiled version.
+- Explain that current bare `@jit` uses nopython mode and that `@njit` is the
+  explicit alias used throughout this lesson.
 - Explicitly separate first-call compilation from steady-state timing.
 - Pause near 8:55 for questions before starting the hands-on portion.
 - Give 12 minutes for the sum-of-squares exercise.
@@ -59,6 +67,7 @@ Question prompt: "When would vectorized NumPy be preferable to Numba?"
 
 ### 9:15 to 9:40: Threads and processes
 
+- Use slides 15 through 20.
 - Ask participants to predict both outcomes before running either benchmark.
 - Use four workers even on a 128-core node. The purpose is to reveal the
   execution model, not saturate the machine.
@@ -70,6 +79,7 @@ Question prompt: "What data would be expensive to send to another process?"
 
 ### 9:40 to 10:10: Dask tasks and chunks
 
+- Use slides 21 through 28.
 - Use the file-processing story in `1_delayed.ipynb`.
 - Move to `2_multicore_array.ipynb` only after learners can describe a task
   graph.
@@ -82,6 +92,7 @@ Question prompt: "What must Dask know before it can schedule the work?"
 
 ### 10:10 to 10:20: Break and cluster setup
 
+- Use slides 29 and 30.
 - Helpers start the scheduler and worker setup with participants who want to run
   the capstone.
 - Anyone who needs a break can watch the capstone demo without losing a core
@@ -89,6 +100,7 @@ Question prompt: "What must Dask know before it can schedule the work?"
 
 ### 10:20 to 10:52: Multi-node capstone
 
+- Use slides 31 through 35.
 - Use at most two worker nodes per participant and keep the job to ten minutes.
 - Show `client.scheduler_info()` before the array computation.
 - Ask participants to identify where the notebook, scheduler, and workers run.
@@ -100,6 +112,7 @@ Question prompt: "What changed in the Python expression when we added nodes?"
 
 ### 10:52 to 11:08: AI-assisted workflow
 
+- Use slides 36 through 40.
 - Use the short workflow in `2_ai_code_assist/README.md`.
 - AI may suggest an individual command or review a small function.
 - AI should not write the entire exercise solution.
@@ -111,6 +124,7 @@ job?"
 
 ### 11:08 to 11:20: Recap
 
+- Use slides 41 through 43.
 - Return to the performance decision map.
 - Ask participants to choose one take-home artifact.
 - Invite final questions and point to the optional deep dives.

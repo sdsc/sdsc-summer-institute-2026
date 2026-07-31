@@ -15,9 +15,11 @@ the bottleneck. This notebook-first session follows one practical path:
 3. Express work as Dask tasks and chunked arrays.
 4. Run the same Dask computation across multiple Expanse nodes.
 
-Most explanations and demonstrations happen in the notebooks. The
-[supporting slides](slides/README.md) provide the session map, exercise prompts,
-and transitions.
+The [supporting slides](slides/README.md) coordinate the session. They identify
+the file to open, mark where to stop, display each timed activity, prompt the
+debrief, and introduce the next section. Keep the current slide visible while
+working in a notebook. The notebooks contain the executable explanations and
+code.
 
 Presentation:
 
@@ -40,7 +42,7 @@ By the end of the session, you will be able to:
 You should be able to write a Python function and `for` loop, read a traceback,
 and recognize a NumPy array. You also need:
 
-- An Expanse training account configured during Preparation Day.
+- Your Expanse account, with login tested during Preparation Day.
 - A browser for JupyterLab and a terminal connected to Expanse.
 - The blue and yellow sticky notes distributed at the start of the session.
 
@@ -82,19 +84,20 @@ the blue sticky note so a helper can come to you.
 
 | Time | Activity | Material |
 | --- | --- | --- |
-| 8:30 to 8:42 | Setup, goals, and performance decision map | Slides and this README |
-| 8:42 to 9:15 | Numba early win and hands-on exercise | [`3_numba/0_basics.ipynb`](3_numba/0_basics.ipynb) |
-| 9:15 to 9:40 | Threads, processes, and predict-then-check exercise | [`4_threads_vs_processes/threads_vs_processes.ipynb`](4_threads_vs_processes/threads_vs_processes.ipynb) |
-| 9:40 to 10:10 | Dask tasks, chunks, and hands-on exercise | [`5_dask/1_delayed.ipynb`](5_dask/1_delayed.ipynb), then [`5_dask/2_multicore_array.ipynb`](5_dask/2_multicore_array.ipynb) |
-| 10:10 to 10:20 | Break and cluster setup | [`dask_slurm/README.md`](dask_slurm/README.md) |
-| 10:20 to 10:52 | Multi-node capstone | [`5_dask/4_multinode_distributed_array.ipynb`](5_dask/4_multinode_distributed_array.ipynb) |
-| 10:52 to 11:08 | AI-assisted HPC workflow | [`2_ai_code_assist/README.md`](2_ai_code_assist/README.md) |
-| 11:08 to 11:20 | Decision map, take-home artifacts, and questions | Slides |
+| 8:30 to 8:42 | Setup, goals, and performance decision map | Slides 1 to 8 and this README |
+| 8:42 to 9:15 | Numba early win and hands-on exercise | Slides 9 to 14 and [`3_numba/0_basics.ipynb`](3_numba/0_basics.ipynb) |
+| 9:15 to 9:40 | Threads, processes, and predict-then-check exercise | Slides 15 to 20 and [`4_threads_vs_processes/threads_vs_processes.ipynb`](4_threads_vs_processes/threads_vs_processes.ipynb) |
+| 9:40 to 10:10 | Dask tasks, chunks, and hands-on exercise | Slides 21 to 28, [`5_dask/1_delayed.ipynb`](5_dask/1_delayed.ipynb), then [`5_dask/2_multicore_array.ipynb`](5_dask/2_multicore_array.ipynb) |
+| 10:10 to 10:20 | Break and cluster setup | Slides 29 to 30 and [`dask_slurm/README.md`](dask_slurm/README.md) |
+| 10:20 to 10:52 | Multi-node capstone | Slides 31 to 35 and [`5_dask/4_multinode_distributed_array.ipynb`](5_dask/4_multinode_distributed_array.ipynb) |
+| 10:52 to 11:08 | AI-assisted HPC workflow | Slides 36 to 40 and [`2_ai_code_assist/README.md`](2_ai_code_assist/README.md) |
+| 11:08 to 11:20 | Decision map, take-home artifacts, and questions | Slides 41 to 43 |
 
 The agenda allocates 170 minutes from 8:30 AM to 11:20 AM. The blocks above
 total exactly 170 minutes, including the 10-minute break. The hands-on
 activities reserve 65 minutes, or 38% of the full session. Exercise timing is
-part of the plan, not optional padding.
+part of the plan, not optional padding. Each section divider in the deck shows
+the clock time the class should reach it.
 
 ## Optional deep dives
 
