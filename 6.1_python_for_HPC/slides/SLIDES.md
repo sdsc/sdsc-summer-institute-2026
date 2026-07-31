@@ -15,7 +15,7 @@ and open the lesson repository.
 
 - Speed up a numerical loop with Numba and time it fairly.
 - Choose threads or processes based on the kind of work.
-- Choose Dask chunks and run one calculation on two nodes.
+- Scale a Python calculation from one node to multiple nodes with Dask.
 
 Speaker cue: State these as decisions learners will make, not libraries they
 must memorize.
