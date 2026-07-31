@@ -25,4 +25,5 @@ make copy
 The Makefile copies `dask-numba-si26.sif` to the lesson instructor's project
 directory. Other users should change that destination.
 
-Large `.sif` files are build artifacts and are not committed to this repository.
+Large `.sif` files are generated during the build and are not committed to this
+repository.

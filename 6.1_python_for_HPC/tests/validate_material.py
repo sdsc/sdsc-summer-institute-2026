@@ -127,6 +127,11 @@ def validate_lesson_alignment(errors: list[str]) -> None:
             "12 minutes. Discuss with a neighbor.",
             "18 minutes. Clean up before moving on.",
             "Give eight minutes.",
+            "It creates or reuses the pythonhpc Conda environment.",
+            "The GIL is a CPython rule",
+            "A task graph is a plan",
+            "Save the job number. Wait for two workers.",
+            'Stop before "Build an array across the workers."',
         ),
     }
 
@@ -138,6 +143,16 @@ def validate_lesson_alignment(errors: list[str]) -> None:
                     errors,
                     f"{relative}: missing aligned lesson text: {snippet}",
                 )
+
+    slide_text = (SESSION_ROOT / "slides/SLIDES.md").read_text(
+        encoding="utf-8"
+    )
+    slide_count = len(re.split(r"^---$", slide_text, flags=re.MULTILINE))
+    if slide_count != 43:
+        fail(
+            errors,
+            f"slides/SLIDES.md: expected 43 slides, found {slide_count}",
+        )
 
 
 def validate_shell(errors: list[str]) -> None:
@@ -237,6 +252,20 @@ def validate_text(errors: list[str]) -> None:
         "si25cpu": re.compile(r"\bsi25cpu\b"),
         "wrong dashboard port": re.compile(r"proxy/22222"),
     }
+    unclear_student_phrases = {
+        "steady-state": re.compile(r"\bsteady-state\b", re.IGNORECASE),
+        "nopython": re.compile(r"\bnopython\b", re.IGNORECASE),
+        "njit": re.compile(r"\bnjit\b"),
+        "directed acyclic graph": re.compile(
+            r"\bdirected acyclic graph\b", re.IGNORECASE
+        ),
+        "serialization": re.compile(r"\bserialization\b", re.IGNORECASE),
+        "CPU-bound": re.compile(r"\bCPU-bound\b", re.IGNORECASE),
+        "hot loop": re.compile(r"\bhot loop\b", re.IGNORECASE),
+        "oversubscription": re.compile(
+            r"\boversubscription\b", re.IGNORECASE
+        ),
+    }
 
     for path in sorted(SESSION_ROOT.glob("**/*")):
         if not path.is_file():
@@ -254,6 +283,12 @@ def validate_text(errors: list[str]) -> None:
         for label, pattern in stale_patterns.items():
             if pattern.search(text):
                 fail(errors, f"{relative}: contains stale value: {label}")
+        for label, pattern in unclear_student_phrases.items():
+            if pattern.search(text):
+                fail(
+                    errors,
+                    f"{relative}: contains unclear student phrase: {label}",
+                )
 
 
 def validate_markdown_links(errors: list[str]) -> None:

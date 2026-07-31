@@ -40,10 +40,14 @@ The native deck is the clock and navigation source for the room. Leave each
 "Open this notebook" or exercise slide visible while participants work. Advance
 only after the corresponding debrief slide. Section dividers show the target
 clock time, so helpers and the instructor can make the same pacing decision.
+Do not introduce a new term, file, command, or classroom task unless the current
+slide introduces it in plain language.
 
 ### 8:30 to 8:42: Setup and map
 
 - Show slides 1 through 8.
+- Explain that the launcher reads `environment.yaml` and creates or reuses the
+  `pythonhpc` Conda environment. Students do not run separate Conda commands.
 - Ask participants to run the four-package import check.
 - Do not begin the Numba demo until most laptops show yellow.
 - Name the three learning objectives and the core versus deep-dive distinction.
@@ -54,26 +58,26 @@ Question prompt: "Which part of your own Python workflow currently feels slow?"
 
 - Use slides 9 through 14.
 - Use only `3_numba/0_basics.ipynb` in the core presentation.
-- Run the uncompiled baseline before the compiled version.
-- Explain that current bare `@jit` uses nopython mode and that `@njit` is the
-  explicit alias used throughout this lesson.
-- Explicitly separate first-call compilation from steady-state timing.
+- Run and time the original Python version before the compiled version.
+- Introduce only `@jit`. Do not discuss old decorator defaults or aliases.
+- Explain that the first call compiles and runs the function. Later calls reuse
+  the compiled code, so time those later calls.
 - Pause near 8:55 for questions before starting the hands-on portion.
 - Give 12 minutes for the sum-of-squares exercise.
 - At minute 9, ask for sticky-note status and announce three minutes remaining.
 - Debrief correctness first, then performance.
 
-Question prompt: "When would vectorized NumPy be preferable to Numba?"
+Question prompt: "When is a clear NumPy expression already good enough?"
 
 ### 9:15 to 9:40: Threads and processes
 
 - Use slides 15 through 20.
-- Ask participants to predict both outcomes before running either benchmark.
+- Ask participants to predict both outcomes before timing either choice.
 - Use four workers even on a 128-core node. The purpose is to reveal the
   execution model, not saturate the machine.
 - Pause near 9:27 for questions before comparing the schedulers.
 - Give 12 minutes for the predict-then-check activity.
-- Call out process startup and serialization overhead.
+- Explain that starting processes and sending them data takes time and memory.
 
 Question prompt: "What data would be expensive to send to another process?"
 
@@ -84,7 +88,7 @@ Question prompt: "What data would be expensive to send to another process?"
 - Move to `2_multicore_array.ipynb` only after learners can describe a task
   graph.
 - Pause near 9:52 for questions when moving from delayed tasks to arrays.
-- Give 5 minutes for the delayed reduction and 10 minutes for chunk choice.
+- Give 5 minutes for the delayed final summary and 10 minutes for chunk choice.
 - Ask learners to explain why a very small chunk and a very large chunk can
   both be poor choices.
 
@@ -126,7 +130,7 @@ job?"
 
 - Use slides 41 through 43.
 - Return to the performance decision map.
-- Ask participants to choose one take-home artifact.
+- Ask participants to choose one take-home file.
 - Invite final questions and point to the optional deep dives.
 
 ## Recovery options

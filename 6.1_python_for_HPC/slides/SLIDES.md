@@ -13,9 +13,9 @@ and open the lesson repository.
 
 # What you will be able to do
 
-- Compile and benchmark a numerical loop with Numba.
-- Choose threads or processes from workload evidence.
-- Choose Dask chunks and scale one expression across nodes.
+- Speed up a numerical loop with Numba and time it fairly.
+- Choose threads or processes based on the kind of work.
+- Choose Dask chunks and run one calculation on two nodes.
 
 Speaker cue: State these as decisions learners will make, not libraries they
 must memorize.
@@ -60,11 +60,12 @@ most participants can import the four required packages.
 # SETUP | Open the lesson
 
 - In the repository, open folder 6.1_python_for_HPC.
-- Run bash launch_galyleo_compute.sh.
+- Run bash launch_galyleo_compute.sh. It creates or reuses the pythonhpc Conda environment.
 - Keep one Jupyter terminal available.
 
 Speaker cue: The launcher uses the SI26 production account, reservation, and
-QOS. Participants already have Expanse accounts from Preparation Day.
+QOS. It reads `environment.yaml`; students do not need separate Conda commands.
+Participants already have Expanse accounts from Preparation Day.
 
 ---
 
@@ -80,12 +81,12 @@ to circulate and prioritize blue notes.
 
 ---
 
-# SETUP | Start with evidence
+# SETUP | Measure one change at a time
 
-- Verify the answer.
-- Time or profile a baseline.
-- Change one layer at a time.
-- Verify again and compare steady-state cost.
+- Check that the current answer is correct.
+- Time the current version.
+- Make one change.
+- Check the answer and time it again.
 
 Speaker cue: Ask, "Which part of your own Python workflow currently feels
 slow?" Then transition to the first notebook.
@@ -95,7 +96,7 @@ slow?" Then transition to the first notebook.
 # 2 of 8 | Numba
 
 - Time check: 8:42 AM.
-- Goal: compile one hot loop and benchmark fairly.
+- Goal: speed up one slow numerical loop and time it fairly.
 - Core file: `3_numba/0_basics.ipynb`.
 
 Speaker cue: This is the early win. Stay in the basics notebook and leave the
@@ -103,15 +104,15 @@ other Numba notebooks for later.
 
 ---
 
-# NUMBA | jit and njit today
+# NUMBA | What @jit does
 
-- Since Numba 0.59, bare @jit uses nopython mode.
-- @njit is the explicit alias for @jit(nopython=True).
-- This lesson uses @njit to make the intent visible.
-- The first call compiles an input signature.
+- Add @jit above a function to ask Numba to compile it.
+- The first call compiles the function and returns an answer.
+- Later calls reuse the compiled code.
+- Check the answer, call once, then time later calls.
 
-Speaker cue: The two decorators now have the same default compilation mode.
-Keep `njit` in the lesson because it communicates the intended mode directly.
+Speaker cue: Introduce only `@jit`. Historical decorator defaults and aliases
+do not help students complete this lesson.
 
 ---
 
@@ -119,12 +120,12 @@ Keep `njit` in the lesson because it communicates the intended mode directly.
 
 - Open folder 3_numba.
 - Open 0_basics.ipynb.
-- Run through "Compare with vectorized NumPy."
+- Run through "Compare with NumPy."
 - Predict each timing before you run it.
 - Stop at "Your turn."
 
 Speaker cue: Keep this slide visible while learners work through the guided
-cells. Run the Python baseline before the compiled function.
+cells. Run the original Python function before the compiled function.
 
 ---
 
@@ -132,7 +133,7 @@ cells. Run the Python baseline before the compiled function.
 
 - Did all three versions return the same value?
 - Which timing includes compilation?
-- Why do we warm up before benchmarking?
+- Why do we call the function once before timing it?
 
 Speaker cue: Pause near 8:55 and explicitly invite questions. Correctness comes
 before the speed comparison.
@@ -153,13 +154,13 @@ remaining. Helpers should guide learners without typing the solution.
 
 # NUMBA | Debrief
 
-- First call: compilation plus execution.
-- Later calls: steady-state execution.
-- @njit helps supported numerical loops.
+- First call: compile and run.
+- Later calls: reuse the compiled code.
+- @jit can speed up supported numerical loops.
 - Time check: 9:15 AM.
 
-Speaker cue: Ask, "When would vectorized NumPy be preferable to Numba?" Close
-the notebook only after learners can explain the warm-up.
+Speaker cue: Ask, "When is a clear NumPy expression already good enough?" Close
+the notebook only after learners can explain why the first call is not timed.
 
 ---
 
@@ -174,19 +175,20 @@ always faster.
 
 ---
 
-# SCHEDULERS | Mental model
+# THREADS OR PROCESSES | Mental model
 
-- Threads share memory and one interpreter.
-- The GIL limits simultaneous pure-Python bytecode.
-- Processes use separate interpreters and memory.
-- Startup and serialization have a cost.
+- Threads share one process and its memory.
+- The GIL is a CPython rule: one thread runs Python code at a time.
+- Processes can run Python code on separate CPU cores.
+- Starting processes and sending data takes time and memory.
 
 Speaker cue: Define the GIL before using the acronym. Keep the comparison to
-four workers.
+four workers. Explain that the notebook's `scheduler=` setting selects threads
+or processes.
 
 ---
 
-# SCHEDULERS | Open this notebook
+# THREADS OR PROCESSES | Open this notebook
 
 - Open folder 4_threads_vs_processes.
 - Open threads_vs_processes.ipynb.
@@ -199,9 +201,9 @@ exact timing on one node.
 
 ---
 
-# SCHEDULERS | Pause and ask
+# THREADS OR PROCESSES | Pause and ask
 
-- Which workload is CPU-bound pure Python?
+- Which workload spends its time calculating in Python?
 - Which workload mostly waits?
 - What data would be expensive to send to a process?
 
@@ -210,9 +212,9 @@ activity.
 
 ---
 
-# SCHEDULERS | Hands-on
+# THREADS OR PROCESSES | Hands-on
 
-- Run both schedulers with four workers.
+- Run threads and processes with four workers.
 - Explain each result with the mental model.
 - Discuss one surprise with a neighbor.
 - 12 minutes. Blue means help. Yellow means ready.
@@ -222,9 +224,9 @@ reason, not on declaring a universal winner.
 
 ---
 
-# SCHEDULERS | Debrief
+# THREADS OR PROCESSES | Debrief
 
-- CPU-bound Python often favors processes.
+- Python calculations often favor processes.
 - Waiting work often favors threads.
 - Shared data can change the tradeoff.
 - Time check: 9:40 AM.
@@ -245,15 +247,15 @@ describe a task graph.
 
 ---
 
-# DASK | Graph before execution
+# DASK | Build a plan before running
 
-- Delayed calls build tasks.
-- Dependencies form a directed acyclic graph.
-- The scheduler decides when and where tasks run.
-- compute() triggers execution.
+- A task is one piece of work.
+- A task graph is a plan showing tasks and their order.
+- The scheduler assigns ready tasks to workers.
+- compute() starts the work and returns the result.
 
-Speaker cue: Use the file-processing story. Define task, dependency, and
-scheduler in plain language.
+Speaker cue: Use the file-processing story. A file count is one task. The final
+summary waits for all file counts. The scheduler assigns work to workers.
 
 ---
 
@@ -270,9 +272,9 @@ Avoid walking through every library call.
 
 ---
 
-# DASK | Delayed exercise and debrief
+# DASK | Final summary and debrief
 
-- Put the reduction inside the graph.
+- Put the final summary inside the task graph.
 - Compute only the final summary.
 - 5 minutes. Blue means help. Yellow means ready.
 - Then explain what compute() changed.
@@ -284,9 +286,9 @@ opening the array notebook.
 
 # DASK | Chunks are units of work
 
-- Too small: scheduling overhead dominates.
-- Too large: memory pressure and weak parallelism.
-- Useful chunks fit memory and keep workers busy.
+- Too small: Dask manages too many tiny tasks.
+- Too large: a chunk may not fit or share work evenly.
+- Useful chunks fit in memory and keep workers busy.
 - Inspect chunks before compute().
 
 Speaker cue: Connect chunk shape to both scheduling and memory. There is no
@@ -298,7 +300,7 @@ single best chunk size for every calculation.
 
 - In folder 5_dask, open 2_multicore_array.ipynb.
 - Run through "Choose chunks."
-- Compare the eager and lazy objects.
+- Compare the NumPy result with the Dask plan.
 - Stop at "Your turn."
 
 Speaker cue: Keep this slide visible. Ask learners to name what has and has not
@@ -342,10 +344,10 @@ still meet the learning objectives.
 
 # CLUSTER SETUP | Two terminals
 
-- In a Jupyter terminal, open folder dask_slurm.
-- Run bash launch_scheduler.sh.
-- In a login terminal, run sbatch dask_workers.slrm.
-- Wait until the scheduler reports two workers.
+- In both terminals, cd 6.1_python_for_HPC.
+- In a Jupyter terminal, run bash dask_slurm/launch_scheduler.sh.
+- In a login terminal, run sbatch dask_slurm/dask_workers.slrm.
+- Save the job number. Wait for two workers.
 
 Speaker cue: Keep both terminals visible. The worker script uses the SI26
 production reservation and QOS. Helpers should circulate during setup.
@@ -365,8 +367,8 @@ worker job.
 
 # CAPSTONE | Three roles
 
-- Notebook builds the graph and requests a result.
-- Scheduler tracks dependencies and assigns tasks.
+- Notebook builds the task graph and requests a result.
+- Scheduler tracks what must finish first and assigns tasks.
 - Workers hold chunks and execute tasks.
 - The array expression does not change.
 
@@ -379,8 +381,8 @@ Speaker cue: Ask learners to identify the physical node used by each role.
 - Open folder 5_dask.
 - Open 4_multinode_distributed_array.ipynb.
 - Run "Start the cluster."
-- Confirm two distinct worker hosts.
-- Stop before "Build a distributed array."
+- Open the Dask dashboard and confirm two worker hosts.
+- Stop before "Build an array across the workers."
 
 Speaker cue: Keep this slide visible. If workers do not connect promptly, move
 that learner to the instructor cluster.
@@ -389,7 +391,7 @@ that learner to the instructor cluster.
 
 # CAPSTONE | Run and verify
 
-- Build and compute the distributed array.
+- Build and calculate the array across both workers.
 - Read worker hosts, threads, and result.
 - Confirm the expected value.
 - 18 minutes. Blue means help. Yellow means ready.
@@ -415,7 +417,7 @@ evidence that the worker job is gone.
 # 7 of 8 | AI-assisted workflow
 
 - Time check: 10:52 AM.
-- Goal: turn a suggestion into a tested hypothesis.
+- Goal: test whether a suggestion is correct and useful.
 - Page: AI code-assist README.
 
 Speaker cue: Learners may use an approved assistant for one command or function,
@@ -452,7 +454,7 @@ prompt and checklist with a partner.
 
 - Ask for one Numba optimization.
 - Identify every package and resource assumption.
-- Run the correctness check and benchmark twice.
+- Run the answer check and time the result twice.
 - 8 minutes. Accept, revise, or reject.
 
 Speaker cue: Give eight minutes. Put blue and yellow note meanings into words.
@@ -485,19 +487,19 @@ their own workloads.
 
 # RECAP | Decision map
 
-- Hot numerical loop: Numba.
+- Slow numerical loop: Numba.
 - Waiting tasks: threads or delayed.
-- CPU-bound Python: processes.
+- Python calculations: processes.
 - Chunked or multi-node array: Dask.
 
-Speaker cue: Profiling and correctness wrap every choice. Scaling out is the
-last step, not the first.
+Speaker cue: Check the answer and time the current version before making a
+choice. Add nodes only after the one-node version works.
 
 ---
 
 # RECAP | What you take home
 
-- Tested core and optional notebooks.
+- Core notebooks and optional practice notebooks.
 - Production SI26 SLURM and Galyleo templates.
 - A debug-queue validation workflow.
 - Time check: 11:20 AM. Questions?

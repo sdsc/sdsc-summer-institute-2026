@@ -1,7 +1,9 @@
 # Dask notebooks
 
-Dask builds a task graph and executes independent pieces of work with a chosen
-scheduler. Dask arrays add NumPy-like operations over explicit chunks.
+Dask first builds a plan called a task graph. The graph lists the pieces of work
+and which pieces must finish before others can start. A scheduler assigns ready
+tasks to workers. Dask arrays divide a NumPy-like array into smaller pieces
+called chunks.
 
 ## Core path
 
@@ -24,10 +26,10 @@ scheduler. Dask arrays add NumPy-like operations over explicit chunks.
 A useful chunk is:
 
 - Small enough to fit comfortably in worker memory.
-- Large enough that computation dominates scheduling overhead.
+- Large enough that Dask does not spend most of its time managing tiny tasks.
 - Aligned with the way data is stored and accessed when possible.
 - Numerous enough to keep workers busy, but not so numerous that the scheduler
   manages millions of tiny tasks.
 
-Changing from NumPy to Dask does not guarantee a speedup. Build the graph, inspect
-the chunks, compute once, and compare against a measured baseline.
+Changing from NumPy to Dask does not guarantee a speedup. Inspect the plan and
+chunks, calculate the result, and compare its time with the NumPy version.

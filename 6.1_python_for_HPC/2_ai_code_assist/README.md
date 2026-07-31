@@ -1,17 +1,17 @@
 # AI-assisted Python for HPC
 
-An AI coding assistant can help explain a traceback, propose a small refactor,
-or suggest a command. It cannot know whether a job request is appropriate for
-your allocation, whether a numerical answer is scientifically valid, or whether
-generated code scales well.
+An AI coding assistant can help explain a traceback, propose a small code
+change, or suggest a command. It cannot know whether a job request is
+appropriate for your allocation, whether a numerical answer is scientifically
+valid, or whether generated code will run well on more CPUs or nodes.
 
 The goal of this activity is to practice a short, reviewable loop:
 
-1. Give the assistant a small task and the constraints that matter.
+1. Give the assistant a small task and the limits that matter.
 2. Ask it to explain its proposed change.
 3. Inspect every command and resource request.
 4. Test correctness before measuring speed.
-5. Compare against a baseline and keep only a verified improvement.
+5. Compare with the current version and keep only a change that you tested.
 
 During the hands-on exercise, use AI for an individual command or function. Do
 not ask it to write the entire exercise solution.
@@ -36,15 +36,16 @@ unless your project explicitly allows it.
 
 ## A useful HPC prompt
 
-Good prompts include the execution environment, resource limit, correctness
-condition, and the smallest requested change.
+Good prompts state where the code will run, the available resources, the
+expected answer, and the smallest requested change.
 
 ```text
 This function runs on one Expanse CPU node with 4 CPUs and 16 GB of memory.
-The input is a NumPy float64 array. Preserve the result within rtol=1e-12.
+The input is a NumPy array of 64-bit decimal numbers. Keep the result equal to
+the current function within 1e-12.
 Suggest one Numba optimization for the loop below. Explain why Numba can
-compile it, provide a correctness check, and provide a benchmark that excludes
-first-call compilation. Do not add a GPU or a multi-node design.
+compile it, provide an answer check, and time only calls after the first one.
+Do not add a GPU or a multi-node design.
 ```
 
 This is more useful than "make this faster" because it prevents the assistant
@@ -59,9 +60,9 @@ from silently changing the problem or inventing resources.
    - The requested CPUs, memory, and partition.
    - Any package, network, or file-system assumptions.
    - The correctness test.
-   - Whether the benchmark includes compilation or setup.
+   - Whether the timing includes compilation or setup.
 3. Run the correctness test.
-4. Run the benchmark twice.
+4. Time the result twice.
 5. Decide whether to accept, revise, or reject the suggestion.
 
 Put up the yellow sticky note when you can explain your decision. Put up the
@@ -86,21 +87,22 @@ the reservation or QOS.
 
 - **Plausible but nonexistent flags:** confirm with `srun --help`, `sbatch
   --help`, or SDSC documentation.
-- **Benchmarking compilation:** warm up Numba before timing.
-- **Oversubscription:** do not let Dask, Numba, BLAS, and multiprocessing each
-  create a full set of threads.
+- **Timing the first call:** call the Numba function once before timing it.
+- **Too many threads:** do not let Dask, Numba, BLAS, and multiprocessing each
+  use all of the requested CPUs.
 - **Changed numerical behavior:** compare arrays with an appropriate tolerance
   and inspect edge cases.
 - **Unnecessary scale:** first make the one-node version correct and measured.
 - **Unreviewed commands:** terminal assistants may propose commands that write,
   install, delete, or submit jobs. Read each command before approving it.
 
-## A productive follow-up prompt
+## A useful follow-up prompt
 
 ```text
-Review your answer as an HPC instructor. List every assumption, identify any
-oversubscription risk, and show the smallest debug-queue test that could
-falsify the claimed speedup.
+Review your answer as an HPC instructor. List every assumption, identify where
+too many threads or processes might be started, and show the smallest
+debug-queue test that can check whether the change is really faster.
 ```
 
-Treat the response as a hypothesis. Your test result is the evidence.
+Treat the response as an untested suggestion. The test result tells you whether
+it works.

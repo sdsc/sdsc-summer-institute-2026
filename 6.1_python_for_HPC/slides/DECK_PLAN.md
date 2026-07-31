@@ -25,18 +25,20 @@ The 43-slide deck is the session control center:
 
 | Slides | Time | Section | Coordination role |
 | --- | --- | --- | --- |
-| 1 to 8 | 8:30 to 8:42 | Setup | Goals, participation system, launch, import check, workflow |
+| 1 to 8 | 8:30 to 8:42 | Setup | Goals, participation system, launch, Python environment, import check, workflow |
 | 9 to 14 | 8:42 to 9:15 | Numba | Divider, introduction, notebook launch, question pause, exercise, debrief |
 | 15 to 20 | 9:15 to 9:40 | Threads and processes | Divider, mental model, notebook launch, question pause, exercise, debrief |
 | 21 to 28 | 9:40 to 10:10 | Dask tasks and chunks | Divider, two introductions, two notebook launches, two exercises, debrief |
 | 29 to 30 | 10:10 to 10:20 | Break and setup | Divider and two-terminal cluster instructions |
 | 31 to 35 | 10:20 to 10:52 | Multi-node capstone | Divider, role model, notebook launch, exercise, cleanup debrief |
 | 36 to 40 | 10:52 to 11:08 | AI workflow | Divider, review loop, page launch, exercise, debrief |
-| 41 to 43 | 11:08 to 11:20 | Recap | Divider, decision map, take-home artifacts |
+| 41 to 43 | 11:08 to 11:20 | Recap | Divider, decision map, take-home files |
 
 Every section divider states its section number and target clock time. Every
 core file has an explicit launch slide that says what to open and where to
 stop. Every activity is followed by a debrief before the next section begins.
+Every term and action used in the live class is introduced on a slide in plain
+language before it appears in a notebook or exercise.
 
 ## Template mapping
 

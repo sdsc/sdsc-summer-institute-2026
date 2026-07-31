@@ -13,8 +13,8 @@ Dask scheduler on the Jupyter node
 worker on compute node 1   worker on compute node 2
 ```
 
-The scheduler tracks the graph. Workers store chunks and execute tasks. The
-notebook requests results through the scheduler.
+The notebook asks for a result. The scheduler keeps track of what must run and
+assigns ready tasks. Workers store chunks and perform those tasks.
 
 ## Production SI26 settings
 
@@ -61,6 +61,8 @@ cd 6.1_python_for_HPC
 sbatch dask_slurm/dask_workers.slrm
 squeue -u "$USER"
 ```
+
+Save the job number printed by `sbatch`. You will use it to stop the workers.
 
 Submit the script from any working directory. It resolves its supporting files
 relative to the script location.
