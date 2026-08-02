@@ -8,17 +8,17 @@
 #   Reservation: si26gpu (Summer Institute only, remove after institute)
 #   QoS: gpu-shared-eot (education, outreach, and training -- Summer Institute only, remove after institute)
 
-srun \
-  --account=sdp173 \        # Slurm account for the Summer Institute allocation
-  --reservation=si26gpu \   # Summer Institute GPU reservation (remove after institute)
-  --partition=gpu-shared \  # Expanse GPU shared partition
-  --qos=gpu-shared-eot \    # Education, outreach, and training QoS (remove after institute)
-  --nodes=1 \               # Request 1 GPU node
-  --ntasks-per-node=1 \     # 1 task per node
-  --cpus-per-task=10 \      # 10 CPUs for the interactive session
-  --mem=92G \               # 92 GB memory
-  --gpus=1 \                # 1 GPU
-  --time=04:00:00 \         # 4 hour time limit
-  --pty \                   # Allocate a pseudo-terminal for interactive use
-  --wait=0 \                # Wait up to 0 seconds (fail immediately if not ready)
+exec srun \
+  --account=sdp173 \
+  --reservation=si26gpu \
+  --partition=gpu-shared \
+  --qos=gpu-shared-eot \
+  --nodes=1 \
+  --ntasks-per-node=1 \
+  --cpus-per-task=10 \
+  --mem=92G \
+  --gpus=1 \
+  --time=04:00:00 \
+  --pty \
+  --wait=0 \
   /bin/bash

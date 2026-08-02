@@ -8,16 +8,16 @@
 #   Reservation: si26cpu (Summer Institute only, remove after institute)
 #   QoS: normal-eot (education, outreach, and training -- Summer Institute only, remove after institute)
 
-srun \
-  --account=sdp173 \        # Slurm account for the Summer Institute allocation
-  --reservation=si26cpu \   # Summer Institute CPU reservation (remove after institute)
-  --partition=compute \     # Expanse compute partition
-  --qos=normal-eot \        # Education, outreach, and training QoS (remove after institute)
-  --nodes=1 \               # Request 1 compute node
-  --ntasks-per-node=1 \     # 1 task per node
-  --cpus-per-task=128 \     # 128 CPUs for the interactive session
-  --mem=242G \              # 242 GB memory
-  --time=04:00:00 \         # 4 hour time limit
-  --pty \                   # Allocate a pseudo-terminal for interactive use
-  --wait=0 \                # Wait up to 0 seconds (fail immediately if not ready)
+exec srun \
+  --account=sdp173 \
+  --reservation=si26cpu \
+  --partition=compute \
+  --qos=normal-eot \
+  --nodes=1 \
+  --ntasks-per-node=1 \
+  --cpus-per-task=128 \
+  --mem=242G \
+  --time=04:00:00 \
+  --pty \
+  --wait=0 \
   /bin/bash
