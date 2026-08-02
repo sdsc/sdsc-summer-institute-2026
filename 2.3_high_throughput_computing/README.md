@@ -13,7 +13,7 @@
 
 ## Presentation Slides
 
-- [COMPLECS: Batch Computing III - High-Throughput + Many-Task Computing](https://drive.google.com/file/d/1fAI7nrBXy1DQgUVs-IoW-Urpg5iuRnXg/view?usp=drive_link)
+- [COMPLECS: High-Throughput + Many-Task Computing](https://drive.google.com/file/d/1fAI7nrBXy1DQgUVs-IoW-Urpg5iuRnXg/view?usp=drive_link)
 
 ## Tutorials
 
