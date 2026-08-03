@@ -1,57 +1,39 @@
-# High Throughput Computing
+# High-Throughput + Many-Task Computing
 
-- [Parallel paradigms: HPC vs. HTC](PARALLEL.md)
-- [Batch job arrays](ARRAYS.md)
-- [Batch job dependencies](DEPENDENCIES.md)
-- [Batch job bundling](BUNDLING.md)
-- [Preemptible batch jobs](PREEMPTIBLE.md)
-- [Distributed high-throughput computing](DHTC.md)
+- [Batch job arrays](arrays.md)
+- [Batch job dependencies](dependencies.md)
+- [Batch job bundling](bundling.md)
+- [Preemptible batch jobs](preemptible.md)
 
 ## Batch job arrays
 
-Batch job arrays offer a mechanism for submitting and managing large collections of similar jobs quickly and easily.
+Batch job arrays offer a mechanism for submitting and managing large
+collections of similar jobs quickly and easily.
 
 ### Setting up an example problem: Estimating Pi
 
-Login to Expanse.
+Login to Expanse via SSH or the Expanse User Portal.
 
+*Command*
 ```
-$ ssh expanse
-```
-
-Clone the [4pi](https://github.com/mkandes/4pi.git) git repository from GitHub to your HOME directory on Expanse.
-
-```
-git clone https://github.com/mkandes/4pi.git
+$ ssh mkandes@login.expanse.sdsc.edu
 ```
 
-4pi is a collection of simple computer programs that estimate the value of Pi, the mathematical constant defined as the ratio of a circle's circumference to its diameter. Each program in the collection differs only in the programming language it was written in, the set of features of the language it utilized, and/or the fundamental underlying mathematical algorithm it implemented to approximate the value of Pi.
+*Output*
+```
+```
 
-The principal aim of the 4pi project is to explore different aspects of each programming language and their feature sets from a scientific and high-performance computing perspective. For example, the first set of programs included in the project estimate the value of Pi via the Monte Carlo method. This solution is particularly useful for exploring different parallel programming models, languages, libraries, and APIs as it is an embarrassingly parallel (albeit inefficient) solution to the problem.
+If you are using the Expanse User Portal, open the interactive shell
+app once you are logged in.
+
+[4pi](https://github.com/mkandes/4pi) is a collection of simple computer
+programs that estimate the value of Pi. Each program in the collection
+differs only in the programming language it was written in, the set of
+features of the language it utilized, and/or the fundamental underlying
+mathematical algorithm it implemented to approximate the value of Pi. We
+will estiamte the value of Pi via a Monte Carlo method.
 
 ![Estimate the value of Pi via Monte Carlo](https://hpc.llnl.gov/sites/default/files/styles/no_sidebar_3_up/public/pi1.gif)
-
-```
-[xdtr108@login01 ~]$ git clone https://github.com/mkandes/4pi.git
-Cloning into '4pi'...
-remote: Enumerating objects: 14, done.
-remote: Counting objects: 100% (14/14), done.
-remote: Compressing objects: 100% (8/8), done.
-remote: Total 14 (delta 1), reused 14 (delta 1), pack-reused 0
-Unpacking objects: 100% (14/14), 4.64 KiB | 9.00 KiB/s, done.
-[xdtr108@login01 ~]$ ls 4pi/
-bash  c  fortran  LICENSE.md  python  README.md
-[xdtr108@login01 ~]$ ls 4pi/bash/
-pi.sh
-[xdtr108@login01 ~]$ ls 4pi/python/
-pi.py
-```
-
-Next, download the example batch job script.
-
-```
-wget https://raw.githubusercontent.com/sdsc/sdsc-summer-institute-2025/refs/heads/main/3.2_high_throughput_computing/estimate-pi.sh
-```
 
 Inspect the job script.
 
@@ -60,8 +42,8 @@ Inspect the job script.
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
-#SBATCH --account=gue998
-#SBATCH --reservation=si24
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
 #SBATCH --partition=shared
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
@@ -127,7 +109,8 @@ sys 17.21
 
 ### Creating your first job array
 
-Modify the example batch job script to create your first array job (of 10 array tasks). 
+Modify the example batch job script to create your first array job (of 
+10 array tasks). 
 
 ```
 #SBATCH --output=%x.o%A.%a.%N
@@ -141,8 +124,9 @@ Submit the modified batch job script to the scheduler.
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
-#SBATCH --account=sds184
-#SBATCH --partition=debug
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
@@ -394,9 +378,9 @@ real 535.73
 
 ### Throttling a large array job
 
-Let's migrate from the (slow) bash-based Pi program to the (faster) python one for a better estimate. We'll then create a large array job, but throttle the number of jobs that can run simultaneosuly. 
-
-- https://slurm.schedmd.com/high_throughput.html
+Let's migrate from the (slow) bash-based Pi program to the (faster)
+python one for a better estimate. We'll then create a large array job,
+but throttle the number of jobs that can run simultaneosuly. 
 
 ```
 #SBATCH --array=1-512%32
@@ -492,4 +476,4 @@ real 54.90
 
 #
 
-Next - [Batch job dependencies](DEPENDENCIES.md)
+Next - [Batch job dependencies](dependencies.md)

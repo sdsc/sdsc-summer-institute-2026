@@ -1,28 +1,40 @@
-# High Throughput Computing
+# High-Throughput + Many-Task Computing
 
-- [Parallel paradigms: HPC vs. HTC](PARALLEL.md)
-- [Batch job arrays](ARRAYS.md)
-- [Batch job dependencies](DEPENDENCIES.md)
-- [Batch job bundling](BUNDLING.md)
-- [Preemptible batch jobs](PREEMPTIBLE.md)
-- [Distributed high-throughput computing](DHTC.md)
+- [Batch job arrays](arrays.md)
+- [Batch job dependencies](dependencies.md)
+- [Batch job bundling](bundling.md)
+- [Preemptible batch jobs](preemptible.md)
 
 ## Batch job bundling
 
-While Expanse was designed to be supportive of HTC-like workflows, most HPC systems are built to accomodate large-scale, parallel jobs. On these systems, compute resources are often scheduled at the node-level and they either discourage or explicitly prohibit the queueing hundreds or thousands of jobs at a time in order to improve the scheduling performance of the system. Under these circumstances, the only way to run HTC workflows that consist of many serial (or small multi-core) jobs without being inherently wasteful and inefficient is to create *job bundles*, wherein a group of independent jobs or tasks are *packed* into and managed (usually in an ad-hoc way) by a single batch job. 
+While Expanse was designed to be supportive of HTC-like workflows, most
+HPC systems are built to accomodate large-scale, parallel jobs. On these
+systems, compute resources are often scheduled at the node-level and they
+either discourage or explicitly prohibit the queueing hundreds or thousands
+of jobs at a time in order to improve the scheduling performance of the 
+system. Under these circumstances, the only way to run HTC workflows that
+consist of many serial (or small multi-core) jobs without being inherently
+wasteful and inefficient is to create *job bundles*, wherein a group of
+independent jobs or tasks are *packed* into and managed (usually in an 
+ad-hoc way) by a single batch job. 
 
 ### Linux-native scheduling
 
 #### `&`
 
-The simplest and most straightforward approach to bundling jobs is with the [Linux scheduler](https://en.wikipedia.org/wiki/Completely_Fair_Scheduler). When you execute a command in a batch job script, you can force the process that is started into the *background* to run independently of other processes that may also be created as part of the job. The Linux scheduler will (automagically) distribute the (child) processes across the compute resources available to run the job. 
+The simplest and most straightforward approach to bundling jobs is with
+the Linux scheduler. When you execute a command in a batch job script, 
+you can force the process that is started into the *background* to run 
+independently of other processes that may also be created as part of the
+job. The Linux scheduler will (automagically) distribute the (child) 
+processes across the compute resources available to run the job. 
 
 ```
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
-#SBATCH --account=gue998
-#SBATCH --reservation=si25cpu
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
 #SBATCH --partition=shared
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=4
@@ -43,13 +55,19 @@ python3 "${HOME}/4pi/python/pi.py" 100000000 &
 wait
 ```
 
-The Linux scheduler works well for simple workflows like the one above. However, for workflows with a large number of jobs, especially when each job may be running with multiple processes, the performance of the Linux scheduler may be unsatisfying, due to unbalanced workloads from different running jobs, improper process/thread affinity settings, etc.
-
-</br>
+The Linux scheduler works well for simple workflows like the one above.
+However, for workflows with a large number of jobs, especially when each
+job may be running with multiple processes, the performance of the Linux
+scheduler may be unsatisfying, due to unbalanced workloads from different
+running jobs, improper process/thread affinity settings, etc.
 
 #### `taskset` - set or retrieve a process's CPU affinity
 
-`taskset`  is  used  to  set  or  retrieve  the CPU affinity of a running process given its pid, or to launch a new  command  with  a  given  CPU affinity.  CPU affinity is a scheduler property that "binds" a process to a given set of CPUs on the system.  The Linux scheduler  will  honor the  given CPU affinity and the process will not run on any other CPUs.
+`taskset` is used to set or retrieve the CPU affinity of a running
+process given its pid, or to launch a new command with a given CPU
+affinity.  CPU affinity is a scheduler property that "binds" a process 
+to a given set of CPUs on the system.  The Linux scheduler will honor
+the given CPU affinity and the process will not run on any other CPUs.
 
 ```
 #SBATCH --output=%x.o%j.%N
@@ -74,7 +92,7 @@ Invalid argument
 What went wrong? Are you the only person running on this node?
 
 ```
-squeue -u $USER
+squeue --me
 ```
 
 ```
@@ -137,14 +155,14 @@ Last login: Tue Aug  2 09:28:42 2022 from 10.21.0.19
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
-#SBATCH --account=gue998
-#SBATCH --reservation=si25cpu
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
 #SBATCH --partition=compute
 #SBATCH --qos=normal-eot
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=128
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=242G
+#SBATCH --mem=0
 #SBATCH --time=00:30:00
 #SBATCH --output=%x.o%j.%N
 
@@ -191,14 +209,14 @@ Then we'll replace our 4pi python program with the OpenMP parallelized fortran p
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
-#SBATCH --account=gue998
-#SBATCH --reservation=si25cpu
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
 #SBATCH --partition=compute
 #SBATCH --qos=normal-eot
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=128
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=242G
+#SBATCH --mem=0
 #SBATCH --time=00:30:00
 #SBATCH --output=%x.o%j.%N
 
@@ -214,9 +232,6 @@ taskset -c 96 pi_omp.x -s 10000000000 &
 time -p wait
 ```
 
-https://hexus.net/tech/reviews/cpu/133244-amd-epyc-7742-2p-rome-server
-
-
 ```
 export OMP_NUM_THREADS=4
 
@@ -228,11 +243,12 @@ taskset -c 96,97,98,99 pi_omp.x -s 10000000000 &
 time -p wait
 ```
 
-</br>
-
 #### `numactl` - Control NUMA policy for processes or shared memory
 
-`numactl` runs processes with a specific NUMA scheduling or memory placement policy.  The policy is set for a command and is inherited by all of its children.  In addition it can set persistent policy for shared memory segments or files.
+`numactl` runs processes with a specific NUMA scheduling or memory
+placement policy.  The policy is set for a command and is inherited by
+all of its children.  In addition it can set persistent policy for 
+shared memory segments or files.
 
 ```
 [xdtr108@exp-14-54 ~]$ numactl -H
@@ -288,14 +304,14 @@ node   0   1   2   3   4   5   6   7
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
-#SBATCH --account=crl155
-#SBATCH --reservation=SI2022DAY2
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
 #SBATCH --partition=compute
 #SBATCH --qos=normal-eot
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=243G
+#SBATCH --mem=0
 #SBATCH --time=00:30:00
 #SBATCH --output=%x.o%j.%N
 
@@ -316,8 +332,18 @@ Now try going multinode!
 
 ### Advanced job bundling tools and utilities
 
-Many HPC centers have also developed their own custom job bundling tools to provide more advanced capabilties than the methods discuess thus far. In general, you can use these bundling utilties on other systems. However, they may take some time to setup and deploy on a new system. For example, one popular job bundling tool is the [Texas Advanced Computing Center (TACC) launcher](https://github.com/TACC/launcher), which has been used at SDSC in the past and is also available on [Georgia Tech's PACE cluster](https://docs.pace.gatech.edu/software/launcher). Other examples of job bundling tools and utilities include [NCSA's scheduler.x](https://github.com/ncsa/Scheduler) and [NIH's Swarm](https://hpc.nih.gov/apps/swarm.html).
+Many HPC centers have also developed their own custom job bundling tools
+to provide more advanced capabilties than the methods discuess thus far. 
+In general, you can use these bundling utilties on other systems. However,
+they may take some time to setup and deploy on a new system. For example,
+one popular job bundling tool is the 
+[Texas Advanced Computing Center (TACC) launcher](https://github.com/TACC/launcher), 
+which has been used at SDSC in the past and is also available on 
+[Georgia Tech's PACE cluster](https://docs.pace.gatech.edu/software/launcher). 
+Other examples of job bundling tools and utilities include 
+[NCSA's scheduler.x](https://github.com/ncsa/Scheduler) and
+[NIH's Swarm](https://hpc.nih.gov/apps/swarm.html).
 
 #
 
-Next - [Preemptible batch jobs](PREEMPTIBLE.md)
+Next - [Preemptible batch jobs](preemptible.md)
