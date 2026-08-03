@@ -167,171 +167,121 @@ echo "$(cat estimate-pi.o${DEPENDENT_SLURM_ARRAY_JOB_ID}.*)" | \
 [mkandes@login02 scripts]$
 ```
 
+With both batch job scripts in place, launch the array job. 
+
+*Command*
 ```
-#SBATCH --array=1-20%10
-
-module purge
-
-python3 "${HOME}/4pi/python/pi.py" 100000000
-```
-
-... then download the following batch job script to your HOME directory.
-It will combine the results from each individual estimate of Pi from the
-batch job array into a summary of statistics.
-
-```
-wget https://raw.githubusercontent.com/sdsc/sdsc-summer-institute-2025/refs/heads/main/3.2_high_throughput_computing/compute-pi-stats.sh
+sbatch estimate-pi.sh
 ```
 
+*Output*
 ```
-[xdtr108@login02 ~]$ cat compute-pi-stats.sh 
-#!/usr/bin/env bash
-
-#SBATCH --job-name=compute-pi-stats
-#SBATCH --account=sdp173
-#SBATCH --reservation=si26cpu
-#SBATCH --partition=shared
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=1G
-#SBATCH --time=00:30:00
-#SBATCH --output=%x.o%j.%N
-
-declare -xir ARRAY_JOB_ID="${1}"
-
-module reset
-module load gcc/10.2.0
-module load gnuplot/5.4.2
-
-echo "$(cat estimate-pi.o${ARRAY_JOB_ID}.*)" | \
-  gnuplot -e 'stats "-"; print STATS_mean, STATS_stddev'
-```
-
-With both batch job scripts in place, 
-
-```
-[xdtr108@login02 ~]$ ls
-4pi  compute-pi-stats.sh  estimate-pi.sh
-```
-
-launch the array job ...
-
-```
-[xdtr108@login02 ~]$ sbatch estimate-pi.sh 
-Submitted batch job 14806584
-[xdtr108@login02 ~]$ squeue -u $USER
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52896226
+[mkandes@login02 scripts]$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-       14806584_20    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_19    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_18    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_17    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_16    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_15    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_14    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_13    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_12    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_11    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-        14806584_1    shared estimate  xdtr108  R       0:04      1 exp-1-08
-        14806584_2    shared estimate  xdtr108  R       0:04      1 exp-1-08
-        14806584_3    shared estimate  xdtr108  R       0:04      1 exp-1-08
-        14806584_4    shared estimate  xdtr108  R       0:04      1 exp-1-08
-        14806584_5    shared estimate  xdtr108  R       0:04      1 exp-1-08
-        14806584_6    shared estimate  xdtr108  R       0:04      1 exp-1-08
-        14806584_7    shared estimate  xdtr108  R       0:04      1 exp-1-08
-        14806584_8    shared estimate  xdtr108  R       0:04      1 exp-1-08
-        14806584_9    shared estimate  xdtr108  R       0:04      1 exp-1-08
-       14806584_10    shared estimate  xdtr108  R       0:04      1 exp-1-08
-[xdtr108@login02 ~]$
+       52896226_20    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896226_19    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896226_18    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896226_17    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896226_16    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896226_15    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896226_14    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896226_13    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896226_12    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896226_11    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+        52896226_1    shared estimate  mkandes  R       0:30      1 exp-1-29
+        52896226_2    shared estimate  mkandes  R       0:30      1 exp-1-29
+        52896226_3    shared estimate  mkandes  R       0:30      1 exp-1-29
+        52896226_4    shared estimate  mkandes  R       0:30      1 exp-1-29
+        52896226_5    shared estimate  mkandes  R       0:30      1 exp-1-29
+        52896226_6    shared estimate  mkandes  R       0:30      1 exp-1-29
+        52896226_7    shared estimate  mkandes  R       0:30      1 exp-1-29
+        52896226_8    shared estimate  mkandes  R       0:30      1 exp-1-29
+        52896226_9    shared estimate  mkandes  R       0:30      1 exp-1-29
+       52896226_10    shared estimate  mkandes  R       0:30      1 exp-1-29
+[mkandes@login02 scripts]$
 ```
 
-... and then submit the stats job to run after all of the array tasks complete successfully. 
 
+
+Then submit the stats job to run after all of the array tasks complete successfully. 
+
+*Command*
 ```
-[xdtr108@login02 ~]$ sbatch --dependency=afterok:14806584 compute-pi-stats.sh 14806584
-Submitted batch job 14806656
-[xdtr108@login02 ~]$ squeue -u $USER
+sbatch --dependency=afterok:52896226 compute-pi-stats.sh 52896226
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sbatch --dependency=afterok:52896226 compute-pi-stats.sh 52896226
+Submitted batch job 52896252
+[mkandes@login02 scripts]$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-          14806656    shared compute-  xdtr108 PD       0:00      1 (Dependency)
-       14806584_20    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_19    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_18    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_17    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_16    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_15    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_14    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_13    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_12    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14806584_11    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-        14806584_1    shared estimate  xdtr108  R       0:25      1 exp-1-08
-        14806584_2    shared estimate  xdtr108  R       0:25      1 exp-1-08
-        14806584_3    shared estimate  xdtr108  R       0:25      1 exp-1-08
-        14806584_4    shared estimate  xdtr108  R       0:25      1 exp-1-08
-        14806584_5    shared estimate  xdtr108  R       0:25      1 exp-1-08
-        14806584_6    shared estimate  xdtr108  R       0:25      1 exp-1-08
-        14806584_7    shared estimate  xdtr108  R       0:25      1 exp-1-08
-        14806584_8    shared estimate  xdtr108  R       0:25      1 exp-1-08
-        14806584_9    shared estimate  xdtr108  R       0:25      1 exp-1-08
-       14806584_10    shared estimate  xdtr108  R       0:25      1 exp-1-08
-[xdtr108@login02 ~]$
+          52896252    shared compute-  mkandes PD       0:00      1 (Dependency)
+       52896226_20    shared estimate  mkandes  R       0:27      1 exp-1-29
+       52896226_19    shared estimate  mkandes  R       0:28      1 exp-1-29
+       52896226_16    shared estimate  mkandes  R       0:29      1 exp-1-38
+       52896226_17    shared estimate  mkandes  R       0:29      1 exp-1-38
+       52896226_18    shared estimate  mkandes  R       0:29      1 exp-1-29
+       52896226_14    shared estimate  mkandes  R       0:30      1 exp-1-29
+       52896226_15    shared estimate  mkandes  R       0:30      1 exp-1-29
+       52896226_11    shared estimate  mkandes  R       0:31      1 exp-1-29
+       52896226_12    shared estimate  mkandes  R       0:31      1 exp-1-38
+       52896226_13    shared estimate  mkandes  R       0:31      1 exp-1-38
+[mkandes@login02 scripts]$
 ```
 
 Check the summary statistics once the job completes. 
 
+*Command*
 ```
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-       14806584_18    shared estimate  xdtr108 CG       1:00      1 exp-1-08
-          14806656    shared compute-  xdtr108 PD       0:00      1 (Dependency)
-       14806584_11    shared estimate  xdtr108  R       1:01      1 exp-1-08
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-[xdtr108@login02 ~]$ ls
-4pi                                  estimate-pi.o14806584.19.exp-1-08
-compute-pi-stats.o14806656.exp-1-08  estimate-pi.o14806584.1.exp-1-08
-compute-pi-stats.sh                  estimate-pi.o14806584.20.exp-1-08
-estimate-pi.o14806584.10.exp-1-08    estimate-pi.o14806584.2.exp-1-08
-estimate-pi.o14806584.11.exp-1-08    estimate-pi.o14806584.3.exp-1-08
-estimate-pi.o14806584.12.exp-1-08    estimate-pi.o14806584.4.exp-1-08
-estimate-pi.o14806584.13.exp-1-08    estimate-pi.o14806584.5.exp-1-08
-estimate-pi.o14806584.14.exp-1-08    estimate-pi.o14806584.6.exp-1-08
-estimate-pi.o14806584.15.exp-1-08    estimate-pi.o14806584.7.exp-1-08
-estimate-pi.o14806584.16.exp-1-08    estimate-pi.o14806584.8.exp-1-08
-estimate-pi.o14806584.17.exp-1-08    estimate-pi.o14806584.9.exp-1-08
-estimate-pi.o14806584.18.exp-1-08    estimate-pi.sh
-[xdtr108@login02 ~]$ cat compute-pi-stats.o14806656.exp-1-08
+cat compute-pi-stats.o*
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.o52896252.exp-1-08  estimate-pi.o52896226.14.exp-1-29  estimate-pi.o52896226.1.exp-1-29   estimate-pi.o52896226.6.exp-1-29
+compute-pi-stats.sh                  estimate-pi.o52896226.15.exp-1-29  estimate-pi.o52896226.20.exp-1-29  estimate-pi.o52896226.7.exp-1-29
+estimate-pi.o52896226.10.exp-1-29    estimate-pi.o52896226.16.exp-1-38  estimate-pi.o52896226.2.exp-1-29   estimate-pi.o52896226.8.exp-1-29
+estimate-pi.o52896226.11.exp-1-29    estimate-pi.o52896226.17.exp-1-38  estimate-pi.o52896226.3.exp-1-29   estimate-pi.o52896226.9.exp-1-29
+estimate-pi.o52896226.12.exp-1-38    estimate-pi.o52896226.18.exp-1-29  estimate-pi.o52896226.4.exp-1-29   estimate-pi.sh
+estimate-pi.o52896226.13.exp-1-38    estimate-pi.o52896226.19.exp-1-29  estimate-pi.o52896226.5.exp-1-29   pi-workflow.sh
+[mkandes@login02 scripts]$ cat compute-pi-stats.o*
 Resetting modules to system default. Reseting $MODULEPATH back to system default. All extra directories will be removed from $MODULEPATH.
 
 * FILE: 
   Records:           20
   Out of range:       0
   Invalid:            0
-  Column headers:     0
+  Header records:     0
   Blank:              0
   Data Blocks:        1
 
 * COLUMN: 
-  Mean:               3.1416
+  Mean:               3.1417
   Std Dev:            0.0002
   Sample StdDev:      0.0002
-  Skewness:          -1.0556
-  Kurtosis:           3.7261
+  Skewness:          -0.1008
+  Kurtosis:           2.5628
   Avg Dev:            0.0001
-  Sum:               62.8322
-  Sum Sq.:          197.3941
+  Sum:               62.8330
+  Sum Sq.:          197.3993
 
   Mean Err.:          0.0000
   Std Dev Err.:       0.0000
   Skewness Err.:      0.5477
   Kurtosis Err.:      1.0954
 
-  Minimum:            3.1412 [ 4]
-  Maximum:            3.1418 [13]
-  Quartile:           3.1415 
+  Minimum:            3.1413 [17]
+  Maximum:            3.1420 [19]
+  Quartile:           3.1416 
   Median:             3.1416 
   Quartile:           3.1417 
 
-3.14160875541609 0.000150270406253624
+3.1416500494165 0.000188386885705403
+[mkandes@login02 scripts]$
 ```
 
 ### Pi-peline it: Creating a simple workflow
