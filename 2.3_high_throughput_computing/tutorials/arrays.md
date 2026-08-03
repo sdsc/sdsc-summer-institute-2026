@@ -340,6 +340,36 @@ estimate-pi.o52895363.9.exp-1-08:real 92.92
 
 Modify the array job script to create a parameter sweep over the `-b | --bytes` size variable using non-consecutive array index values and the `SLURM_ARRAY_TASK_ID` environment variable.
 
+*Command*
+```
+sed -i 's|#SBATCH --array=0-9|#SBATCH --array=1,2,4,8|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|#SBATCH --array=0-9|#SBATCH --array=1,2,4,8|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1,2,4,8
+
+module purge
+
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
+```
+
+
 ```
 #SBATCH --array=1,2,4,8
 
