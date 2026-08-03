@@ -264,4 +264,4 @@ drwxr-xr-x  3 mkandes use300    6 Apr 20  2026 .
 ```
 
 #
-[Back to Main Page](https://github.com/sdsc-complecs/data-management)
+[Back to Main Page](https://github.com/sdsc/sdsc-summer-institute-2026/edit/main/3.1_data_management)
