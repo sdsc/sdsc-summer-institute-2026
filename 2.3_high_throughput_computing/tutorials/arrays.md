@@ -693,6 +693,26 @@ head -n 2 estimate-pi.o52895589.*
 
 *Output*
 ```
+[mkandes@login02 scripts]$ head -n 2 estimate-pi.o52895589.*
+==> estimate-pi.o52895589.1.exp-1-38 <==
+3.60000
+real 0.10
+
+==> estimate-pi.o52895589.2.exp-1-38 <==
+3.28000
+real 0.82
+
+==> estimate-pi.o52895589.3.exp-1-38 <==
+3.03600
+real 8.09
+
+==> estimate-pi.o52895589.4.exp-1-38 <==
+3.15680
+real 59.69
+
+==> estimate-pi.o52895589.5.exp-1-38 <==
+slurmstepd: error: *** JOB 52895589 ON exp-1-38 CANCELLED AT 2026-08-03T11:10:56 DUE TO TIME LIMIT ***
+[mkandes@login02 scripts]$
 ```
 
 ### Throttling a large array job
