@@ -817,89 +817,66 @@ module purge
 time -p python3 "${HOME}/4pi/python/pi.py" 100000000
 ```
 
+Once your modifications ready, go ahead and submit the throttled job array.
+
+*Command*
 ```
-[xdtr108@login02 ~]$ sbatch estimate-pi.sh 
-Submitted batch job 14799628
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-  14799628_[1-512]    shared estimate  xdtr108 PD       0:00      1 (None)
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
- 14799628_[30-512]    shared estimate  xdtr108 PD       0:00      1 (Priority)
-        14799628_1    shared estimate  xdtr108  R       0:09      1 exp-1-06
-        14799628_2    shared estimate  xdtr108  R       0:09      1 exp-1-06
-        14799628_3    shared estimate  xdtr108  R       0:09      1 exp-1-06
-        14799628_4    shared estimate  xdtr108  R       0:09      1 exp-1-12
-        14799628_5    shared estimate  xdtr108  R       0:09      1 exp-1-12
-        14799628_6    shared estimate  xdtr108  R       0:09      1 exp-1-12
-        ...
-       14799628_27    shared estimate  xdtr108  R       0:09      1 exp-1-34
-       14799628_28    shared estimate  xdtr108  R       0:09      1 exp-1-34
-       14799628_29    shared estimate  xdtr108  R       0:09      1 exp-1-34
- [xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
- 14799628_[62-512]    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14799628_37    shared estimate  xdtr108  R       0:23      1 exp-1-34
-       14799628_38    shared estimate  xdtr108  R       0:23      1 exp-1-34
-       14799628_39    shared estimate  xdtr108  R       0:23      1 exp-1-34
-       14799628_40    shared estimate  xdtr108  R       0:23      1 exp-1-34
-       ...
-       14799628_35    shared estimate  xdtr108  R       0:24      1 exp-1-27
-       14799628_36    shared estimate  xdtr108  R       0:24      1 exp-1-34
-[xdtr108@login02 ~]$ scancel 14799628_[256-512]
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-      14799628_255    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-      14799628_254    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-      14799628_253    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-      ...
-       14799628_84    shared estimate  xdtr108  R       0:02      1 exp-1-27
-       14799628_85    shared estimate  xdtr108  R       0:02      1 exp-1-27
-       14799628_86    shared estimate  xdtr108  R       0:02      1 exp-1-34
-[xdtr108@login02 ~]$ scancel 14799628
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-       14799628_87    shared estimate  xdtr108 CG       0:29      1 exp-1-34
-       14799628_88    shared estimate  xdtr108 CG       0:29      1 exp-1-34
-       14799628_89    shared estimate  xdtr108 CG       0:29      1 exp-1-34
-       ...
-       14799628_85    shared estimate  xdtr108 CG       0:30      1 exp-1-27
-       14799628_86    shared estimate  xdtr108 CG       0:30      1 exp-1-34
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-[xdtr108@login02 ~]$ ls
-4pi                                estimate-pi.o14799628.44.exp-1-34
-estimate-pi.o14791638.exp-9-55     estimate-pi.o14799628.45.exp-1-34
-estimate-pi.o14791898.0.exp-1-06   estimate-pi.o14799628.46.exp-1-34
-estimate-pi.o14791898.1.exp-1-06   estimate-pi.o14799628.47.exp-1-34
-estimate-pi.o14791898.2.exp-1-06   estimate-pi.o14799628.48.exp-1-34
-estimate-pi.o14791898.3.exp-1-06   estimate-pi.o14799628.49.exp-1-34
-estimate-pi.o14791898.4.exp-1-06   estimate-pi.o14799628.4.exp-1-12
-estimate-pi.o14791898.5.exp-1-06   estimate-pi.o14799628.50.exp-1-34
-estimate-pi.o14791898.6.exp-1-06   estimate-pi.o14799628.51.exp-1-34
-...
-estimate-pi.o14799628.40.exp-1-34  estimate-pi.o14799628.93.exp-1-34
-estimate-pi.o14799628.41.exp-1-34  estimate-pi.o14799628.9.exp-1-15
-estimate-pi.o14799628.42.exp-1-34  estimate-pi.sh
-estimate-pi.o14799628.43.exp-1-34
+sbatch estimate-pi.sh
 ```
 
+*Output*
 ```
-[xdtr108@login02 ~]$ head -n 2 estimate-pi.o14799628.*
-==> estimate-pi.o14799628.10.exp-1-27 <==
-3.141280711412807
-real 52.23
-
-==> estimate-pi.o14799628.11.exp-1-27 <==
-3.14126499141265
-real 51.66
-
-==> estimate-pi.o14799628.12.exp-1-27 <==
-3.1412676714126766
-real 54.90
-...
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52895833
+[mkandes@login02 scripts]$
 ```
 
+Check the status of the array in the queue.
+
+*Command*
+```
+squeue --me
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+ 52895833_[33-512]    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+        52895833_1    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_2    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_3    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_4    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_5    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_6    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_7    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_8    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_9    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_10    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_11    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_12    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_13    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_14    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_15    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_16    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_17    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_18    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_19    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_20    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_21    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_22    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_23    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_24    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_25    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_26    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_27    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_28    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_29    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_30    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_31    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_32    shared estimate  mkandes  R       0:19      1 exp-1-29
+[mkandes@login02 scripts]$
+```
 
 #
 
