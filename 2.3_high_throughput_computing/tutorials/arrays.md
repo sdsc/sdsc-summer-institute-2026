@@ -723,7 +723,61 @@ but throttle the number of jobs that can run simultaneosuly.
 
 *Command*
 ```
+sed -i 's|#SBATCH --array=1-5|#SBATCH --array=1-512%32|' estimate-pi.sh
+```
 
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|#SBATCH --array=1-5|#SBATCH --array=1-512%32|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1-512%32
+
+declare -xir NUMBER_OF_SAMPLES="10**${SLURM_ARRAY_TASK_ID}"
+module purge
+
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s "${NUMBER_OF_SAMPLES}"
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+sed -i '15d' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i '15d' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1-512%32
+
+module purge
+
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s "${NUMBER_OF_SAMPLES}"
+[mkandes@login02 scripts]$
 ```
 
 ```
