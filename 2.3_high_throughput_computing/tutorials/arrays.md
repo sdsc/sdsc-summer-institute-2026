@@ -50,7 +50,7 @@ Last login: Sun Aug  2 20:15:11 2026 from 136.26.86.246
 [mkandes@login01 ~]$
 ```
 
-If you are using the Expanse User Portal, open the interactive shell
+If you are using the Expanse User Portal, open the *Expanse Shell Access*
 app once you are logged in.
 
 [4pi](https://github.com/mkandes/4pi) is a collection of simple computer
