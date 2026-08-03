@@ -209,32 +209,69 @@ wait
 [mkandes@login02 scripts]$
 ```
 
+When the modifications are ready, go ahead and submit the job and then login to view the running processes via the `top` command.
 
-
+*Command*
 ```
-#!/usr/bin/env bash
-
-#SBATCH --job-name=estimate-pi
-#SBATCH --account=sdp173
-#SBATCH --reservation=si26cpu
-#SBATCH --partition=shared
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=4
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=4G
-#SBATCH --time=00:30:00
-#SBATCH --output=%x.o%j.%N
-
-module purge
-
-python3 "${HOME}/4pi/python/pi.py" 100000000 &
-python3 "${HOME}/4pi/python/pi.py" 100000000 &
-python3 "${HOME}/4pi/python/pi.py" 100000000 &
-python3 "${HOME}/4pi/python/pi.py" 100000000 &
+sbatch estimate-pi.sh
 ```
 
+*Output*
 ```
-wait
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52897392
+```
+
+*Command*
+```
+squeue --me
+```
+
+*Output*
+[mkandes@login02 scripts]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          52897392    shared estimate  mkandes  R       0:02      1 exp-1-08
+[mkandes@login02 scripts]$ 
+```
+
+*Command*
+```
+ssh exp-1-08
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ ssh exp-1-08
+[mkandes@exp-1-08 ~]$
+```
+
+*Command*
+```
+top
+```
+
+*Output*
+```
+[mkandes@exp-1-08 ~]$ top
+
+top - 11:50:11 up 62 days, 19:55,  1 user,  load average: 0.65, 0.33, 0.41
+Tasks: 1811 total,   5 running, 1797 sleeping,   0 stopped,   9 zombie
+%Cpu(s):  0.8 us,  0.2 sy,  0.0 ni, 99.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem : 257485.8 total, 245626.5 free,   8355.3 used,   3504.0 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used. 247352.1 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                               
+2950697 mkandes   20   0   55704  12908   7696 R  27.8   0.0   0:01.93 python3                                                               
+2950698 mkandes   20   0   55704  12908   7696 R  27.8   0.0   0:01.93 python3                                                               
+2950699 mkandes   20   0   55704  12908   7696 R  27.8   0.0   0:01.93 python3                                                               
+2950700 mkandes   20   0   55704  12908   7696 R  22.2   0.0   0:01.92 python3                                                               
+2950859 mkandes   20   0   60460   6180   3532 R  11.1   0.0   0:00.04 top                                                                   
+      1 root      20   0  246340  15172   4336 S   0.0   0.0  50:29.39 systemd                                                               
+      2 root      20   0       0      0      0 S   0.0   0.0   5:57.34 kthreadd                                                              
+      3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp                                                                
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_par_gp                                                            
+      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 slub_flushwq
+...
 ```
 
 The Linux scheduler works well for simple workflows like the one above.
