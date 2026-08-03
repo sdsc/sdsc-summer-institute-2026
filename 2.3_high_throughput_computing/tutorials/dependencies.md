@@ -302,7 +302,7 @@ cat pi-workflow.sh
 
 #SBATCH --job-name=pi-workflow
 #SBATCH --account=sdp173
-#SBATCH --reservation=si25cpu
+#SBATCH --reservation=si26cpu
 #SBATCH --partition=shared
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
@@ -318,57 +318,101 @@ sbatch "--dependency=afterok:${job_id}" compute-pi-stats.sh "${job_id}"
 [mkandes@login02 scripts]$
 ```
 
+When ready, go ahead and launch the workflow. 
+
+*Command*
 ```
-wget https://raw.githubusercontent.com/sdsc/sdsc-summer-institute-2025/refs/heads/main/3.2_high_throughput_computing/run-pi-workflow.sh
+sbatch pi-workflow.sh
 ```
 
-Once you've downloaded the script, go ahead and launch the workflow. 
-
+*Output*
 ```
-[xdtr108@login02 ~]$ sbatch run-pi-workflow.sh 
-Submitted batch job 14807605
-[xdtr108@login02 ~]$ squeue -u $USER
+[mkandes@login02 scripts]$ sbatch pi-workflow.sh 
+Submitted batch job 52896273
+[mkandes@login02 scripts]$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-          14807605    shared run-pi-w  xdtr108  R       0:02      1 exp-1-06
-[xdtr108@login02 ~]$ squeue -u $USER
+       52896275_20    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896275_19    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896275_18    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896275_17    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896275_16    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896275_15    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896275_14    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896275_13    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896275_12    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+       52896275_11    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+          52896276    shared compute-  mkandes PD       0:00      1 (Dependency)
+        52896275_1    shared estimate  mkandes  R       0:01      1 exp-1-08
+        52896275_2    shared estimate  mkandes  R       0:01      1 exp-1-08
+        52896275_3    shared estimate  mkandes  R       0:01      1 exp-1-08
+        52896275_4    shared estimate  mkandes  R       0:01      1 exp-1-08
+        52896275_5    shared estimate  mkandes  R       0:01      1 exp-1-08
+        52896275_6    shared estimate  mkandes  R       0:01      1 exp-1-08
+        52896275_7    shared estimate  mkandes  R       0:01      1 exp-1-08
+        52896275_8    shared estimate  mkandes  R       0:01      1 exp-1-08
+        52896275_9    shared estimate  mkandes  R       0:01      1 exp-1-08
+       52896275_10    shared estimate  mkandes  R       0:01      1 exp-1-08
+[mkandes@login02 scripts]$
+```
+
+When the workflow completes, go ahead and check the summary statistics again.
+
+*Command*
+```
+cat compute-pi-stats.o52896276.exp-1-08
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-       14807628_20    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14807628_19    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14807628_18    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       ...
-        14807628_8    shared estimate  xdtr108  R       0:41      1 exp-1-12
-        14807628_9    shared estimate  xdtr108  R       0:41      1 exp-1-27
-       14807628_10    shared estimate  xdtr108  R       0:41      1 exp-1-27
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-          14807629    shared compute-  xdtr108 PD       0:00      1 (Dependency)
-       14807628_11    shared estimate  xdtr108  R       0:15      1 exp-1-06
-       ...
-       14807628_19    shared estimate  xdtr108  R       0:15      1 exp-1-08
-       14807628_20    shared estimate  xdtr108  R       0:15      1 exp-1-08
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-          14807629    shared compute-  xdtr108 PD       0:00      1 (Dependency)
-       14807628_11    shared estimate  xdtr108  R       0:58      1 exp-1-06
-       ...
-       14807628_18    shared estimate  xdtr108  R       0:58      1 exp-1-08
-       14807628_20    shared estimate  xdtr108  R       0:58      1 exp-1-08
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-[xdtr108@login02 ~]$ ls
-4pi                                  estimate-pi.o14807628.10.exp-1-27
-compute-pi-stats.o14806656.exp-1-08  estimate-pi.o14807628.11.exp-1-06
-compute-pi-stats.o14807629.exp-1-06  estimate-pi.o14807628.12.exp-1-06
-compute-pi-stats.sh                  estimate-pi.o14807628.13.exp-1-06
-estimate-pi.o14806584.10.exp-1-08    estimate-pi.o14807628.14.exp-1-06
-estimate-pi.o14806584.11.exp-1-08    estimate-pi.o14807628.15.exp-1-06
-...
-estimate-pi.o14806584.5.exp-1-08     estimate-pi.o14807628.9.exp-1-27
-estimate-pi.o14806584.6.exp-1-08     estimate-pi.sh
-estimate-pi.o14806584.7.exp-1-08     run-pi-workflow.o14807605.exp-1-06
-estimate-pi.o14806584.8.exp-1-08     run-pi-workflow.sh
-estimate-pi.o14806584.9.exp-1-08
-[xdtr108@login02 ~]$
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.o52896252.exp-1-08  estimate-pi.o52896226.19.exp-1-29  estimate-pi.o52896275.11.exp-1-08  estimate-pi.o52896275.3.exp-1-08
+compute-pi-stats.o52896276.exp-1-08  estimate-pi.o52896226.1.exp-1-29   estimate-pi.o52896275.12.exp-1-29  estimate-pi.o52896275.4.exp-1-08
+compute-pi-stats.sh                  estimate-pi.o52896226.20.exp-1-29  estimate-pi.o52896275.13.exp-1-29  estimate-pi.o52896275.5.exp-1-08
+estimate-pi.o52896226.10.exp-1-29    estimate-pi.o52896226.2.exp-1-29   estimate-pi.o52896275.14.exp-1-29  estimate-pi.o52896275.6.exp-1-08
+estimate-pi.o52896226.11.exp-1-29    estimate-pi.o52896226.3.exp-1-29   estimate-pi.o52896275.15.exp-1-08  estimate-pi.o52896275.7.exp-1-08
+estimate-pi.o52896226.12.exp-1-38    estimate-pi.o52896226.4.exp-1-29   estimate-pi.o52896275.16.exp-1-08  estimate-pi.o52896275.8.exp-1-08
+estimate-pi.o52896226.13.exp-1-38    estimate-pi.o52896226.5.exp-1-29   estimate-pi.o52896275.17.exp-1-29  estimate-pi.o52896275.9.exp-1-08
+estimate-pi.o52896226.14.exp-1-29    estimate-pi.o52896226.6.exp-1-29   estimate-pi.o52896275.18.exp-1-29  estimate-pi.sh
+estimate-pi.o52896226.15.exp-1-29    estimate-pi.o52896226.7.exp-1-29   estimate-pi.o52896275.19.exp-1-29  pi-workflow.o52896273.exp-1-08
+estimate-pi.o52896226.16.exp-1-38    estimate-pi.o52896226.8.exp-1-29   estimate-pi.o52896275.1.exp-1-08   pi-workflow.sh
+estimate-pi.o52896226.17.exp-1-38    estimate-pi.o52896226.9.exp-1-29   estimate-pi.o52896275.20.exp-1-08
+estimate-pi.o52896226.18.exp-1-29    estimate-pi.o52896275.10.exp-1-08  estimate-pi.o52896275.2.exp-1-08
+[mkandes@login02 scripts]$ cat compute-pi-stats.o52896276.exp-1-08
+Resetting modules to system default. Reseting $MODULEPATH back to system default. All extra directories will be removed from $MODULEPATH.
+
+* FILE: 
+  Records:           20
+  Out of range:       0
+  Invalid:            0
+  Header records:     0
+  Blank:              0
+  Data Blocks:        1
+
+* COLUMN: 
+  Mean:               3.1416
+  Std Dev:            0.0002
+  Sample StdDev:      0.0002
+  Skewness:           0.2680
+  Kurtosis:           2.3909
+  Avg Dev:            0.0001
+  Sum:               62.8323
+  Sum Sq.:          197.3949
+
+  Mean Err.:          0.0000
+  Std Dev Err.:       0.0000
+  Skewness Err.:      0.5477
+  Kurtosis Err.:      1.0954
+
+  Minimum:            3.1414 [19]
+  Maximum:            3.1419 [18]
+  Quartile:           3.1415 
+  Median:             3.1416 
+  Quartile:           3.1417 
+
+3.14161491941615 0.000154278182812866
+[mkandes@login02 scripts]$
 ```
 
 #
