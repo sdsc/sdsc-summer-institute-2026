@@ -12,7 +12,7 @@ collections of similar jobs quickly and easily.
 
 ### Setting up an example problem: Estimating Pi
 
-Login to Expanse via SSH or the Expanse User Portal.
+Login to Expanse via SSH or the [Expanse User Portal](https://portal.expanse.sdsc.edu).
 
 *Command*
 ```
