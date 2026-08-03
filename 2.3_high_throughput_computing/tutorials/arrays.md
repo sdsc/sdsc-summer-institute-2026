@@ -780,6 +780,35 @@ time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s "${NUMBER_OF_SAMPLES}"
 [mkandes@login02 scripts]$
 ```
 
+*Command*
+```
+sed -i 's|../code/4pi/bash/pi.sh -b 8 -r 5 -s "${NUMBER_OF_SAMPLES}"|../code/4pi/python/pi.py 100000000|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|../code/4pi/bash/pi.sh -b 8 -r 5 -s "${NUMBER_OF_SAMPLES}"|../code/4pi/python/pi.py 100000000|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1-512%32
+
+module purge
+
+time -p ../code/4pi/python/pi.py 100000000
+[mkandes@login02 scripts]$
+```
+
 ```
 #SBATCH --array=1-512%32
 
