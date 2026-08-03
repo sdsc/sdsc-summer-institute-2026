@@ -103,12 +103,14 @@ time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
 
 Investigate what variables the different command-line options are used to control in the problem. 
 
+*Command*
 ```
-head -n 15 "${HOME}/4pi/bash/pi.sh"
+head -n 15 ../code/4pi/bash/pi.sh
 ```
 
+*Output*
 ```
-[xdtr108@login01 ~]$ head -n 15 "${HOME}/4pi/bash/pi.sh"
+[mkandes@login02 scripts]$ head -n 15 ../code/4pi/bash/pi.sh
 #!/usr/bin/env bash
 #
 # Estimate the value of Pi via Monte Carlo
@@ -124,6 +126,7 @@ if (( "${#}" > 0 )); then
     shift 2
   done
 fi
+[mkandes@login02 scripts]$
 ```
 
 Submit the batch job to the scheduler with the default settings. 
