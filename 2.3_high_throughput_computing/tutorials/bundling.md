@@ -271,7 +271,6 @@ MiB Swap:      0.0 total,      0.0 free,      0.0 used. 247352.1 avail Mem
       3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp                                                                
       4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_par_gp                                                            
       5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 slub_flushwq
-...
 ```
 
 The Linux scheduler works well for simple workflows like the one above.
