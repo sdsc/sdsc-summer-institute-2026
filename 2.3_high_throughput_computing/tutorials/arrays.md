@@ -475,39 +475,124 @@ real 59.21
 
 Next, reset the `-b | --bytes` parameter to `8` and then rewrite the batch job script 
 to create a parameter sweep over `-s | --samples` variable. However, in this case, 
-use the `SLURM_ARRAY_TASK_ID` to logarithmically scale the number of samples.
+use the `SLURM_ARRAY_TASK_ID` to log scale the number of samples.
 
+*Command*
 ```
+sed -i 's|-b "${SLURM_ARRAY_TASK_ID}"|-b 8|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|-b "${SLURM_ARRAY_TASK_ID}"|-b 8|' estimate-pi.sh
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1,2,4,8
+
+module purge
+
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+sed -i 's|#SBATCH --array=1,2,4,8|#SBATCH --array=1,10,100,1000,10000|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|#SBATCH --array=1,2,4,8|#SBATCH --array=1,10,100,1000,10000|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
 #SBATCH --array=1,10,100,1000,10000
 
 module purge
 
-time -p "${HOME}/4pi/bash/pi.sh" -b 8 -r 5 -s "${SLURM_ARRAY_TASK_ID}"
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
 ```
 
+Once the changes are in place, submit the job.
+
+*Command*
 ```
-[xdtr108@login01 ~]$ sbatch estimate-pi.sh 
+sbatch estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
 sbatch: error: Batch job submission failed: Invalid job array specification
-[xdtr108@login01 ~]$
+[mkandes@login02 scripts]$
 ```
 
-What went wrong?
+What went wrong? Let's check the `slurm.conf`.
 
+*Command*
 ```
-[xdtr108@login01 ~]$ ls -l /etc/slurm/
-total 0
-[xdtr108@login01 ~]$ echo $SLURM_CONF
-/cm/shared/apps/slurm/var/etc/expanse/slurm.conf
-[xdtr108@login01 ~]$ cat $SLURM_CONF | grep MaxArraySize
+cat $SLURM_CONF | grep MaxArraySize
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ cat $SLURM_CONF | grep MaxArraySize
 MaxArraySize=1000
-```
-
-```
-[xdtr108@login01 ~]$ cat $SLURM_CONF | grep MaxJobCount
-MaxJobCount=40000
+[mkandes@login02 scripts]$
 ```
 
 What is the solution? Reindex using another environment variable based on your `SLURM_ARRAY_TASK_ID`.
+
+*Command*
+```
+sed -i 's|#SBATCH --array=1,10,100,1000,10000|#SBATCH --array=1-5|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|#SBATCH --array=1,10,100,1000,10000|#SBATCH --array=1-5|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1-5
+
+module purge
+
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
+```
 
 ```
 #SBATCH --array=1-5
