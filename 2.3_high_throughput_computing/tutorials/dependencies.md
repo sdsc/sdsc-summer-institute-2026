@@ -58,13 +58,80 @@ Before we begin, let's first clean up your working direcotry by deleting all
 of the standard output files from the array job exercies we completed in
 the previous section. 
 
+*Command*
 ```
-[xdtr108@login02 ~]$ rm *.exp-*
-[xdtr108@login02 ~]$ ls
-4pi  estimate-pi.sh
+rm *.exp-*
 ```
 
-Next, shrink the large array job down and simplify it a bit ...
+*Output*
+```
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh                estimate-pi.o52895833.19.exp-1-29  estimate-pi.o52895833.46.exp-1-38  estimate-pi.o52895833.73.exp-1-42
+estimate-pi.o52894884.exp-1-08     estimate-pi.o52895833.1.exp-1-29   estimate-pi.o52895833.47.exp-1-38  estimate-pi.o52895833.74.exp-1-42
+estimate-pi.o52895363.0.exp-1-08   estimate-pi.o52895833.20.exp-1-29  estimate-pi.o52895833.48.exp-1-38  estimate-pi.o52895833.75.exp-1-42
+estimate-pi.o52895363.1.exp-1-08   estimate-pi.o52895833.21.exp-1-29  estimate-pi.o52895833.49.exp-1-38  estimate-pi.o52895833.76.exp-1-42
+estimate-pi.o52895363.2.exp-1-08   estimate-pi.o52895833.22.exp-1-29  estimate-pi.o52895833.4.exp-1-29   estimate-pi.o52895833.77.exp-1-42
+estimate-pi.o52895363.3.exp-1-08   estimate-pi.o52895833.23.exp-1-29  estimate-pi.o52895833.50.exp-1-38  estimate-pi.o52895833.78.exp-1-29
+estimate-pi.o52895363.4.exp-1-08   estimate-pi.o52895833.24.exp-1-29  estimate-pi.o52895833.51.exp-1-38  estimate-pi.o52895833.79.exp-1-29
+estimate-pi.o52895363.5.exp-1-08   estimate-pi.o52895833.25.exp-1-29  estimate-pi.o52895833.52.exp-1-38  estimate-pi.o52895833.7.exp-1-29
+estimate-pi.o52895363.6.exp-1-08   estimate-pi.o52895833.26.exp-1-29  estimate-pi.o52895833.53.exp-1-38  estimate-pi.o52895833.80.exp-1-29
+estimate-pi.o52895363.7.exp-1-08   estimate-pi.o52895833.27.exp-1-29  estimate-pi.o52895833.54.exp-1-38  estimate-pi.o52895833.81.exp-1-29
+estimate-pi.o52895363.8.exp-1-08   estimate-pi.o52895833.28.exp-1-29  estimate-pi.o52895833.55.exp-1-38  estimate-pi.o52895833.82.exp-1-29
+estimate-pi.o52895363.9.exp-1-08   estimate-pi.o52895833.29.exp-1-29  estimate-pi.o52895833.56.exp-1-38  estimate-pi.o52895833.83.exp-1-29
+estimate-pi.o52895472.1.exp-1-08   estimate-pi.o52895833.2.exp-1-29   estimate-pi.o52895833.57.exp-1-29  estimate-pi.o52895833.84.exp-1-42
+estimate-pi.o52895472.2.exp-1-08   estimate-pi.o52895833.30.exp-1-29  estimate-pi.o52895833.58.exp-1-29  estimate-pi.o52895833.85.exp-1-42
+estimate-pi.o52895472.4.exp-1-08   estimate-pi.o52895833.31.exp-1-29  estimate-pi.o52895833.59.exp-1-38  estimate-pi.o52895833.86.exp-1-42
+estimate-pi.o52895472.8.exp-1-08   estimate-pi.o52895833.32.exp-1-29  estimate-pi.o52895833.5.exp-1-29   estimate-pi.o52895833.87.exp-1-29
+estimate-pi.o52895589.1.exp-1-38   estimate-pi.o52895833.33.exp-1-29  estimate-pi.o52895833.60.exp-1-38  estimate-pi.o52895833.88.exp-1-29
+estimate-pi.o52895589.2.exp-1-38   estimate-pi.o52895833.34.exp-1-38  estimate-pi.o52895833.61.exp-1-38  estimate-pi.o52895833.89.exp-1-29
+estimate-pi.o52895589.3.exp-1-38   estimate-pi.o52895833.35.exp-1-38  estimate-pi.o52895833.62.exp-1-38  estimate-pi.o52895833.8.exp-1-29
+estimate-pi.o52895589.4.exp-1-38   estimate-pi.o52895833.36.exp-1-38  estimate-pi.o52895833.63.exp-1-38  estimate-pi.o52895833.90.exp-1-29
+estimate-pi.o52895589.5.exp-1-38   estimate-pi.o52895833.37.exp-1-38  estimate-pi.o52895833.64.exp-1-38  estimate-pi.o52895833.91.exp-1-29
+estimate-pi.o52895833.10.exp-1-29  estimate-pi.o52895833.38.exp-1-38  estimate-pi.o52895833.65.exp-1-29  estimate-pi.o52895833.92.exp-1-29
+estimate-pi.o52895833.11.exp-1-29  estimate-pi.o52895833.39.exp-1-38  estimate-pi.o52895833.66.exp-1-29  estimate-pi.o52895833.93.exp-1-29
+estimate-pi.o52895833.12.exp-1-29  estimate-pi.o52895833.3.exp-1-29   estimate-pi.o52895833.67.exp-1-29  estimate-pi.o52895833.94.exp-1-29
+estimate-pi.o52895833.13.exp-1-29  estimate-pi.o52895833.40.exp-1-38  estimate-pi.o52895833.68.exp-1-29  estimate-pi.o52895833.95.exp-1-29
+estimate-pi.o52895833.14.exp-1-29  estimate-pi.o52895833.41.exp-1-38  estimate-pi.o52895833.69.exp-1-29  estimate-pi.o52895833.96.exp-1-29
+estimate-pi.o52895833.15.exp-1-29  estimate-pi.o52895833.42.exp-1-38  estimate-pi.o52895833.6.exp-1-29   estimate-pi.o52895833.9.exp-1-29
+estimate-pi.o52895833.16.exp-1-29  estimate-pi.o52895833.43.exp-1-38  estimate-pi.o52895833.70.exp-1-29  estimate-pi.sh
+estimate-pi.o52895833.17.exp-1-29  estimate-pi.o52895833.44.exp-1-38  estimate-pi.o52895833.71.exp-1-29  pi-workflow.sh
+estimate-pi.o52895833.18.exp-1-29  estimate-pi.o52895833.45.exp-1-38  estimate-pi.o52895833.72.exp-1-29
+[mkandes@login02 scripts]$ rm *.exp-*
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh  estimate-pi.sh  pi-workflow.sh
+[mkandes@login02 scripts]$
+```
+
+Next, shrink the large array job down quite a bit.
+
+*Command*
+```
+sed -i 's|#SBATCH --array=1-512%32|#SBATCH --array=1-20%10|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|#SBATCH --array=1-512%32|#SBATCH --array=1-20%10|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1-20%10
+
+module purge
+
+time -p ../code/4pi/python/pi.py 100000000
+[mkandes@login02 scripts]$
+```
 
 ```
 #SBATCH --array=1-20%10
