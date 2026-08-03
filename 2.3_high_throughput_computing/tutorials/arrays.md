@@ -21,6 +21,33 @@ ssh mkandes@login.expanse.sdsc.edu
 
 *Output*
 ```
+mkandes@hardtack:~$ ssh mkandes@login.expanse.sdsc.edu
+(mkandes@login.expanse.sdsc.edu) TOTP code for mkandes: 267577
+Welcome to Bright release         9.0
+
+                                                         Based on Rocky Linux 8
+                                                                    ID: #000002
+
+--------------------------------------------------------------------------------
+
+                                 WELCOME TO
+                  _______  __ ____  ___    _   _______ ______
+                 / ____/ |/ // __ \/   |  / | / / ___// ____/
+                / __/  |   // /_/ / /| | /  |/ /\__ \/ __/
+               / /___ /   |/ ____/ ___ |/ /|  /___/ / /___
+              /_____//_/|_/_/   /_/  |_/_/ |_//____/_____/
+
+--------------------------------------------------------------------------------
+
+Use the following commands to adjust your environment:
+
+'module avail'            - show available modules
+'module add <module>'     - adds a module to your environment for this session
+'module initadd <module>' - configure module to be loaded at every login
+
+-------------------------------------------------------------------------------
+Last login: Sun Aug  2 20:15:11 2026 from 136.26.86.246
+[mkandes@login01 ~]$
 ```
 
 If you are using the Expanse User Portal, open the interactive shell
