@@ -16,7 +16,7 @@ Login to Expanse via SSH or the [Expanse User Portal](https://portal.expanse.sds
 
 *Command*
 ```
-$ ssh mkandes@login.expanse.sdsc.edu
+ssh mkandes@login.expanse.sdsc.edu
 ```
 
 *Output*
