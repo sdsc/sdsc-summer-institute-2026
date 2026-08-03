@@ -13,15 +13,18 @@ set -euo pipefail
 
 NOTEBOOK_FOLDER=$(pwd -P)
 
-/cm/shared/apps/sdsc/galyleo/galyleo launch \
-  --account sdp173 \
-  --partition compute \
-  --reservation si26cpu \
-  --qos normal-eot \
-  --cpus 128 \
-  --memory 242 \
-  --time-limit 04:00:00 \
-  --interface lab \
-  --notebook-dir "${NOTEBOOK_FOLDER}" \
-  --env-modules cpu/0.17.3b,gcc/10.2.0,py-jupyterlab/3.2.1 \
-  --quiet
+galyleo_args=(
+  --account sdp173                # Slurm account for the Summer Institute allocation
+  --reservation si26cpu           # Summer Institute CPU reservation (remove after institute)
+  --partition compute             # Expanse compute partition
+  --qos normal-eot                # Education, outreach, and training QoS (remove after institute)
+  --cpus 128                      # Total CPU cores for the session
+  --memory 242                    # Memory in GB (leave headroom of 2 GB)
+  --time-limit 04:00:00           # Maximum wall time for the session
+  --interface lab                 # Launch JupyterLab (not notebook)
+  --notebook-dir "${NOTEBOOK_FOLDER}"  # Working directory for notebooks
+  --env-modules cpu/0.17.3b,gcc/10.2.0,py-jupyterlab/3.2.1  # Required environment modules
+  --quiet                         # Suppress verbose output
+)
+
+/cm/shared/apps/sdsc/galyleo/galyleo launch "${galyleo_args[@]}"
