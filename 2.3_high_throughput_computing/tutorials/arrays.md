@@ -12,6 +12,8 @@ collections of similar jobs quickly and easily.
 
 ### Setting up an example problem: Estimating Pi
 
+![Estimate the value of Pi via Monte Carlo](https://hpc.llnl.gov/sites/default/files/styles/no_sidebar_3_up/public/pi1.gif)
+
 Login to Expanse via SSH or the [Expanse User Portal](https://portal.expanse.sdsc.edu).
 
 *Command*
@@ -126,8 +128,6 @@ if (( "${#}" > 0 )); then
 fi
 [mkandes@login02 scripts]$
 ```
-
-![Estimate the value of Pi via Monte Carlo](https://hpc.llnl.gov/sites/default/files/styles/no_sidebar_3_up/public/pi1.gif)
 
 Submit the batch job to the scheduler with the default settings. 
 
