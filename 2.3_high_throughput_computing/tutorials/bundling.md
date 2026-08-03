@@ -220,6 +220,7 @@ sbatch estimate-pi.sh
 ```
 [mkandes@login02 scripts]$ sbatch estimate-pi.sh 
 Submitted batch job 52897392
+[mkandes@login02 scripts]$
 ```
 
 *Command*
@@ -228,6 +229,7 @@ squeue --me
 ```
 
 *Output*
+```
 [mkandes@login02 scripts]$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
           52897392    shared estimate  mkandes  R       0:02      1 exp-1-08
