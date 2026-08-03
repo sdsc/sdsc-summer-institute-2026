@@ -131,17 +131,36 @@ fi
 
 Submit the batch job to the scheduler with the default settings. 
 
+*Command*
 ```
-[xdtr108@login01 ~]$ sbatch estimate-pi.sh 
-Submitted batch job 14791638
-[xdtr108@login01 ~]$ squeue -u $USER
+sbatch estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh  estimate-pi.sh  pi-workflow.sh
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52894884
+[mkandes@login02 scripts]$
+```
+
+Monitor the job status in the queue.
+
+*Command*
+```
+squeue --me
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-          14791638     debug estimate  xdtr108  R       0:05      1 exp-9-55
-[xdtr108@login01 ~]$ squeue -u $USER
+          52894884    shared estimate  mkandes  R       0:03      1 exp-1-08
+[mkandes@login02 scripts]$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-          14791638     debug estimate  xdtr108 CG       0:51      1 exp-9-55
-[xdtr108@login01 ~]$ ls
-4pi  estimate-pi.o14791638.exp-9-55  estimate-pi.sh
+          52894884    shared estimate  mkandes  R       0:48      1 exp-1-08
+[mkandes@login02 scripts]$
 ```
 
 Check the standard output file for the results.
