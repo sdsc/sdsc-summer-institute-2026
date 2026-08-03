@@ -101,7 +101,7 @@ time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
 [mkandes@login02 scripts]$
 ```
 
-Investigate what variables the different command-line options are used to control in the problem. 
+Look at what variables the different command-line options are used to control in the problem. 
 
 *Command*
 ```
