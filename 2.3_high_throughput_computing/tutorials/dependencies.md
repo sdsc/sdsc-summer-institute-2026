@@ -286,7 +286,35 @@ Resetting modules to system default. Reseting $MODULEPATH back to system default
 
 ### Pi-peline it: Creating a simple workflow
 
-Finally, download the following batch job script. It recreates the simple workflow we ran above manually in a single batch job. Workflow jobs like this can be used to write (and launch) more complex job dependencies than you might do so directly from the command-line.
+Finally, recreate the simple workflow we ran above manually in a single batch job. Workflow jobs like this can be used to write (and launch) more complex job dependencies than you might do so directly from the command-line.
+
+*Command*
+```
+cat pi-workflow.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ cat pi-workflow.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=pi-workflow
+#SBATCH --account=sdp173
+#SBATCH --reservation=si25cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%j.%N
+
+module reset
+
+job_id="$(sbatch estimate-pi.sh | grep -o '[[:digit:]]*')"
+sbatch "--dependency=afterok:${job_id}" compute-pi-stats.sh "${job_id}"
+[mkandes@login02 scripts]$
+```
 
 ```
 wget https://raw.githubusercontent.com/sdsc/sdsc-summer-institute-2025/refs/heads/main/3.2_high_throughput_computing/run-pi-workflow.sh
