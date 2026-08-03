@@ -53,19 +53,35 @@ Last login: Sun Aug  2 20:15:11 2026 from 136.26.86.246
 If you are using the Expanse User Portal, open the *Expanse Shell Access*
 app once you are logged in.
 
-[4pi](https://github.com/mkandes/4pi) is a collection of simple computer
-programs that estimate the value of Pi. Each program in the collection
-differs only in the programming language it was written in, the set of
-features of the language it utilized, and/or the fundamental underlying
-mathematical algorithm it implemented to approximate the value of Pi. We
-will estiamte the value of Pi via a Monte Carlo method.
-
 ![Estimate the value of Pi via Monte Carlo](https://hpc.llnl.gov/sites/default/files/styles/no_sidebar_3_up/public/pi1.gif)
 
-Inspect the job script.
+Next, navigate to the *scripts* directory and take a look at the `estimate-pi.sh` batch job script.
 
+*Command*
 ```
-[xdtr108@login01 ~]$ cat estimate-pi.sh 
+cat estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 ~]$ ls
+data  projects  scratch  scripts  sdsc-summer-institute-2026  software
+[mkandes@login02 ~]$ cd sdsc-summer-institute-2026/
+[mkandes@login02 sdsc-summer-institute-2026]$ ls
+0_Preparation                                 4.1_knowledge_management                     ccr_info.md
+1.0_preparation_day_welcome_and_orientation   4.2_deep_learning_pt1                        HELPER_ONBOARDING.md
+2.1_parallel_computing_concepts               4.3_deep_learning_pt2                        internship.md
+2.2_running_batch_and_interactive_jobs        5.1_best_practices_for_scientific_computing  README.md
+2.3_high_throughput_computing                 5.2_performance_tuning                       srun-compute.sh
+2.4_code_migration_and_software_environments  5.3_gpu_computing_and_programming            srun-debug.sh
+3.1_data_management                           6.1_python_for_HPC                           srun-gpu.sh
+3.2_getting_help                              6.2_overview_of_sdsc_supercomputers          srun-shared.sh
+3.3_parallel_computing_mpi_openmp             AGENDA.md
+[mkandes@login02 sdsc-summer-institute-2026]$ cd 2.3_high_throughput_computing/
+[mkandes@login02 2.3_high_throughput_computing]$ ls
+code  README.md  scripts  tutorials
+[mkandes@login02 2.3_high_throughput_computing]$ cd scripts/
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
@@ -76,12 +92,13 @@ Inspect the job script.
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=1G
-#SBATCH --time=00:30:00
+#SBATCH --time=00:05:00
 #SBATCH --output=%x.o%j.%N
 
 module purge
 
-time -p "${HOME}/4pi/bash/pi.sh" -b 8 -r 5 -s 10000
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
 ```
 
 Investigate what variables the different command-line options are used to control in the problem. 
