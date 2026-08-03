@@ -437,58 +437,45 @@ Submitted batch job 52895472
 [mkandes@login02 scripts]$
 ```
 
+Check the results.
+
+*Command*
 ```
-[xdtr108@login01 ~]$ sbatch estimate-pi.sh 
-Submitted batch job 14792416
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14792416_8    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792416_4    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792416_2    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792416_1    shared estimate  xdtr108 PD       0:00      1 (None)
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14792416_1    shared estimate  xdtr108  R       0:08      1 exp-1-06
-        14792416_2    shared estimate  xdtr108  R       0:08      1 exp-1-06
-        14792416_4    shared estimate  xdtr108  R       0:08      1 exp-1-06
-        14792416_8    shared estimate  xdtr108  R       0:08      1 exp-1-06
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14792416_1    shared estimate  xdtr108  R       1:22      1 exp-1-06
-[xdtr108@login01 ~]$ ls
-4pi                               estimate-pi.o14791898.7.exp-1-06
-estimate-pi.o14791638.exp-9-55    estimate-pi.o14791898.8.exp-1-06
-estimate-pi.o14791898.0.exp-1-06  estimate-pi.o14791898.9.exp-1-06
-estimate-pi.o14791898.1.exp-1-06  estimate-pi.o14792416.1.exp-1-06
-estimate-pi.o14791898.2.exp-1-06  estimate-pi.o14792416.2.exp-1-06
-estimate-pi.o14791898.3.exp-1-06  estimate-pi.o14792416.4.exp-1-06
-estimate-pi.o14791898.4.exp-1-06  estimate-pi.o14792416.8.exp-1-06
-estimate-pi.o14791898.5.exp-1-06  estimate-pi.sh
-estimate-pi.o14791898.6.exp-1-06
+head -n 2 estimate-pi.o52895472.*
 ```
 
-Check the results. 
-
+*Output*
 ```
-[xdtr108@login01 ~]$ head -n 2 estimate-pi.o14792416.*
-==> estimate-pi.o14792416.1.exp-1-06 <==
-3.13840
-real 88.80
-
-==> estimate-pi.o14792416.2.exp-1-06 <==
+[mkandes@login02 scripts]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh               estimate-pi.o52895363.3.exp-1-08  estimate-pi.o52895363.8.exp-1-08  estimate-pi.o52895472.8.exp-1-08
+estimate-pi.o52894884.exp-1-08    estimate-pi.o52895363.4.exp-1-08  estimate-pi.o52895363.9.exp-1-08  estimate-pi.sh
+estimate-pi.o52895363.0.exp-1-08  estimate-pi.o52895363.5.exp-1-08  estimate-pi.o52895472.1.exp-1-08  pi-workflow.sh
+estimate-pi.o52895363.1.exp-1-08  estimate-pi.o52895363.6.exp-1-08  estimate-pi.o52895472.2.exp-1-08
+estimate-pi.o52895363.2.exp-1-08  estimate-pi.o52895363.7.exp-1-08  estimate-pi.o52895472.4.exp-1-08
+[mkandes@login02 scripts]$ head -n 2 estimate-pi.o52895472.*
+==> estimate-pi.o52895472.1.exp-1-08 <==
 3.12880
-real 70.73
+real 58.79
 
-==> estimate-pi.o14792416.4.exp-1-06 <==
-3.16040
-real 70.61
+==> estimate-pi.o52895472.2.exp-1-08 <==
+3.12880
+real 58.91
 
-==> estimate-pi.o14792416.8.exp-1-06 <==
-3.15280
-real 70.82
+==> estimate-pi.o52895472.4.exp-1-08 <==
+3.12720
+real 58.99
+
+==> estimate-pi.o52895472.8.exp-1-08 <==
+3.14880
+real 59.21
+[mkandes@login02 scripts]$
 ```
 
-Next, reset the `-b | --bytes` parameter to `8` and then rewrite the batch job script to create a parameter sweep over `-s | --samples` variable. However, in this case, use the `SLURM_ARRAY_TASK_ID` to logarithmically scale the number of samples.
+Next, reset the `-b | --bytes` parameter to `8` and then rewrite the batch job script 
+to create a parameter sweep over `-s | --samples` variable. However, in this case, 
+use the `SLURM_ARRAY_TASK_ID` to logarithmically scale the number of samples.
 
 ```
 #SBATCH --array=1,10,100,1000,10000
