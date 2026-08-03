@@ -877,6 +877,52 @@ squeue --me
        52895833_32    shared estimate  mkandes  R       0:19      1 exp-1-29
 [mkandes@login02 scripts]$
 ```
+Before we move on, let's go ahead and cancel the remaining array tasks.
+
+*Command*
+```
+scancel 52895833
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ scancel 52895833
+[mkandes@login02 scripts]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+       52895833_96    shared estimate  mkandes CG       0:30      1 exp-1-29
+       52895833_94    shared estimate  mkandes CG       0:32      1 exp-1-29
+       52895833_95    shared estimate  mkandes CG       0:32      1 exp-1-29
+       52895833_93    shared estimate  mkandes CG       0:34      1 exp-1-29
+       52895833_92    shared estimate  mkandes CG       0:35      1 exp-1-29
+       52895833_91    shared estimate  mkandes CG       0:36      1 exp-1-29
+       52895833_87    shared estimate  mkandes CG       0:38      1 exp-1-29
+       52895833_88    shared estimate  mkandes CG       0:38      1 exp-1-29
+       52895833_89    shared estimate  mkandes CG       0:38      1 exp-1-29
+       52895833_90    shared estimate  mkandes CG       0:38      1 exp-1-29
+       52895833_84    shared estimate  mkandes CG       0:39      1 exp-1-42
+       52895833_85    shared estimate  mkandes CG       0:39      1 exp-1-42
+       52895833_86    shared estimate  mkandes CG       0:39      1 exp-1-42
+       52895833_82    shared estimate  mkandes CG       0:40      1 exp-1-29
+       52895833_83    shared estimate  mkandes CG       0:40      1 exp-1-29
+       52895833_77    shared estimate  mkandes CG       0:41      1 exp-1-42
+       52895833_78    shared estimate  mkandes CG       0:41      1 exp-1-29
+       52895833_79    shared estimate  mkandes CG       0:41      1 exp-1-29
+       52895833_80    shared estimate  mkandes CG       0:41      1 exp-1-29
+       52895833_81    shared estimate  mkandes CG       0:41      1 exp-1-29
+       52895833_66    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_67    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_68    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_69    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_70    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_71    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_72    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_73    shared estimate  mkandes CG       0:42      1 exp-1-42
+       52895833_74    shared estimate  mkandes CG       0:42      1 exp-1-42
+       52895833_75    shared estimate  mkandes CG       0:42      1 exp-1-42
+       52895833_76    shared estimate  mkandes CG       0:42      1 exp-1-42
+       52895833_65    shared estimate  mkandes CG       0:44      1 exp-1-29
+[mkandes@login02 scripts]$
+```
 
 #
 
