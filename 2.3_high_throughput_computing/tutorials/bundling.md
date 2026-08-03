@@ -29,6 +29,188 @@ independently of other processes that may also be created as part of the
 job. The Linux scheduler will (automagically) distribute the (child) 
 processes across the compute resources available to run the job. 
 
+To start, let's again clean up our working directory.
+
+*Command*
+```
+rm *.exp-*
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.o52896252.exp-1-08  estimate-pi.o52896226.19.exp-1-29  estimate-pi.o52896275.11.exp-1-08  estimate-pi.o52896275.3.exp-1-08
+compute-pi-stats.o52896276.exp-1-08  estimate-pi.o52896226.1.exp-1-29   estimate-pi.o52896275.12.exp-1-29  estimate-pi.o52896275.4.exp-1-08
+compute-pi-stats.sh                  estimate-pi.o52896226.20.exp-1-29  estimate-pi.o52896275.13.exp-1-29  estimate-pi.o52896275.5.exp-1-08
+estimate-pi.o52896226.10.exp-1-29    estimate-pi.o52896226.2.exp-1-29   estimate-pi.o52896275.14.exp-1-29  estimate-pi.o52896275.6.exp-1-08
+estimate-pi.o52896226.11.exp-1-29    estimate-pi.o52896226.3.exp-1-29   estimate-pi.o52896275.15.exp-1-08  estimate-pi.o52896275.7.exp-1-08
+estimate-pi.o52896226.12.exp-1-38    estimate-pi.o52896226.4.exp-1-29   estimate-pi.o52896275.16.exp-1-08  estimate-pi.o52896275.8.exp-1-08
+estimate-pi.o52896226.13.exp-1-38    estimate-pi.o52896226.5.exp-1-29   estimate-pi.o52896275.17.exp-1-29  estimate-pi.o52896275.9.exp-1-08
+estimate-pi.o52896226.14.exp-1-29    estimate-pi.o52896226.6.exp-1-29   estimate-pi.o52896275.18.exp-1-29  estimate-pi.sh
+estimate-pi.o52896226.15.exp-1-29    estimate-pi.o52896226.7.exp-1-29   estimate-pi.o52896275.19.exp-1-29  pi-workflow.o52896273.exp-1-08
+estimate-pi.o52896226.16.exp-1-38    estimate-pi.o52896226.8.exp-1-29   estimate-pi.o52896275.1.exp-1-08   pi-workflow.sh
+estimate-pi.o52896226.17.exp-1-38    estimate-pi.o52896226.9.exp-1-29   estimate-pi.o52896275.20.exp-1-08
+estimate-pi.o52896226.18.exp-1-29    estimate-pi.o52896275.10.exp-1-08  estimate-pi.o52896275.2.exp-1-08
+[mkandes@login02 scripts]$ rm *.exp-*
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh  estimate-pi.sh  pi-workflow.sh
+[mkandes@login02 scripts]$
+```
+
+Then remove the job array directives and append the following modifications to your `estimate-pi.sh` job script.
+
+*Command*
+```
+sed -i 's|#SBATCH --output=%x.o%A.%a.%N|#SBATCH --output=%x.o%j.%N|' estimate-pi.sh 
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|#SBATCH --output=%x.o%A.%a.%N|#SBATCH --output=%x.o%j.%N|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%j.%N
+#SBATCH --array=1-20%10
+
+module purge
+
+time -p ../code/4pi/python/pi.py 100000000
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+sed -i '13d' estimate-pi.sh 
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i '13d' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%j.%N
+
+module purge
+
+time -p ../code/4pi/python/pi.py 100000000
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+sed -i 's|100000000|100000000 \&|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|100000000|100000000 \&|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%j.%N
+
+module purge
+
+time -p ../code/4pi/python/pi.py 100000000 &
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+echo 'time -p ../code/4pi/python/pi.py 100000000 &' >> estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ echo 'time -p ../code/4pi/python/pi.py 100000000 &' >> estimate-pi.sh 
+[mkandes@login02 scripts]$ echo 'time -p ../code/4pi/python/pi.py 100000000 &' >> estimate-pi.sh 
+[mkandes@login02 scripts]$ echo 'time -p ../code/4pi/python/pi.py 100000000 &' >> estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%j.%N
+
+module purge
+
+time -p ../code/4pi/python/pi.py 100000000 &
+time -p ../code/4pi/python/pi.py 100000000 &
+time -p ../code/4pi/python/pi.py 100000000 &
+time -p ../code/4pi/python/pi.py 100000000 &
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+echo 'wait' >> estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ echo 'wait' >> estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%j.%N
+
+module purge
+
+time -p ../code/4pi/python/pi.py 100000000 &
+time -p ../code/4pi/python/pi.py 100000000 &
+time -p ../code/4pi/python/pi.py 100000000 &
+time -p ../code/4pi/python/pi.py 100000000 &
+wait
+[mkandes@login02 scripts]$
+```
+
+
+
 ```
 #!/usr/bin/env bash
 
