@@ -54,7 +54,7 @@ The job dependency types supported by SLURM are:
 
 ### Create your first job dependency
 
-Before we begin, let's first clean up your HOME direcotry by deleting all
+Before we begin, let's first clean up your working direcotry by deleting all
 of the standard output files from the array job exercies we completed in
 the previous section. 
 
