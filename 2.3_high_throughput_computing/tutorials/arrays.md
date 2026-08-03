@@ -369,16 +369,73 @@ time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
 [mkandes@login02 scripts]$
 ```
 
-
+*Command*
 ```
+sed -i 's|-b 8|-b "${SLURM_ARRAY_TASK_ID}"|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|-b 8|-b "${SLURM_ARRAY_TASK_ID}"|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
 #SBATCH --array=1,2,4,8
 
 module purge
 
-time -p "${HOME}/4pi/bash/pi.sh" -b "${SLURM_ARRAY_TASK_ID}" -r 5 -s 10000
+time -p ../code/4pi/bash/pi.sh -b "${SLURM_ARRAY_TASK_ID}" -r 5 -s 10000
+[mkandes@login02 scripts]$
 ```
 
 Submit the modified array job script to the scheduler.
+
+*Command*
+```
+sbatch estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh               estimate-pi.o52895363.2.exp-1-08  estimate-pi.o52895363.6.exp-1-08  estimate-pi.sh
+estimate-pi.o52894884.exp-1-08    estimate-pi.o52895363.3.exp-1-08  estimate-pi.o52895363.7.exp-1-08  pi-workflow.sh
+estimate-pi.o52895363.0.exp-1-08  estimate-pi.o52895363.4.exp-1-08  estimate-pi.o52895363.8.exp-1-08
+estimate-pi.o52895363.1.exp-1-08  estimate-pi.o52895363.5.exp-1-08  estimate-pi.o52895363.9.exp-1-08
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52895472
+[mkandes@login02 scripts]$
+```
+
+And then monitor the status of the job in queue.
+
+*Command*
+```
+squeue --me
+```
+
+*Ouput*
+```
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52895472
+[mkandes@login02 scripts]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+        52895472_1    shared estimate  mkandes  R       0:18      1 exp-1-08
+        52895472_2    shared estimate  mkandes  R       0:18      1 exp-1-08
+        52895472_4    shared estimate  mkandes  R       0:18      1 exp-1-08
+        52895472_8    shared estimate  mkandes  R       0:18      1 exp-1-08
+[mkandes@login02 scripts]$
+```
 
 ```
 [xdtr108@login01 ~]$ sbatch estimate-pi.sh 
