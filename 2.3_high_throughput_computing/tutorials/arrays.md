@@ -654,73 +654,57 @@ time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s "${NUMBER_OF_SAMPLES}"
 [mkandes@login02 scripts]$
 ```
 
-With these modifications in place, go ahead and submit the job.
+With these modifications in place, submit the job.
 
-
+*Command*
 ```
-[xdtr108@login01 ~]$ sbatch estimate-pi.sh 
-Submitted batch job 14792680
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14792680_5    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792680_4    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792680_3    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792680_2    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792680_1    shared estimate  xdtr108 PD       0:00      1 (None)
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14792680_5    shared estimate  xdtr108 PD       0:00      1 (Priority)
-        14792680_4    shared estimate  xdtr108 PD       0:00      1 (Priority)
-        14792680_3    shared estimate  xdtr108 PD       0:00      1 (Priority)
-        14792680_2    shared estimate  xdtr108 PD       0:00      1 (Priority)
-        14792680_1    shared estimate  xdtr108 PD       0:00      1 (Priority)
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14792680_5    shared estimate  xdtr108  R       3:03      1 exp-1-06
-[xdtr108@login02 ~]$ ls
-4pi                               estimate-pi.o14791898.9.exp-1-06
-estimate-pi.o14791638.exp-9-55    estimate-pi.o14792416.1.exp-1-06
-estimate-pi.o14791898.0.exp-1-06  estimate-pi.o14792416.2.exp-1-06
-estimate-pi.o14791898.1.exp-1-06  estimate-pi.o14792416.4.exp-1-06
-estimate-pi.o14791898.2.exp-1-06  estimate-pi.o14792416.8.exp-1-06
-estimate-pi.o14791898.3.exp-1-06  estimate-pi.o14792680.1.exp-1-06
-estimate-pi.o14791898.4.exp-1-06  estimate-pi.o14792680.2.exp-1-06
-estimate-pi.o14791898.5.exp-1-06  estimate-pi.o14792680.3.exp-1-06
-estimate-pi.o14791898.6.exp-1-06  estimate-pi.o14792680.4.exp-1-06
-estimate-pi.o14791898.7.exp-1-06  estimate-pi.o14792680.5.exp-1-06
-estimate-pi.o14791898.8.exp-1-06  estimate-pi.sh
-[xdtr108@login02 ~]$
+sbatch estimate-pi.sh
 ```
 
+*Output*
 ```
-[xdtr108@login02 ~]$ head -n 2 estimate-pi.o14792680.*
-==> estimate-pi.o14792680.1.exp-1-06 <==
-2.80000
-real 0.08
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52895589
+[mkandes@login02 scripts]$
+```
 
-==> estimate-pi.o14792680.2.exp-1-06 <==
-3.08000
-real 0.54
+Monitor the job in the queue
 
-==> estimate-pi.o14792680.3.exp-1-06 <==
-3.20400
-real 5.57
+*Command*
+```
+squeue --me
+```
 
-==> estimate-pi.o14792680.4.exp-1-06 <==
-3.11880
-real 50.96
+*Output
+```
+[mkandes@login02 scripts]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+        52895589_5    shared estimate  mkandes  R       1:30      1 exp-1-38
+[mkandes@login02 scripts]$
+```
 
-==> estimate-pi.o14792680.5.exp-1-06 <==
-3.14632
-real 535.73
-[xdtr108@login02 ~]$
+
+Once the array tasks complete, check the results.
+
+*Command*
+```
+head -n 2 estimate-pi.o52895589.*
+```
+
+*Output*
+```
 ```
 
 ### Throttling a large array job
 
 Let's migrate from the (slow) bash-based Pi program to the (faster)
 python one for a better estimate. We'll then create a large array job,
-but throttle the number of jobs that can run simultaneosuly. 
+but throttle the number of jobs that can run simultaneosuly.
+
+*Command*
+```
+
+```
 
 ```
 #SBATCH --array=1-512%32
