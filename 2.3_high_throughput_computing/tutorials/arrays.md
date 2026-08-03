@@ -53,8 +53,6 @@ Last login: Sun Aug  2 20:15:11 2026 from 136.26.86.246
 If you are using the Expanse User Portal, open the *Expanse Shell Access*
 app once you are logged in.
 
-![Estimate the value of Pi via Monte Carlo](https://hpc.llnl.gov/sites/default/files/styles/no_sidebar_3_up/public/pi1.gif)
-
 Next, navigate to the *scripts* directory and take a look at the `estimate-pi.sh` batch job script.
 
 *Command*
@@ -128,6 +126,8 @@ if (( "${#}" > 0 )); then
 fi
 [mkandes@login02 scripts]$
 ```
+
+![Estimate the value of Pi via Monte Carlo](https://hpc.llnl.gov/sites/default/files/styles/no_sidebar_3_up/public/pi1.gif)
 
 Submit the batch job to the scheduler with the default settings. 
 
