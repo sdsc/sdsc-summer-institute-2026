@@ -165,12 +165,21 @@ squeue --me
 
 Check the standard output file for the results.
 
+*Command*
 ```
-[xdtr108@login01 ~]$ cat estimate-pi.o14791638.exp-9-55 
-3.12160
-real 50.12
-user 32.41
-sys 17.21
+cat estimate-pi.o*
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh  estimate-pi.o52894884.exp-1-08  estimate-pi.sh  pi-workflow.sh
+[mkandes@login02 scripts]$ cat estimate-pi.o* 
+3.15040
+real 58.03
+user 34.14
+sys 23.43
+[mkandes@login02 scripts]$
 ```
 
 ### Creating your first job array
