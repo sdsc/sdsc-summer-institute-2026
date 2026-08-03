@@ -246,91 +246,94 @@ time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
 
 Submit the modified batch job script to the scheduler.
 
+*Command*
 ```
-[xdtr108@login01 ~]$ cat estimate-pi.sh 
-#!/usr/bin/env bash
+sbatch estimate-pi.sh
+```
 
-#SBATCH --job-name=estimate-pi
-#SBATCH --account=sdp173
-#SBATCH --reservation=si26cpu
-#SBATCH --partition=shared
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=1G
-#SBATCH --time=00:30:00
-#SBATCH --output=%x.o%A.%a.%N
-#SBATCH --array=0-9
+*Output*
+```
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh  estimate-pi.o52894884.exp-1-08  estimate-pi.sh  pi-workflow.sh
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52895363
+[mkandes@login02 scripts]$
+```
 
-module purge
+Check the status of the job array in the queue.
 
-time -p "${HOME}/4pi/bash/pi.sh" -b 8 -r 5 -s 10000
-[xdtr108@login01 ~]$ sbatch estimate-pi.sh 
-Submitted batch job 14791898
-[xdtr108@login01 ~]$ squeue -u $USER
+*Command*
+```
+squeue --me
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14791898_8    shared estimate  xdtr108  R       0:00      1 exp-1-06
-        14791898_9    shared estimate  xdtr108  R       0:00      1 exp-1-06
-        14791898_0    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_1    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_2    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_3    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_4    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_5    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_6    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_7    shared estimate  xdtr108  R       0:01      1 exp-1-06
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14791898_7    shared estimate  xdtr108 CG       1:27      1 exp-1-06
-        14791898_8    shared estimate  xdtr108  R       1:26      1 exp-1-06
-        14791898_9    shared estimate  xdtr108  R       1:26      1 exp-1-06
-        14791898_0    shared estimate  xdtr108  R       1:27      1 exp-1-06
-        14791898_1    shared estimate  xdtr108  R       1:27      1 exp-1-06
-        14791898_2    shared estimate  xdtr108  R       1:27      1 exp-1-06
-        14791898_3    shared estimate  xdtr108  R       1:27      1 exp-1-06
-        14791898_4    shared estimate  xdtr108  R       1:27      1 exp-1-06
-        14791898_5    shared estimate  xdtr108  R       1:27      1 exp-1-06
-        14791898_6    shared estimate  xdtr108  R       1:27      1 exp-1-06
-[xdtr108@login01 ~]$ ls
-4pi                               estimate-pi.o14791898.5.exp-1-06
-estimate-pi.o14791638.exp-9-55    estimate-pi.o14791898.6.exp-1-06
-estimate-pi.o14791898.0.exp-1-06  estimate-pi.o14791898.7.exp-1-06
-estimate-pi.o14791898.1.exp-1-06  estimate-pi.o14791898.8.exp-1-06
-estimate-pi.o14791898.2.exp-1-06  estimate-pi.o14791898.9.exp-1-06
-estimate-pi.o14791898.3.exp-1-06  estimate-pi.sh
-estimate-pi.o14791898.4.exp-1-06
+        52895363_0    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_1    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_2    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_3    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_4    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_5    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_6    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_7    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_8    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_9    shared estimate  mkandes  R       0:41      1 exp-1-08
+[mkandes@login02 scripts]$
 ```
 
-Check the results from the job array ... 
+Once the job array and all of its tasks complete, check the results.
 
+*Command*
 ```
-[xdtr108@login01 ~]$ head -n 1 estimate-pi.o14791898.* -q
-3.14480
-3.16840
-3.15480
-3.17200
-3.13480
-3.15480
-3.17840
-3.12800
-3.14080
-3.16000
+head -n 1 estimate-pi.o* -q
 ```
 
-... and the runtimes of each array task.
-
 ```
-[xdtr108@login01 ~]$ grep 'real' estimate-pi.o14791898.*
-estimate-pi.o14791898.0.exp-1-06:real 85.82
-estimate-pi.o14791898.1.exp-1-06:real 86.05
-estimate-pi.o14791898.2.exp-1-06:real 85.94
-estimate-pi.o14791898.3.exp-1-06:real 86.17
-estimate-pi.o14791898.4.exp-1-06:real 85.80
-estimate-pi.o14791898.5.exp-1-06:real 85.80
-estimate-pi.o14791898.6.exp-1-06:real 85.82
-estimate-pi.o14791898.7.exp-1-06:real 85.79
-estimate-pi.o14791898.8.exp-1-06:real 86.55
-estimate-pi.o14791898.9.exp-1-06:real 86.43
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh               estimate-pi.o52895363.2.exp-1-08  estimate-pi.o52895363.6.exp-1-08  estimate-pi.sh
+estimate-pi.o52894884.exp-1-08    estimate-pi.o52895363.3.exp-1-08  estimate-pi.o52895363.7.exp-1-08  pi-workflow.sh
+estimate-pi.o52895363.0.exp-1-08  estimate-pi.o52895363.4.exp-1-08  estimate-pi.o52895363.8.exp-1-08
+estimate-pi.o52895363.1.exp-1-08  estimate-pi.o52895363.5.exp-1-08  estimate-pi.o52895363.9.exp-1-08
+[mkandes@login02 scripts]$ head -n 1 estimate-pi.o* -q
+3.15040
+3.12680
+3.14960
+3.14400
+3.13800
+3.15120
+3.14440
+3.11200
+3.14160
+3.14920
+3.15880
+[mkandes@login02 scripts]$
+```
+
+Next check the runtime of each array task.
+
+*Command*
+```
+grep 'real' estimate-pi.o*
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ grep 'real' estimate-pi.o*
+estimate-pi.o52894884.exp-1-08:real 58.03
+estimate-pi.o52895363.0.exp-1-08:real 90.59
+estimate-pi.o52895363.1.exp-1-08:real 90.32
+estimate-pi.o52895363.2.exp-1-08:real 89.83
+estimate-pi.o52895363.3.exp-1-08:real 90.28
+estimate-pi.o52895363.4.exp-1-08:real 91.79
+estimate-pi.o52895363.5.exp-1-08:real 91.54
+estimate-pi.o52895363.6.exp-1-08:real 91.72
+estimate-pi.o52895363.7.exp-1-08:real 91.50
+estimate-pi.o52895363.8.exp-1-08:real 93.02
+estimate-pi.o52895363.9.exp-1-08:real 92.92
+[mkandes@login02 scripts]$
 ```
 
 ### Using a job array to create a parameter sweep
