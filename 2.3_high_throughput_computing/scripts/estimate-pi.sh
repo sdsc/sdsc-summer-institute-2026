@@ -13,4 +13,4 @@
 
 module purge
 
-time -p "${HOME}/4pi/bash/pi.sh" -b 8 -r 5 -s 10000
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
