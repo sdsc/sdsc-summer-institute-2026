@@ -286,7 +286,9 @@ Resetting modules to system default. Reseting $MODULEPATH back to system default
 
 ### Pi-peline it: Creating a simple workflow
 
-Finally, recreate the simple workflow we ran above manually in a single batch job. Workflow jobs like this can be used to write (and launch) more complex job dependencies than you might do so directly from the command-line.
+Finally, recreate the simple workflow we ran above manually in a single batch job. 
+Workflow jobs like this can be used to write and launch more complex job dependencies
+than you might do so directly from the command-line.
 
 *Command*
 ```
