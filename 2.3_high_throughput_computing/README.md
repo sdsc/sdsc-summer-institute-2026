@@ -21,7 +21,7 @@ resources available through the
 
 ## Presentation Slides
 
-- [COMPLECS: Batch Computing III - High-Throughput + Many-Task Computing](https://drive.google.com/file/d/1fAI7nrBXy1DQgUVs-IoW-Urpg5iuRnXg/view?usp=drive_link)
+- [COMPLECS: Batch Computing III - High-Throughput + Many-Task Computing](https://drive.google.com/file/d/1iHTpsoWUflnieTpSp6E1ywhKDg2HQEbU/view?usp=drive_link)
 
 ## Tutorials
 
