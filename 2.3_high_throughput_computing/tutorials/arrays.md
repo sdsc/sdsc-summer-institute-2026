@@ -1,88 +1,116 @@
-# High Throughput Computing
+# High-Throughput + Many-Task Computing
 
-- [Parallel paradigms: HPC vs. HTC](PARALLEL.md)
-- [Batch job arrays](ARRAYS.md)
-- [Batch job dependencies](DEPENDENCIES.md)
-- [Batch job bundling](BUNDLING.md)
-- [Preemptible batch jobs](PREEMPTIBLE.md)
-- [Distributed high-throughput computing](DHTC.md)
+- [Batch job arrays](arrays.md)
+- [Batch job dependencies](dependencies.md)
+- [Batch job bundling](bundling.md)
+- [Preemptible batch jobs](preemptible.md)
 
 ## Batch job arrays
 
-Batch job arrays offer a mechanism for submitting and managing large collections of similar jobs quickly and easily.
+Batch job arrays offer a mechanism for submitting and managing large
+collections of similar jobs quickly and easily.
 
 ### Setting up an example problem: Estimating Pi
 
-Login to Expanse.
-
-```
-$ ssh expanse
-```
-
-Clone the [4pi](https://github.com/mkandes/4pi.git) git repository from GitHub to your HOME directory on Expanse.
-
-```
-git clone https://github.com/mkandes/4pi.git
-```
-
-4pi is a collection of simple computer programs that estimate the value of Pi, the mathematical constant defined as the ratio of a circle's circumference to its diameter. Each program in the collection differs only in the programming language it was written in, the set of features of the language it utilized, and/or the fundamental underlying mathematical algorithm it implemented to approximate the value of Pi.
-
-The principal aim of the 4pi project is to explore different aspects of each programming language and their feature sets from a scientific and high-performance computing perspective. For example, the first set of programs included in the project estimate the value of Pi via the Monte Carlo method. This solution is particularly useful for exploring different parallel programming models, languages, libraries, and APIs as it is an embarrassingly parallel (albeit inefficient) solution to the problem.
-
 ![Estimate the value of Pi via Monte Carlo](https://hpc.llnl.gov/sites/default/files/styles/no_sidebar_3_up/public/pi1.gif)
 
+Login to Expanse via SSH or the [Expanse User Portal](https://portal.expanse.sdsc.edu).
+
+*Command*
 ```
-[xdtr108@login01 ~]$ git clone https://github.com/mkandes/4pi.git
-Cloning into '4pi'...
-remote: Enumerating objects: 14, done.
-remote: Counting objects: 100% (14/14), done.
-remote: Compressing objects: 100% (8/8), done.
-remote: Total 14 (delta 1), reused 14 (delta 1), pack-reused 0
-Unpacking objects: 100% (14/14), 4.64 KiB | 9.00 KiB/s, done.
-[xdtr108@login01 ~]$ ls 4pi/
-bash  c  fortran  LICENSE.md  python  README.md
-[xdtr108@login01 ~]$ ls 4pi/bash/
-pi.sh
-[xdtr108@login01 ~]$ ls 4pi/python/
-pi.py
+ssh mkandes@login.expanse.sdsc.edu
 ```
 
-Next, download the example batch job script.
-
+*Output*
 ```
-wget https://raw.githubusercontent.com/sdsc/sdsc-summer-institute-2025/refs/heads/main/3.2_high_throughput_computing/estimate-pi.sh
+mkandes@hardtack:~$ ssh mkandes@login.expanse.sdsc.edu
+(mkandes@login.expanse.sdsc.edu) TOTP code for mkandes: 267577
+Welcome to Bright release         9.0
+
+                                                         Based on Rocky Linux 8
+                                                                    ID: #000002
+
+--------------------------------------------------------------------------------
+
+                                 WELCOME TO
+                  _______  __ ____  ___    _   _______ ______
+                 / ____/ |/ // __ \/   |  / | / / ___// ____/
+                / __/  |   // /_/ / /| | /  |/ /\__ \/ __/
+               / /___ /   |/ ____/ ___ |/ /|  /___/ / /___
+              /_____//_/|_/_/   /_/  |_/_/ |_//____/_____/
+
+--------------------------------------------------------------------------------
+
+Use the following commands to adjust your environment:
+
+'module avail'            - show available modules
+'module add <module>'     - adds a module to your environment for this session
+'module initadd <module>' - configure module to be loaded at every login
+
+-------------------------------------------------------------------------------
+Last login: Sun Aug  2 20:15:11 2026 from 136.26.86.246
+[mkandes@login01 ~]$
 ```
 
-Inspect the job script.
+If you are using the Expanse User Portal, open the *Expanse Shell Access*
+app once you are logged in.
 
+Next, navigate to the *scripts* directory and take a look at the `estimate-pi.sh` batch job script.
+
+*Command*
 ```
-[xdtr108@login01 ~]$ cat estimate-pi.sh 
+cat estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 ~]$ ls
+data  projects  scratch  scripts  sdsc-summer-institute-2026  software
+[mkandes@login02 ~]$ cd sdsc-summer-institute-2026/
+[mkandes@login02 sdsc-summer-institute-2026]$ ls
+0_Preparation                                 4.1_knowledge_management                     ccr_info.md
+1.0_preparation_day_welcome_and_orientation   4.2_deep_learning_pt1                        HELPER_ONBOARDING.md
+2.1_parallel_computing_concepts               4.3_deep_learning_pt2                        internship.md
+2.2_running_batch_and_interactive_jobs        5.1_best_practices_for_scientific_computing  README.md
+2.3_high_throughput_computing                 5.2_performance_tuning                       srun-compute.sh
+2.4_code_migration_and_software_environments  5.3_gpu_computing_and_programming            srun-debug.sh
+3.1_data_management                           6.1_python_for_HPC                           srun-gpu.sh
+3.2_getting_help                              6.2_overview_of_sdsc_supercomputers          srun-shared.sh
+3.3_parallel_computing_mpi_openmp             AGENDA.md
+[mkandes@login02 sdsc-summer-institute-2026]$ cd 2.3_high_throughput_computing/
+[mkandes@login02 2.3_high_throughput_computing]$ ls
+code  README.md  scripts  tutorials
+[mkandes@login02 2.3_high_throughput_computing]$ cd scripts/
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
-#SBATCH --account=gue998
-#SBATCH --reservation=si24
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
 #SBATCH --partition=shared
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=1G
-#SBATCH --time=00:30:00
+#SBATCH --time=00:05:00
 #SBATCH --output=%x.o%j.%N
 
 module purge
 
-time -p "${HOME}/4pi/bash/pi.sh" -b 8 -r 5 -s 10000
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
 ```
 
-Investigate what variables the different command-line options are used to control in the problem. 
+Look at what variables the different command-line options are used to control in the problem. 
 
+*Command*
 ```
-head -n 15 "${HOME}/4pi/bash/pi.sh"
+head -n 15 ../code/4pi/bash/pi.sh
 ```
 
+*Output*
 ```
-[xdtr108@login01 ~]$ head -n 15 "${HOME}/4pi/bash/pi.sh"
+[mkandes@login02 scripts]$ head -n 15 ../code/4pi/bash/pi.sh
 #!/usr/bin/env bash
 #
 # Estimate the value of Pi via Monte Carlo
@@ -98,305 +126,688 @@ if (( "${#}" > 0 )); then
     shift 2
   done
 fi
+[mkandes@login02 scripts]$
 ```
 
 Submit the batch job to the scheduler with the default settings. 
 
+*Command*
 ```
-[xdtr108@login01 ~]$ sbatch estimate-pi.sh 
-Submitted batch job 14791638
-[xdtr108@login01 ~]$ squeue -u $USER
+sbatch estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh  estimate-pi.sh  pi-workflow.sh
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52894884
+[mkandes@login02 scripts]$
+```
+
+Monitor the job status in the queue.
+
+*Command*
+```
+squeue --me
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-          14791638     debug estimate  xdtr108  R       0:05      1 exp-9-55
-[xdtr108@login01 ~]$ squeue -u $USER
+          52894884    shared estimate  mkandes  R       0:03      1 exp-1-08
+[mkandes@login02 scripts]$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-          14791638     debug estimate  xdtr108 CG       0:51      1 exp-9-55
-[xdtr108@login01 ~]$ ls
-4pi  estimate-pi.o14791638.exp-9-55  estimate-pi.sh
+          52894884    shared estimate  mkandes  R       0:48      1 exp-1-08
+[mkandes@login02 scripts]$
 ```
 
 Check the standard output file for the results.
 
+*Command*
 ```
-[xdtr108@login01 ~]$ cat estimate-pi.o14791638.exp-9-55 
-3.12160
-real 50.12
-user 32.41
-sys 17.21
+cat estimate-pi.o*
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh  estimate-pi.o52894884.exp-1-08  estimate-pi.sh  pi-workflow.sh
+[mkandes@login02 scripts]$ cat estimate-pi.o* 
+3.15040
+real 58.03
+user 34.14
+sys 23.43
+[mkandes@login02 scripts]$
 ```
 
 ### Creating your first job array
 
-Modify the example batch job script to create your first array job (of 10 array tasks). 
+Modify the example batch job script to create your first array job (of 
+10 array tasks).
 
+*Command*
 ```
-#SBATCH --output=%x.o%A.%a.%N
-#SBATCH --array=0-9
+sed -i 's|#SBATCH --output=%x.o%j.%N|#SBATCH --output=%x.o%A.%a.%N|' estimate-pi.sh
 ```
 
-Submit the modified batch job script to the scheduler.
-
+*Output*
 ```
-[xdtr108@login01 ~]$ cat estimate-pi.sh 
+[mkandes@login02 scripts]$ sed -i 's|#SBATCH --output=%x.o%j.%N|#SBATCH --output=%x.o%A.%a.%N|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
-#SBATCH --account=sds184
-#SBATCH --partition=debug
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=1G
-#SBATCH --time=00:30:00
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+
+module purge
+
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+sed -i '13i#SBATCH --array=0-9' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i '13i#SBATCH --array=0-9' estimate-pi.sh
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
 #SBATCH --output=%x.o%A.%a.%N
 #SBATCH --array=0-9
 
 module purge
 
-time -p "${HOME}/4pi/bash/pi.sh" -b 8 -r 5 -s 10000
-[xdtr108@login01 ~]$ sbatch estimate-pi.sh 
-Submitted batch job 14791898
-[xdtr108@login01 ~]$ squeue -u $USER
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
+```
+
+Submit the modified batch job script to the scheduler.
+
+*Command*
+```
+sbatch estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh  estimate-pi.o52894884.exp-1-08  estimate-pi.sh  pi-workflow.sh
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52895363
+[mkandes@login02 scripts]$
+```
+
+Check the status of the job array in the queue.
+
+*Command*
+```
+squeue --me
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14791898_8    shared estimate  xdtr108  R       0:00      1 exp-1-06
-        14791898_9    shared estimate  xdtr108  R       0:00      1 exp-1-06
-        14791898_0    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_1    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_2    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_3    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_4    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_5    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_6    shared estimate  xdtr108  R       0:01      1 exp-1-06
-        14791898_7    shared estimate  xdtr108  R       0:01      1 exp-1-06
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14791898_7    shared estimate  xdtr108 CG       1:27      1 exp-1-06
-        14791898_8    shared estimate  xdtr108  R       1:26      1 exp-1-06
-        14791898_9    shared estimate  xdtr108  R       1:26      1 exp-1-06
-        14791898_0    shared estimate  xdtr108  R       1:27      1 exp-1-06
-        14791898_1    shared estimate  xdtr108  R       1:27      1 exp-1-06
-        14791898_2    shared estimate  xdtr108  R       1:27      1 exp-1-06
-        14791898_3    shared estimate  xdtr108  R       1:27      1 exp-1-06
-        14791898_4    shared estimate  xdtr108  R       1:27      1 exp-1-06
-        14791898_5    shared estimate  xdtr108  R       1:27      1 exp-1-06
-        14791898_6    shared estimate  xdtr108  R       1:27      1 exp-1-06
-[xdtr108@login01 ~]$ ls
-4pi                               estimate-pi.o14791898.5.exp-1-06
-estimate-pi.o14791638.exp-9-55    estimate-pi.o14791898.6.exp-1-06
-estimate-pi.o14791898.0.exp-1-06  estimate-pi.o14791898.7.exp-1-06
-estimate-pi.o14791898.1.exp-1-06  estimate-pi.o14791898.8.exp-1-06
-estimate-pi.o14791898.2.exp-1-06  estimate-pi.o14791898.9.exp-1-06
-estimate-pi.o14791898.3.exp-1-06  estimate-pi.sh
-estimate-pi.o14791898.4.exp-1-06
+        52895363_0    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_1    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_2    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_3    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_4    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_5    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_6    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_7    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_8    shared estimate  mkandes  R       0:41      1 exp-1-08
+        52895363_9    shared estimate  mkandes  R       0:41      1 exp-1-08
+[mkandes@login02 scripts]$
 ```
 
-Check the results from the job array ... 
+Once the job array and all of its tasks complete, check the results.
 
+*Command*
 ```
-[xdtr108@login01 ~]$ head -n 1 estimate-pi.o14791898.* -q
-3.14480
-3.16840
-3.15480
-3.17200
-3.13480
-3.15480
-3.17840
-3.12800
-3.14080
-3.16000
+head -n 1 estimate-pi.o* -q
 ```
 
-... and the runtimes of each array task.
-
 ```
-[xdtr108@login01 ~]$ grep 'real' estimate-pi.o14791898.*
-estimate-pi.o14791898.0.exp-1-06:real 85.82
-estimate-pi.o14791898.1.exp-1-06:real 86.05
-estimate-pi.o14791898.2.exp-1-06:real 85.94
-estimate-pi.o14791898.3.exp-1-06:real 86.17
-estimate-pi.o14791898.4.exp-1-06:real 85.80
-estimate-pi.o14791898.5.exp-1-06:real 85.80
-estimate-pi.o14791898.6.exp-1-06:real 85.82
-estimate-pi.o14791898.7.exp-1-06:real 85.79
-estimate-pi.o14791898.8.exp-1-06:real 86.55
-estimate-pi.o14791898.9.exp-1-06:real 86.43
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh               estimate-pi.o52895363.2.exp-1-08  estimate-pi.o52895363.6.exp-1-08  estimate-pi.sh
+estimate-pi.o52894884.exp-1-08    estimate-pi.o52895363.3.exp-1-08  estimate-pi.o52895363.7.exp-1-08  pi-workflow.sh
+estimate-pi.o52895363.0.exp-1-08  estimate-pi.o52895363.4.exp-1-08  estimate-pi.o52895363.8.exp-1-08
+estimate-pi.o52895363.1.exp-1-08  estimate-pi.o52895363.5.exp-1-08  estimate-pi.o52895363.9.exp-1-08
+[mkandes@login02 scripts]$ head -n 1 estimate-pi.o* -q
+3.15040
+3.12680
+3.14960
+3.14400
+3.13800
+3.15120
+3.14440
+3.11200
+3.14160
+3.14920
+3.15880
+[mkandes@login02 scripts]$
+```
+
+Next check the runtime of each array task.
+
+*Command*
+```
+grep 'real' estimate-pi.o*
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ grep 'real' estimate-pi.o*
+estimate-pi.o52894884.exp-1-08:real 58.03
+estimate-pi.o52895363.0.exp-1-08:real 90.59
+estimate-pi.o52895363.1.exp-1-08:real 90.32
+estimate-pi.o52895363.2.exp-1-08:real 89.83
+estimate-pi.o52895363.3.exp-1-08:real 90.28
+estimate-pi.o52895363.4.exp-1-08:real 91.79
+estimate-pi.o52895363.5.exp-1-08:real 91.54
+estimate-pi.o52895363.6.exp-1-08:real 91.72
+estimate-pi.o52895363.7.exp-1-08:real 91.50
+estimate-pi.o52895363.8.exp-1-08:real 93.02
+estimate-pi.o52895363.9.exp-1-08:real 92.92
+[mkandes@login02 scripts]$
 ```
 
 ### Using a job array to create a parameter sweep
 
 Modify the array job script to create a parameter sweep over the `-b | --bytes` size variable using non-consecutive array index values and the `SLURM_ARRAY_TASK_ID` environment variable.
 
+*Command*
 ```
+sed -i 's|#SBATCH --array=0-9|#SBATCH --array=1,2,4,8|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|#SBATCH --array=0-9|#SBATCH --array=1,2,4,8|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
 #SBATCH --array=1,2,4,8
 
 module purge
 
-time -p "${HOME}/4pi/bash/pi.sh" -b "${SLURM_ARRAY_TASK_ID}" -r 5 -s 10000
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+sed -i 's|-b 8|-b "${SLURM_ARRAY_TASK_ID}"|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|-b 8|-b "${SLURM_ARRAY_TASK_ID}"|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1,2,4,8
+
+module purge
+
+time -p ../code/4pi/bash/pi.sh -b "${SLURM_ARRAY_TASK_ID}" -r 5 -s 10000
+[mkandes@login02 scripts]$
 ```
 
 Submit the modified array job script to the scheduler.
 
+*Command*
 ```
-[xdtr108@login01 ~]$ sbatch estimate-pi.sh 
-Submitted batch job 14792416
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14792416_8    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792416_4    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792416_2    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792416_1    shared estimate  xdtr108 PD       0:00      1 (None)
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14792416_1    shared estimate  xdtr108  R       0:08      1 exp-1-06
-        14792416_2    shared estimate  xdtr108  R       0:08      1 exp-1-06
-        14792416_4    shared estimate  xdtr108  R       0:08      1 exp-1-06
-        14792416_8    shared estimate  xdtr108  R       0:08      1 exp-1-06
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14792416_1    shared estimate  xdtr108  R       1:22      1 exp-1-06
-[xdtr108@login01 ~]$ ls
-4pi                               estimate-pi.o14791898.7.exp-1-06
-estimate-pi.o14791638.exp-9-55    estimate-pi.o14791898.8.exp-1-06
-estimate-pi.o14791898.0.exp-1-06  estimate-pi.o14791898.9.exp-1-06
-estimate-pi.o14791898.1.exp-1-06  estimate-pi.o14792416.1.exp-1-06
-estimate-pi.o14791898.2.exp-1-06  estimate-pi.o14792416.2.exp-1-06
-estimate-pi.o14791898.3.exp-1-06  estimate-pi.o14792416.4.exp-1-06
-estimate-pi.o14791898.4.exp-1-06  estimate-pi.o14792416.8.exp-1-06
-estimate-pi.o14791898.5.exp-1-06  estimate-pi.sh
-estimate-pi.o14791898.6.exp-1-06
+sbatch estimate-pi.sh
 ```
 
-Check the results. 
-
+*Output*
 ```
-[xdtr108@login01 ~]$ head -n 2 estimate-pi.o14792416.*
-==> estimate-pi.o14792416.1.exp-1-06 <==
-3.13840
-real 88.80
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh               estimate-pi.o52895363.2.exp-1-08  estimate-pi.o52895363.6.exp-1-08  estimate-pi.sh
+estimate-pi.o52894884.exp-1-08    estimate-pi.o52895363.3.exp-1-08  estimate-pi.o52895363.7.exp-1-08  pi-workflow.sh
+estimate-pi.o52895363.0.exp-1-08  estimate-pi.o52895363.4.exp-1-08  estimate-pi.o52895363.8.exp-1-08
+estimate-pi.o52895363.1.exp-1-08  estimate-pi.o52895363.5.exp-1-08  estimate-pi.o52895363.9.exp-1-08
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52895472
+[mkandes@login02 scripts]$
+```
 
-==> estimate-pi.o14792416.2.exp-1-06 <==
+And then monitor the status of the job in queue.
+
+*Command*
+```
+squeue --me
+```
+
+*Ouput*
+```
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52895472
+[mkandes@login02 scripts]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+        52895472_1    shared estimate  mkandes  R       0:18      1 exp-1-08
+        52895472_2    shared estimate  mkandes  R       0:18      1 exp-1-08
+        52895472_4    shared estimate  mkandes  R       0:18      1 exp-1-08
+        52895472_8    shared estimate  mkandes  R       0:18      1 exp-1-08
+[mkandes@login02 scripts]$
+```
+
+Check the results.
+
+*Command*
+```
+head -n 2 estimate-pi.o52895472.*
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh               estimate-pi.o52895363.3.exp-1-08  estimate-pi.o52895363.8.exp-1-08  estimate-pi.o52895472.8.exp-1-08
+estimate-pi.o52894884.exp-1-08    estimate-pi.o52895363.4.exp-1-08  estimate-pi.o52895363.9.exp-1-08  estimate-pi.sh
+estimate-pi.o52895363.0.exp-1-08  estimate-pi.o52895363.5.exp-1-08  estimate-pi.o52895472.1.exp-1-08  pi-workflow.sh
+estimate-pi.o52895363.1.exp-1-08  estimate-pi.o52895363.6.exp-1-08  estimate-pi.o52895472.2.exp-1-08
+estimate-pi.o52895363.2.exp-1-08  estimate-pi.o52895363.7.exp-1-08  estimate-pi.o52895472.4.exp-1-08
+[mkandes@login02 scripts]$ head -n 2 estimate-pi.o52895472.*
+==> estimate-pi.o52895472.1.exp-1-08 <==
 3.12880
-real 70.73
+real 58.79
 
-==> estimate-pi.o14792416.4.exp-1-06 <==
-3.16040
-real 70.61
+==> estimate-pi.o52895472.2.exp-1-08 <==
+3.12880
+real 58.91
 
-==> estimate-pi.o14792416.8.exp-1-06 <==
-3.15280
-real 70.82
+==> estimate-pi.o52895472.4.exp-1-08 <==
+3.12720
+real 58.99
+
+==> estimate-pi.o52895472.8.exp-1-08 <==
+3.14880
+real 59.21
+[mkandes@login02 scripts]$
 ```
 
-Next, reset the `-b | --bytes` parameter to `8` and then rewrite the batch job script to create a parameter sweep over `-s | --samples` variable. However, in this case, use the `SLURM_ARRAY_TASK_ID` to logarithmically scale the number of samples.
+Next, reset the `-b | --bytes` parameter to `8` and then rewrite the batch job script 
+to create a parameter sweep over `-s | --samples` variable. However, in this case, 
+use the `SLURM_ARRAY_TASK_ID` to log scale the number of samples.
 
+*Command*
 ```
+sed -i 's|-b "${SLURM_ARRAY_TASK_ID}"|-b 8|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|-b "${SLURM_ARRAY_TASK_ID}"|-b 8|' estimate-pi.sh
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1,2,4,8
+
+module purge
+
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+sed -i 's|#SBATCH --array=1,2,4,8|#SBATCH --array=1,10,100,1000,10000|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|#SBATCH --array=1,2,4,8|#SBATCH --array=1,10,100,1000,10000|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
 #SBATCH --array=1,10,100,1000,10000
 
 module purge
 
-time -p "${HOME}/4pi/bash/pi.sh" -b 8 -r 5 -s "${SLURM_ARRAY_TASK_ID}"
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
 ```
 
+Once the changes are in place, submit the job.
+
+*Command*
 ```
-[xdtr108@login01 ~]$ sbatch estimate-pi.sh 
+sbatch estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
 sbatch: error: Batch job submission failed: Invalid job array specification
-[xdtr108@login01 ~]$
+[mkandes@login02 scripts]$
 ```
 
-What went wrong?
+What went wrong? Let's check the `slurm.conf`.
 
+*Command*
 ```
-[xdtr108@login01 ~]$ ls -l /etc/slurm/
-total 0
-[xdtr108@login01 ~]$ echo $SLURM_CONF
-/cm/shared/apps/slurm/var/etc/expanse/slurm.conf
-[xdtr108@login01 ~]$ cat $SLURM_CONF | grep MaxArraySize
+cat $SLURM_CONF | grep MaxArraySize
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ cat $SLURM_CONF | grep MaxArraySize
 MaxArraySize=1000
-```
-
-```
-[xdtr108@login01 ~]$ cat $SLURM_CONF | grep MaxJobCount
-MaxJobCount=40000
+[mkandes@login02 scripts]$
 ```
 
 What is the solution? Reindex using another environment variable based on your `SLURM_ARRAY_TASK_ID`.
 
+*Command*
 ```
-#SBATCH --array=1-5
+sed -i 's|#SBATCH --array=1,10,100,1000,10000|#SBATCH --array=1-5|' estimate-pi.sh
+```
 
-declare -xir NUMBER_OF_SAMPLES="10**${SLURM_ARRAY_TASK_ID}"
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|#SBATCH --array=1,10,100,1000,10000|#SBATCH --array=1-5|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1-5
 
 module purge
 
-time -p "${HOME}/4pi/bash/pi.sh" -b 8 -r 5 -s "${NUMBER_OF_SAMPLES}"
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
 ```
 
-- https://google.github.io/styleguide/shellguide.html
-
+*Command*
 ```
-[xdtr108@login01 ~]$ sbatch estimate-pi.sh 
-Submitted batch job 14792680
-[xdtr108@login01 ~]$ squeue -u $USER
+sed -i '15ideclare -xir NUMBER_OF_SAMPLES="10**${SLURM_ARRAY_TASK_ID}"' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i '15ideclare -xir NUMBER_OF_SAMPLES="10**${SLURM_ARRAY_TASK_ID}"' estimate-pi.sh
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1-5
+
+declare -xir NUMBER_OF_SAMPLES="10**${SLURM_ARRAY_TASK_ID}"
+module purge
+
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s 10000
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+sed -i 's|-s 10000|-s "${NUMBER_OF_SAMPLES}"|' estimate-pi.sh 
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|-s 10000|-s "${NUMBER_OF_SAMPLES}"|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1-5
+
+declare -xir NUMBER_OF_SAMPLES="10**${SLURM_ARRAY_TASK_ID}"
+module purge
+
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s "${NUMBER_OF_SAMPLES}"
+[mkandes@login02 scripts]$
+```
+
+With these modifications in place, submit the job.
+
+*Command*
+```
+sbatch estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52895589
+[mkandes@login02 scripts]$
+```
+
+Monitor the job in the queue
+
+*Command*
+```
+squeue --me
+```
+
+*Output
+```
+[mkandes@login02 scripts]$ squeue --me
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14792680_5    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792680_4    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792680_3    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792680_2    shared estimate  xdtr108 PD       0:00      1 (None)
-        14792680_1    shared estimate  xdtr108 PD       0:00      1 (None)
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14792680_5    shared estimate  xdtr108 PD       0:00      1 (Priority)
-        14792680_4    shared estimate  xdtr108 PD       0:00      1 (Priority)
-        14792680_3    shared estimate  xdtr108 PD       0:00      1 (Priority)
-        14792680_2    shared estimate  xdtr108 PD       0:00      1 (Priority)
-        14792680_1    shared estimate  xdtr108 PD       0:00      1 (Priority)
-[xdtr108@login01 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-        14792680_5    shared estimate  xdtr108  R       3:03      1 exp-1-06
-[xdtr108@login02 ~]$ ls
-4pi                               estimate-pi.o14791898.9.exp-1-06
-estimate-pi.o14791638.exp-9-55    estimate-pi.o14792416.1.exp-1-06
-estimate-pi.o14791898.0.exp-1-06  estimate-pi.o14792416.2.exp-1-06
-estimate-pi.o14791898.1.exp-1-06  estimate-pi.o14792416.4.exp-1-06
-estimate-pi.o14791898.2.exp-1-06  estimate-pi.o14792416.8.exp-1-06
-estimate-pi.o14791898.3.exp-1-06  estimate-pi.o14792680.1.exp-1-06
-estimate-pi.o14791898.4.exp-1-06  estimate-pi.o14792680.2.exp-1-06
-estimate-pi.o14791898.5.exp-1-06  estimate-pi.o14792680.3.exp-1-06
-estimate-pi.o14791898.6.exp-1-06  estimate-pi.o14792680.4.exp-1-06
-estimate-pi.o14791898.7.exp-1-06  estimate-pi.o14792680.5.exp-1-06
-estimate-pi.o14791898.8.exp-1-06  estimate-pi.sh
-[xdtr108@login02 ~]$
+        52895589_5    shared estimate  mkandes  R       1:30      1 exp-1-38
+[mkandes@login02 scripts]$
 ```
 
+
+Once the array tasks complete, check the results.
+
+*Command*
 ```
-[xdtr108@login02 ~]$ head -n 2 estimate-pi.o14792680.*
-==> estimate-pi.o14792680.1.exp-1-06 <==
-2.80000
-real 0.08
+head -n 2 estimate-pi.o52895589.*
+```
 
-==> estimate-pi.o14792680.2.exp-1-06 <==
-3.08000
-real 0.54
+*Output*
+```
+[mkandes@login02 scripts]$ head -n 2 estimate-pi.o52895589.*
+==> estimate-pi.o52895589.1.exp-1-38 <==
+3.60000
+real 0.10
 
-==> estimate-pi.o14792680.3.exp-1-06 <==
-3.20400
-real 5.57
+==> estimate-pi.o52895589.2.exp-1-38 <==
+3.28000
+real 0.82
 
-==> estimate-pi.o14792680.4.exp-1-06 <==
-3.11880
-real 50.96
+==> estimate-pi.o52895589.3.exp-1-38 <==
+3.03600
+real 8.09
 
-==> estimate-pi.o14792680.5.exp-1-06 <==
-3.14632
-real 535.73
-[xdtr108@login02 ~]$
+==> estimate-pi.o52895589.4.exp-1-38 <==
+3.15680
+real 59.69
+
+==> estimate-pi.o52895589.5.exp-1-38 <==
+slurmstepd: error: *** JOB 52895589 ON exp-1-38 CANCELLED AT 2026-08-03T11:10:56 DUE TO TIME LIMIT ***
+[mkandes@login02 scripts]$
 ```
 
 ### Throttling a large array job
 
-Let's migrate from the (slow) bash-based Pi program to the (faster) python one for a better estimate. We'll then create a large array job, but throttle the number of jobs that can run simultaneosuly. 
+Let's migrate from the (slow) bash-based Pi program to the (faster)
+python one for a better estimate. We'll then create a large array job,
+but throttle the number of jobs that can run simultaneosuly.
 
-- https://slurm.schedmd.com/high_throughput.html
+*Command*
+```
+sed -i 's|#SBATCH --array=1-5|#SBATCH --array=1-512%32|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|#SBATCH --array=1-5|#SBATCH --array=1-512%32|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1-512%32
+
+declare -xir NUMBER_OF_SAMPLES="10**${SLURM_ARRAY_TASK_ID}"
+module purge
+
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s "${NUMBER_OF_SAMPLES}"
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+sed -i '15d' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i '15d' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1-512%32
+
+module purge
+
+time -p ../code/4pi/bash/pi.sh -b 8 -r 5 -s "${NUMBER_OF_SAMPLES}"
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+sed -i 's|../code/4pi/bash/pi.sh -b 8 -r 5 -s "${NUMBER_OF_SAMPLES}"|../code/4pi/python/pi.py 100000000|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|../code/4pi/bash/pi.sh -b 8 -r 5 -s "${NUMBER_OF_SAMPLES}"|../code/4pi/python/pi.py 100000000|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%A.%a.%N
+#SBATCH --array=1-512%32
+
+module purge
+
+time -p ../code/4pi/python/pi.py 100000000
+[mkandes@login02 scripts]$
+```
 
 ```
 #SBATCH --array=1-512%32
@@ -406,90 +817,113 @@ module purge
 time -p python3 "${HOME}/4pi/python/pi.py" 100000000
 ```
 
+Once your modifications ready, go ahead and submit the throttled job array.
+
+*Command*
 ```
-[xdtr108@login02 ~]$ sbatch estimate-pi.sh 
-Submitted batch job 14799628
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-  14799628_[1-512]    shared estimate  xdtr108 PD       0:00      1 (None)
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
- 14799628_[30-512]    shared estimate  xdtr108 PD       0:00      1 (Priority)
-        14799628_1    shared estimate  xdtr108  R       0:09      1 exp-1-06
-        14799628_2    shared estimate  xdtr108  R       0:09      1 exp-1-06
-        14799628_3    shared estimate  xdtr108  R       0:09      1 exp-1-06
-        14799628_4    shared estimate  xdtr108  R       0:09      1 exp-1-12
-        14799628_5    shared estimate  xdtr108  R       0:09      1 exp-1-12
-        14799628_6    shared estimate  xdtr108  R       0:09      1 exp-1-12
-        ...
-       14799628_27    shared estimate  xdtr108  R       0:09      1 exp-1-34
-       14799628_28    shared estimate  xdtr108  R       0:09      1 exp-1-34
-       14799628_29    shared estimate  xdtr108  R       0:09      1 exp-1-34
- [xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
- 14799628_[62-512]    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-       14799628_37    shared estimate  xdtr108  R       0:23      1 exp-1-34
-       14799628_38    shared estimate  xdtr108  R       0:23      1 exp-1-34
-       14799628_39    shared estimate  xdtr108  R       0:23      1 exp-1-34
-       14799628_40    shared estimate  xdtr108  R       0:23      1 exp-1-34
-       ...
-       14799628_35    shared estimate  xdtr108  R       0:24      1 exp-1-27
-       14799628_36    shared estimate  xdtr108  R       0:24      1 exp-1-34
-[xdtr108@login02 ~]$ scancel 14799628_[256-512]
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-      14799628_255    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-      14799628_254    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-      14799628_253    shared estimate  xdtr108 PD       0:00      1 (JobArrayTaskLimit)
-      ...
-       14799628_84    shared estimate  xdtr108  R       0:02      1 exp-1-27
-       14799628_85    shared estimate  xdtr108  R       0:02      1 exp-1-27
-       14799628_86    shared estimate  xdtr108  R       0:02      1 exp-1-34
-[xdtr108@login02 ~]$ scancel 14799628
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-       14799628_87    shared estimate  xdtr108 CG       0:29      1 exp-1-34
-       14799628_88    shared estimate  xdtr108 CG       0:29      1 exp-1-34
-       14799628_89    shared estimate  xdtr108 CG       0:29      1 exp-1-34
-       ...
-       14799628_85    shared estimate  xdtr108 CG       0:30      1 exp-1-27
-       14799628_86    shared estimate  xdtr108 CG       0:30      1 exp-1-34
-[xdtr108@login02 ~]$ squeue -u $USER
-             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-[xdtr108@login02 ~]$ ls
-4pi                                estimate-pi.o14799628.44.exp-1-34
-estimate-pi.o14791638.exp-9-55     estimate-pi.o14799628.45.exp-1-34
-estimate-pi.o14791898.0.exp-1-06   estimate-pi.o14799628.46.exp-1-34
-estimate-pi.o14791898.1.exp-1-06   estimate-pi.o14799628.47.exp-1-34
-estimate-pi.o14791898.2.exp-1-06   estimate-pi.o14799628.48.exp-1-34
-estimate-pi.o14791898.3.exp-1-06   estimate-pi.o14799628.49.exp-1-34
-estimate-pi.o14791898.4.exp-1-06   estimate-pi.o14799628.4.exp-1-12
-estimate-pi.o14791898.5.exp-1-06   estimate-pi.o14799628.50.exp-1-34
-estimate-pi.o14791898.6.exp-1-06   estimate-pi.o14799628.51.exp-1-34
-...
-estimate-pi.o14799628.40.exp-1-34  estimate-pi.o14799628.93.exp-1-34
-estimate-pi.o14799628.41.exp-1-34  estimate-pi.o14799628.9.exp-1-15
-estimate-pi.o14799628.42.exp-1-34  estimate-pi.sh
-estimate-pi.o14799628.43.exp-1-34
+sbatch estimate-pi.sh
 ```
 
+*Output*
 ```
-[xdtr108@login02 ~]$ head -n 2 estimate-pi.o14799628.*
-==> estimate-pi.o14799628.10.exp-1-27 <==
-3.141280711412807
-real 52.23
-
-==> estimate-pi.o14799628.11.exp-1-27 <==
-3.14126499141265
-real 51.66
-
-==> estimate-pi.o14799628.12.exp-1-27 <==
-3.1412676714126766
-real 54.90
-...
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52895833
+[mkandes@login02 scripts]$
 ```
 
+Check the status of the array in the queue.
+
+*Command*
+```
+squeue --me
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+ 52895833_[33-512]    shared estimate  mkandes PD       0:00      1 (JobArrayTaskLimit)
+        52895833_1    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_2    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_3    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_4    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_5    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_6    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_7    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_8    shared estimate  mkandes  R       0:19      1 exp-1-29
+        52895833_9    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_10    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_11    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_12    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_13    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_14    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_15    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_16    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_17    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_18    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_19    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_20    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_21    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_22    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_23    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_24    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_25    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_26    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_27    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_28    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_29    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_30    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_31    shared estimate  mkandes  R       0:19      1 exp-1-29
+       52895833_32    shared estimate  mkandes  R       0:19      1 exp-1-29
+[mkandes@login02 scripts]$
+```
+Before we move on, let's go ahead and cancel the remaining array tasks.
+
+*Command*
+```
+scancel 52895833
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ scancel 52895833
+[mkandes@login02 scripts]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+       52895833_96    shared estimate  mkandes CG       0:30      1 exp-1-29
+       52895833_94    shared estimate  mkandes CG       0:32      1 exp-1-29
+       52895833_95    shared estimate  mkandes CG       0:32      1 exp-1-29
+       52895833_93    shared estimate  mkandes CG       0:34      1 exp-1-29
+       52895833_92    shared estimate  mkandes CG       0:35      1 exp-1-29
+       52895833_91    shared estimate  mkandes CG       0:36      1 exp-1-29
+       52895833_87    shared estimate  mkandes CG       0:38      1 exp-1-29
+       52895833_88    shared estimate  mkandes CG       0:38      1 exp-1-29
+       52895833_89    shared estimate  mkandes CG       0:38      1 exp-1-29
+       52895833_90    shared estimate  mkandes CG       0:38      1 exp-1-29
+       52895833_84    shared estimate  mkandes CG       0:39      1 exp-1-42
+       52895833_85    shared estimate  mkandes CG       0:39      1 exp-1-42
+       52895833_86    shared estimate  mkandes CG       0:39      1 exp-1-42
+       52895833_82    shared estimate  mkandes CG       0:40      1 exp-1-29
+       52895833_83    shared estimate  mkandes CG       0:40      1 exp-1-29
+       52895833_77    shared estimate  mkandes CG       0:41      1 exp-1-42
+       52895833_78    shared estimate  mkandes CG       0:41      1 exp-1-29
+       52895833_79    shared estimate  mkandes CG       0:41      1 exp-1-29
+       52895833_80    shared estimate  mkandes CG       0:41      1 exp-1-29
+       52895833_81    shared estimate  mkandes CG       0:41      1 exp-1-29
+       52895833_66    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_67    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_68    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_69    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_70    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_71    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_72    shared estimate  mkandes CG       0:42      1 exp-1-29
+       52895833_73    shared estimate  mkandes CG       0:42      1 exp-1-42
+       52895833_74    shared estimate  mkandes CG       0:42      1 exp-1-42
+       52895833_75    shared estimate  mkandes CG       0:42      1 exp-1-42
+       52895833_76    shared estimate  mkandes CG       0:42      1 exp-1-42
+       52895833_65    shared estimate  mkandes CG       0:44      1 exp-1-29
+[mkandes@login02 scripts]$
+```
 
 #
 
-Next - [Batch job dependencies](DEPENDENCIES.md)
+Next - [Batch job dependencies](dependencies.md)

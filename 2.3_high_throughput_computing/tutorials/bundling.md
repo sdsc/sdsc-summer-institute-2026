@@ -1,55 +1,293 @@
-# High Throughput Computing
+# High-Throughput + Many-Task Computing
 
-- [Parallel paradigms: HPC vs. HTC](PARALLEL.md)
-- [Batch job arrays](ARRAYS.md)
-- [Batch job dependencies](DEPENDENCIES.md)
-- [Batch job bundling](BUNDLING.md)
-- [Preemptible batch jobs](PREEMPTIBLE.md)
-- [Distributed high-throughput computing](DHTC.md)
+- [Batch job arrays](arrays.md)
+- [Batch job dependencies](dependencies.md)
+- [Batch job bundling](bundling.md)
+- [Preemptible batch jobs](preemptible.md)
 
 ## Batch job bundling
 
-While Expanse was designed to be supportive of HTC-like workflows, most HPC systems are built to accomodate large-scale, parallel jobs. On these systems, compute resources are often scheduled at the node-level and they either discourage or explicitly prohibit the queueing hundreds or thousands of jobs at a time in order to improve the scheduling performance of the system. Under these circumstances, the only way to run HTC workflows that consist of many serial (or small multi-core) jobs without being inherently wasteful and inefficient is to create *job bundles*, wherein a group of independent jobs or tasks are *packed* into and managed (usually in an ad-hoc way) by a single batch job. 
+While Expanse was designed to be supportive of HTC-like workflows, most
+HPC systems are built to accomodate large-scale, parallel jobs. On these
+systems, compute resources are often scheduled at the node-level and they
+either discourage or explicitly prohibit the queueing hundreds or thousands
+of jobs at a time in order to improve the scheduling performance of the 
+system. Under these circumstances, the only way to run HTC workflows that
+consist of many serial (or small multi-core) jobs without being inherently
+wasteful and inefficient is to create *job bundles*, wherein a group of
+independent jobs or tasks are *packed* into and managed (usually in an 
+ad-hoc way) by a single batch job. 
 
 ### Linux-native scheduling
 
 #### `&`
 
-The simplest and most straightforward approach to bundling jobs is with the [Linux scheduler](https://en.wikipedia.org/wiki/Completely_Fair_Scheduler). When you execute a command in a batch job script, you can force the process that is started into the *background* to run independently of other processes that may also be created as part of the job. The Linux scheduler will (automagically) distribute the (child) processes across the compute resources available to run the job. 
+The simplest and most straightforward approach to bundling jobs is with
+the Linux scheduler. When you execute a command in a batch job script, 
+you can force the process that is started into the *background* to run 
+independently of other processes that may also be created as part of the
+job. The Linux scheduler will (automagically) distribute the (child) 
+processes across the compute resources available to run the job. 
 
+To start, let's again clean up our working directory.
+
+*Command*
 ```
+rm *.exp-*
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.o52896252.exp-1-08  estimate-pi.o52896226.19.exp-1-29  estimate-pi.o52896275.11.exp-1-08  estimate-pi.o52896275.3.exp-1-08
+compute-pi-stats.o52896276.exp-1-08  estimate-pi.o52896226.1.exp-1-29   estimate-pi.o52896275.12.exp-1-29  estimate-pi.o52896275.4.exp-1-08
+compute-pi-stats.sh                  estimate-pi.o52896226.20.exp-1-29  estimate-pi.o52896275.13.exp-1-29  estimate-pi.o52896275.5.exp-1-08
+estimate-pi.o52896226.10.exp-1-29    estimate-pi.o52896226.2.exp-1-29   estimate-pi.o52896275.14.exp-1-29  estimate-pi.o52896275.6.exp-1-08
+estimate-pi.o52896226.11.exp-1-29    estimate-pi.o52896226.3.exp-1-29   estimate-pi.o52896275.15.exp-1-08  estimate-pi.o52896275.7.exp-1-08
+estimate-pi.o52896226.12.exp-1-38    estimate-pi.o52896226.4.exp-1-29   estimate-pi.o52896275.16.exp-1-08  estimate-pi.o52896275.8.exp-1-08
+estimate-pi.o52896226.13.exp-1-38    estimate-pi.o52896226.5.exp-1-29   estimate-pi.o52896275.17.exp-1-29  estimate-pi.o52896275.9.exp-1-08
+estimate-pi.o52896226.14.exp-1-29    estimate-pi.o52896226.6.exp-1-29   estimate-pi.o52896275.18.exp-1-29  estimate-pi.sh
+estimate-pi.o52896226.15.exp-1-29    estimate-pi.o52896226.7.exp-1-29   estimate-pi.o52896275.19.exp-1-29  pi-workflow.o52896273.exp-1-08
+estimate-pi.o52896226.16.exp-1-38    estimate-pi.o52896226.8.exp-1-29   estimate-pi.o52896275.1.exp-1-08   pi-workflow.sh
+estimate-pi.o52896226.17.exp-1-38    estimate-pi.o52896226.9.exp-1-29   estimate-pi.o52896275.20.exp-1-08
+estimate-pi.o52896226.18.exp-1-29    estimate-pi.o52896275.10.exp-1-08  estimate-pi.o52896275.2.exp-1-08
+[mkandes@login02 scripts]$ rm *.exp-*
+[mkandes@login02 scripts]$ ls
+compute-pi-stats.sh  estimate-pi.sh  pi-workflow.sh
+[mkandes@login02 scripts]$
+```
+
+Then remove the job array directives and append the following modifications to your `estimate-pi.sh` job script.
+
+*Command*
+```
+sed -i 's|#SBATCH --output=%x.o%A.%a.%N|#SBATCH --output=%x.o%j.%N|' estimate-pi.sh 
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|#SBATCH --output=%x.o%A.%a.%N|#SBATCH --output=%x.o%j.%N|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
-#SBATCH --account=gue998
-#SBATCH --reservation=si25cpu
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
 #SBATCH --partition=shared
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=4
+#SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=4G
-#SBATCH --time=00:30:00
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%j.%N
+#SBATCH --array=1-20%10
+
+module purge
+
+time -p ../code/4pi/python/pi.py 100000000
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+sed -i '13d' estimate-pi.sh 
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i '13d' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
 #SBATCH --output=%x.o%j.%N
 
 module purge
 
-python3 "${HOME}/4pi/python/pi.py" 100000000 &
-python3 "${HOME}/4pi/python/pi.py" 100000000 &
-python3 "${HOME}/4pi/python/pi.py" 100000000 &
-python3 "${HOME}/4pi/python/pi.py" 100000000 &
+time -p ../code/4pi/python/pi.py 100000000
+[mkandes@login02 scripts]$
 ```
 
+*Command*
 ```
+sed -i 's|100000000|100000000 \&|' estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sed -i 's|100000000|100000000 \&|' estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%j.%N
+
+module purge
+
+time -p ../code/4pi/python/pi.py 100000000 &
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+echo 'time -p ../code/4pi/python/pi.py 100000000 &' >> estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ echo 'time -p ../code/4pi/python/pi.py 100000000 &' >> estimate-pi.sh 
+[mkandes@login02 scripts]$ echo 'time -p ../code/4pi/python/pi.py 100000000 &' >> estimate-pi.sh 
+[mkandes@login02 scripts]$ echo 'time -p ../code/4pi/python/pi.py 100000000 &' >> estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%j.%N
+
+module purge
+
+time -p ../code/4pi/python/pi.py 100000000 &
+time -p ../code/4pi/python/pi.py 100000000 &
+time -p ../code/4pi/python/pi.py 100000000 &
+time -p ../code/4pi/python/pi.py 100000000 &
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+echo 'wait' >> estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ echo 'wait' >> estimate-pi.sh 
+[mkandes@login02 scripts]$ cat estimate-pi.sh 
+#!/usr/bin/env bash
+
+#SBATCH --job-name=estimate-pi
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%j.%N
+
+module purge
+
+time -p ../code/4pi/python/pi.py 100000000 &
+time -p ../code/4pi/python/pi.py 100000000 &
+time -p ../code/4pi/python/pi.py 100000000 &
+time -p ../code/4pi/python/pi.py 100000000 &
 wait
+[mkandes@login02 scripts]$
 ```
 
-The Linux scheduler works well for simple workflows like the one above. However, for workflows with a large number of jobs, especially when each job may be running with multiple processes, the performance of the Linux scheduler may be unsatisfying, due to unbalanced workloads from different running jobs, improper process/thread affinity settings, etc.
+When the modifications are ready, go ahead and submit the job and then login to view the running processes via the `top` command.
 
-</br>
+*Command*
+```
+sbatch estimate-pi.sh
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ sbatch estimate-pi.sh 
+Submitted batch job 52897392
+[mkandes@login02 scripts]$
+```
+
+*Command*
+```
+squeue --me
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ squeue --me
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+          52897392    shared estimate  mkandes  R       0:02      1 exp-1-08
+[mkandes@login02 scripts]$ 
+```
+
+*Command*
+```
+ssh exp-1-08
+```
+
+*Output*
+```
+[mkandes@login02 scripts]$ ssh exp-1-08
+[mkandes@exp-1-08 ~]$
+```
+
+*Command*
+```
+top
+```
+
+*Output*
+```
+[mkandes@exp-1-08 ~]$ top
+
+top - 11:50:11 up 62 days, 19:55,  1 user,  load average: 0.65, 0.33, 0.41
+Tasks: 1811 total,   5 running, 1797 sleeping,   0 stopped,   9 zombie
+%Cpu(s):  0.8 us,  0.2 sy,  0.0 ni, 99.0 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+MiB Mem : 257485.8 total, 245626.5 free,   8355.3 used,   3504.0 buff/cache
+MiB Swap:      0.0 total,      0.0 free,      0.0 used. 247352.1 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                               
+2950697 mkandes   20   0   55704  12908   7696 R  27.8   0.0   0:01.93 python3                                                               
+2950698 mkandes   20   0   55704  12908   7696 R  27.8   0.0   0:01.93 python3                                                               
+2950699 mkandes   20   0   55704  12908   7696 R  27.8   0.0   0:01.93 python3                                                               
+2950700 mkandes   20   0   55704  12908   7696 R  22.2   0.0   0:01.92 python3                                                               
+2950859 mkandes   20   0   60460   6180   3532 R  11.1   0.0   0:00.04 top                                                                   
+      1 root      20   0  246340  15172   4336 S   0.0   0.0  50:29.39 systemd                                                               
+      2 root      20   0       0      0      0 S   0.0   0.0   5:57.34 kthreadd                                                              
+      3 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_gp                                                                
+      4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 rcu_par_gp                                                            
+      5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 slub_flushwq
+```
+
+The Linux scheduler works well for simple workflows like the one above.
+However, for workflows with a large number of jobs, especially when each
+job may be running with multiple processes, the performance of the Linux
+scheduler may be unsatisfying, due to unbalanced workloads from different
+running jobs, improper process/thread affinity settings, etc.
 
 #### `taskset` - set or retrieve a process's CPU affinity
 
-`taskset`  is  used  to  set  or  retrieve  the CPU affinity of a running process given its pid, or to launch a new  command  with  a  given  CPU affinity.  CPU affinity is a scheduler property that "binds" a process to a given set of CPUs on the system.  The Linux scheduler  will  honor the  given CPU affinity and the process will not run on any other CPUs.
+`taskset` is used to set or retrieve the CPU affinity of a running
+process given its pid, or to launch a new command with a given CPU
+affinity.  CPU affinity is a scheduler property that "binds" a process 
+to a given set of CPUs on the system.  The Linux scheduler will honor
+the given CPU affinity and the process will not run on any other CPUs.
 
 ```
 #SBATCH --output=%x.o%j.%N
@@ -74,7 +312,7 @@ Invalid argument
 What went wrong? Are you the only person running on this node?
 
 ```
-squeue -u $USER
+squeue --me
 ```
 
 ```
@@ -137,14 +375,14 @@ Last login: Tue Aug  2 09:28:42 2022 from 10.21.0.19
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
-#SBATCH --account=gue998
-#SBATCH --reservation=si25cpu
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
 #SBATCH --partition=compute
 #SBATCH --qos=normal-eot
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=128
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=242G
+#SBATCH --mem=0
 #SBATCH --time=00:30:00
 #SBATCH --output=%x.o%j.%N
 
@@ -191,14 +429,14 @@ Then we'll replace our 4pi python program with the OpenMP parallelized fortran p
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
-#SBATCH --account=gue998
-#SBATCH --reservation=si25cpu
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
 #SBATCH --partition=compute
 #SBATCH --qos=normal-eot
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=128
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=242G
+#SBATCH --mem=0
 #SBATCH --time=00:30:00
 #SBATCH --output=%x.o%j.%N
 
@@ -214,9 +452,6 @@ taskset -c 96 pi_omp.x -s 10000000000 &
 time -p wait
 ```
 
-https://hexus.net/tech/reviews/cpu/133244-amd-epyc-7742-2p-rome-server
-
-
 ```
 export OMP_NUM_THREADS=4
 
@@ -228,11 +463,12 @@ taskset -c 96,97,98,99 pi_omp.x -s 10000000000 &
 time -p wait
 ```
 
-</br>
-
 #### `numactl` - Control NUMA policy for processes or shared memory
 
-`numactl` runs processes with a specific NUMA scheduling or memory placement policy.  The policy is set for a command and is inherited by all of its children.  In addition it can set persistent policy for shared memory segments or files.
+`numactl` runs processes with a specific NUMA scheduling or memory
+placement policy.  The policy is set for a command and is inherited by
+all of its children.  In addition it can set persistent policy for 
+shared memory segments or files.
 
 ```
 [xdtr108@exp-14-54 ~]$ numactl -H
@@ -288,14 +524,14 @@ node   0   1   2   3   4   5   6   7
 #!/usr/bin/env bash
 
 #SBATCH --job-name=estimate-pi
-#SBATCH --account=crl155
-#SBATCH --reservation=SI2022DAY2
+#SBATCH --account=sdp173
+#SBATCH --reservation=si26cpu
 #SBATCH --partition=compute
 #SBATCH --qos=normal-eot
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=243G
+#SBATCH --mem=0
 #SBATCH --time=00:30:00
 #SBATCH --output=%x.o%j.%N
 
@@ -316,8 +552,18 @@ Now try going multinode!
 
 ### Advanced job bundling tools and utilities
 
-Many HPC centers have also developed their own custom job bundling tools to provide more advanced capabilties than the methods discuess thus far. In general, you can use these bundling utilties on other systems. However, they may take some time to setup and deploy on a new system. For example, one popular job bundling tool is the [Texas Advanced Computing Center (TACC) launcher](https://github.com/TACC/launcher), which has been used at SDSC in the past and is also available on [Georgia Tech's PACE cluster](https://docs.pace.gatech.edu/software/launcher). Other examples of job bundling tools and utilities include [NCSA's scheduler.x](https://github.com/ncsa/Scheduler) and [NIH's Swarm](https://hpc.nih.gov/apps/swarm.html).
+Many HPC centers have also developed their own custom job bundling tools
+to provide more advanced capabilties than the methods discuess thus far. 
+In general, you can use these bundling utilties on other systems. However,
+they may take some time to setup and deploy on a new system. For example,
+one popular job bundling tool is the 
+[Texas Advanced Computing Center (TACC) launcher](https://github.com/TACC/launcher), 
+which has been used at SDSC in the past and is also available on 
+[Georgia Tech's PACE cluster](https://docs.pace.gatech.edu/software/launcher). 
+Other examples of job bundling tools and utilities include 
+[NCSA's scheduler.x](https://github.com/ncsa/Scheduler) and
+[NIH's Swarm](https://hpc.nih.gov/apps/swarm.html).
 
 #
 
-Next - [Preemptible batch jobs](PREEMPTIBLE.md)
+Next - [Preemptible batch jobs](preemptible.md)

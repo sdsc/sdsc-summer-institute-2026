@@ -1,0 +1,20 @@
+# Local configuration and Python environments
+.env
+.env.*
+.venv/
+venv/
+ENV/
+
+# Python and notebook-generated files
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/

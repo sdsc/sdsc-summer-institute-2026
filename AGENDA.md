@@ -16,13 +16,13 @@ Helper(s) convention: `(CCR)` = student helper earning Co-Curricular Record cred
 | :----------------- | :---------- | :---------------------------------------| :------------------ | :-------- |
 | 8:00 AM – 8:30 AM  | 30 min      | Check-in & Registration                 | -                   | -         |
 | 8:30 AM - 9:00 AM  | 30 min      | Welcome & Overview                      | Andrea Zonca        | -         |
-| 9:00 AM - 10:15 AM | 1 hr 15 min | Parallel Computing Concepts             | Igor Sfiligoi       | Rena Tokhi (CCR) |
+| 9:00 AM - 10:15 AM | 1 hr 15 min | Parallel Computing Concepts             | Igor Sfiligoi       | Jennifer Chen (non-CCR) |
 | 10:15 AM - 10:30 AM | 15 min      | Break                                  | -                   | -         |
 | 10:30 AM - 12:00 PM | 1 hr 30 min | Running Batch and Interactive Jobs     | Mary Thomas         | Hadia Bayat (SCIPE), Trevor Mugoya (SCIPE) |
 | 12:00 PM - 1:30 PM | 1 hr 30 min | Lunch                                   | -                   | -         |
-| 1:30 PM - 3:15 PM  | 1 hr 45 min | High Throughput Computing               | Marty Kandes        | Trevor Mugoya (SCIPE) |
+| 1:30 PM - 3:15 PM  | 1 hr 45 min | High Throughput Computing               | Marty Kandes        | Trevor Mugoya (SCIPE), Jennifer Chen (non-CCR) |
 | 3:15 PM - 3:30 PM  | 15 min      | Break                                   | -                   | -         |
-| 3:30 PM - 5:00 PM   | 1 hr 30 min | Code Migration & Software Environments | Yuwu Chen           | David De Santiago (CCR) |
+| 3:30 PM - 5:00 PM   | 1 hr 30 min | Code Migration & Software Environments | Yuwu Chen           | David De Santiago (CCR), Haichuan Wang (CCR TBD) |
 | 5:00 PM - 5:05 PM   | 5 min       | Day Survey                             | Andrea Zonca        | -         |
 | 5:30 PM - 7:00 PM  | 1 hr 30 min | Reception @ [15th Floor, UCSD Campus](https://maps.app.goo.gl/1vFYHbRWcE1NJ4q68) (10176 Scholars Dr N, La Jolla, CA 92093, USA) | -                   | -         |
 
@@ -31,9 +31,9 @@ Helper(s) convention: `(CCR)` = student helper earning Co-Curricular Record cred
 | Time (Pacific)      | Duration    | Session                                | Speaker(s)          | Helper(s) |
 | :------------------ | :---------- | :------------------------------------- | :------------------ | :-------- |
 | 8:00 AM – 8:30 AM   | 30 min      | Check-in & Light Breakfast             | -                   | -         |
-| 8:30 AM - 9:45 AM   | 1 hr 15 min | Data Management: Data Storage, Data Transfers, File Systems | Marty Kandes        | David De Santiago (CCR) |
+| 8:30 AM - 9:45 AM   | 1 hr 15 min | Data Management: Data Storage, Data Transfers, File Systems | Marty Kandes        | David De Santiago (CCR), Haichuan Wang (CCR TBD) |
 | 9:45 AM - 10:00 AM  | 15 min      | Break                                  | -                   | -         |
-| 10:00 AM - 11:45 AM | 1 hr 45 min | Data Management (Continued)            | Marty Kandes        | David De Santiago (CCR) |
+| 10:00 AM - 11:45 AM | 1 hr 45 min | Data Management (Continued)            | Marty Kandes        | David De Santiago (CCR), Haichuan Wang (CCR TBD) |
 | 11:45 AM - 12:15 PM | 30 min      | Data Center Tour: Presentation         | Andrea Zonca, Andreas Goetz | -         |
 | 12:15 PM - 12:35 PM | 20 min      | Data Center Tour: Walk-throughs (2 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
 | 12:15 PM - 1:30 PM  | 1 hr 15 min | Lunch                                  | -                   | -         |
@@ -50,7 +50,7 @@ Helper(s) convention: `(CCR)` = student helper earning Co-Curricular Record cred
 | 10:30 AM - 12:00 PM | 1 hr 30 min | Deep Learning - Part 1     | Mai Nguyen, Paul Rodriguez | Jennifer Chen (non-CCR) |
 | 12:00 PM - 1:30 PM  | 1 hr 30 min | Lunch                      | -                          | -         |
 | 12:00 PM - 12:20 PM | 20 min      | Data Center Tour: Walk-throughs (3 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
-| 1:30 PM - 5:00 PM   | 3 hr 30 min | Deep Learning – Part 2     | Mai Nguyen, Paul Rodriguez | Rena Tokhi (CCR) |
+| 1:30 PM - 5:00 PM   | 3 hr 30 min | Deep Learning – Part 2     | Mai Nguyen, Paul Rodriguez | Mitchell Moundraty (CCR) |
 | 5:00 PM - 5:05 PM   | 5 min       | Day Survey                                                  | Andrea Zonca | -         |
 
 ## Thursday, August 6
@@ -58,8 +58,8 @@ Helper(s) convention: `(CCR)` = student helper earning Co-Curricular Record cred
 | Time (Pacific)      | Duration    | Session                                 | Speaker(s)      | Helper(s) |
 | :------------------ | :---------- | :-------------------------------------- | :-------------- | :-------- |
 | 8:00 AM – 8:30 AM   | 30 min      | Check-in & Light Breakfast              | -               | -         |
-| 8:30 AM - 10:00 AM  | 1 hr 30 min | Best Practices for Scientific Computing | Fernando Garzon | Richard Kim (To be confirmed) |
-| 10:00 AM - 12:00 PM | 2 hr        | Performance Tuning                      | Igor Sfiligoi   | Richard Kim (To be confirmed) |
+| 8:30 AM - 10:00 AM  | 1 hr 30 min | Best Practices for Scientific Computing | Fernando Garzon | Richard Kim (CCR) |
+| 10:00 AM - 12:00 PM | 2 hr        | Performance Tuning                      | Igor Sfiligoi   | Richard Kim (CCR) |
 | 12:00 PM - 12:05 PM | 5 min       | Group Photo                             | -               | -         |
 | 12:05 PM - 1:30 PM  | 1 hr 25 min | Lunch                                   | -               | -         |
 | 12:05 PM - 12:25 PM | 20 min      | Data Center Tour: Walk-throughs (3 groups of 5) | Andrea Zonca, Andreas Goetz | -         |
