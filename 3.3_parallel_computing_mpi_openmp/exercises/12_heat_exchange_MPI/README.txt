@@ -56,7 +56,7 @@ salloc --partition=shared --reservation=si26cpu --account=sdp173 --nodes=1 --mem
 
 module load gcc/10.2.0 openmpi/4.1.3
 mpicc -o heat_mpi -O3 heat_mpi.c  -lm
-srun -n 8 ./heat_mpi
+srun -n 8 -c 4 --mem=32G ./heat_mpi
  
 The result should be identical to the serial version
 (apart from possibly minor FP rounding errors)
@@ -66,13 +66,13 @@ Use multiple nodes
 
 As with 11_axpy, try using 2 nodes
 (Reminder, cannot use the shared partition)
-salloc --partition=preempt --reservation=si26cpu --account=sdp173 --nodes=2 --mem=32G -n 8 -c 4 -t 00:30:00
+salloc --partition=compute --qos=normal-eot --reservation=si26cpu --account=sdp173 --nodes=2 --mem=32G -n 8 -c 4 -t 00:30:00
 
 You may try using a different number of MPI processes, too.
 Just make sure you use the same number in salloc and srun.
 
 e.g.
-salloc --partition=preempt --reservation=si26cpu --account=sdp173 --nodes=2 --mem=32G -n 16 -c 4 -t 00:30:00
+salloc --partition=compute --qos=normal-eot --reservation=si26cpu --account=sdp173 --nodes=4 --mem=32G -n 16 -c 4 -t 00:30:00
 module load gcc/10.2.0 openmpi/4.1.3
-srun -n 16 ./heat_mpi
+srun -n 16  -c 4 --mem=32G ./heat_mpi
 
