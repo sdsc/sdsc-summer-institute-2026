@@ -462,9 +462,9 @@ def llm_hybrid_query(
         "graph_rows": graph_rows,
         "chunks": chunks,
     }
-    response = client.responses.create(
-        model=model or os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
-        input=[
+    response = client.chat.completions.create(
+        model=model or os.getenv("OPENAI_MODEL", "qwen3"),
+        messages=[
             {
                 "role": "system",
                 "content": (
@@ -478,7 +478,7 @@ def llm_hybrid_query(
             },
         ],
     )
-    return getattr(response, "output_text", str(response))
+    return response.choices[0].message.content or ""
 
 
 def _template_cypher(intent: str) -> str:
@@ -679,9 +679,9 @@ def _stable_doc_id(source_name: str, chunks: list[str]) -> str:
 def extract_entities(text: str, client: Any | None = None, model: str | None = None) -> list[Entity]:
     """First LLM call: extract all document entities from the full OCR text."""
     client = client or _openai_client()
-    response = client.responses.parse(
-        model=model or os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
-        input=[
+    response = client.beta.chat.completions.parse(
+        model=model or os.getenv("OPENAI_MODEL", "qwen3"),
+        messages=[
             {
                 "role": "system",
                 "content": (
@@ -699,9 +699,9 @@ def extract_entities(text: str, client: Any | None = None, model: str | None = N
                 ),
             },
         ],
-        text_format=EntityExtraction,
+        response_format=EntityExtraction,
     )
-    return response.output_parsed.entities
+    return response.choices[0].message.parsed.entities
 
 
 def extract_relationships(
@@ -713,9 +713,9 @@ def extract_relationships(
     """Extract all relationships using the entity list and full OCR text."""
     client = client or _openai_client()
     entity_payload = [_as_dict(entity) for entity in entities]
-    response = client.responses.parse(
-        model=model or os.getenv("OPENAI_MODEL", "gpt-4.1-mini"),
-        input=[
+    response = client.beta.chat.completions.parse(
+        model=model or os.getenv("OPENAI_MODEL", "qwen3"),
+        messages=[
             {
                 "role": "system",
                 "content": (
@@ -736,18 +736,18 @@ def extract_relationships(
                 ),
             },
         ],
-        text_format=RelationshipExtraction,
+        response_format=RelationshipExtraction,
     )
-    return response.output_parsed.relationships
+    return response.choices[0].message.parsed.relationships
 
 
 def _openai_client():
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
-        raise RuntimeError("Set OPENAI_API_KEY in .env before running the LLM cells.")
+        raise RuntimeError("Set OPENAI_API_KEY to your NRP LLM token before running the LLM cells.")
     from openai import OpenAI
 
-    return OpenAI(api_key=api_key)
+    return OpenAI(api_key=api_key, base_url="https://ellm.nrp-nautilus.io/v1")
 
 
 def write_graph_to_neo4j(
