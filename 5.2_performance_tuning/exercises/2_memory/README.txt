@@ -47,6 +47,17 @@ Build the executable with OpenMP (by adding -fopenmp), and run the same three te
 Did you get a perfect linear speedup?
 (Reminder: You requested 4 CPU cores with srun)
 
+Beware the cache line conflicts
+-------------------------------
+
+Try benchmarking a matrix that is a multiple of 1024, e.g.
+./center_matrix 6144 10
+
+compare to 
+./center_matrix 6143 10
+and
+./center_matrix 6145 10
+
 
 Optimize for memory locality
 ----------------------------
@@ -60,11 +71,5 @@ d) Consider tiling if you need to iterate over columns
 
 Every time you make a change that you think should make the code faster,
 re-compile and re-measure.
-
-Beware the cache line conflicts
--------------------------------
-
-Try benchmarking a matrix that is a multiple of 1024, e.g.
-./center_matrix 6144 10
 
 
