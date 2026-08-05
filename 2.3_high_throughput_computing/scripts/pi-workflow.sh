@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+#SBATCH --job-name=pi-workflow
+#SBATCH --account=sdp173
+#SBATCH --reservation=si25cpu
+#SBATCH --partition=shared
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+#SBATCH --output=%x.o%j.%N
+
+module reset
+
+job_id="$(sbatch estimate-pi.sh | grep -o '[[:digit:]]*')"
+sbatch "--dependency=afterok:${job_id}" compute-pi-stats.sh "${job_id}"

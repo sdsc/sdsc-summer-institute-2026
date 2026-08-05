@@ -41,8 +41,11 @@ There are comments in the code that will guide you on what needs to be done.
 
 No changes to how you compile, since we already used the mpi compiler wrapper above.
 
+To check the CPU cores you are getting, run
+srun -n 8 -c 4 --mem=32G /bin/bash -c 'taskset -pc $$'
+
 To use more than one process, change the n argument, e.g.
-srun -n 8 ./axpy
+srun -n 8 -c 4 --mem=32G ./axpy
 
 The result should be the same as the single-process version.
 
@@ -57,15 +60,14 @@ exit
 )
 Request an allocation spanning 2 nodes:
 Note: We cannot use the shared partition, since it is not meant for multi-node jobs.
-      We will use the preempt partition for this quick test.
 
-salloc --partition=preempt --reservation=si26cpu --account=sdp173 --nodes=2 --mem=32G -n 8 -c 4 -t 00:30:00
+salloc --partition=compute --qos=normal-eot --reservation=si26cpu --account=sdp173 --nodes=2 --mem=32G -n 8 -c 4 -t 00:30:00
 
 You can check which nodes the MPI executable will run with
-srun -n 8 hostname
+srun -n 8 -c 4 --mem=32G /bin/bash -c 'echo `hostname` `taskset -pc $$`'
 
 Then run the MPI-enabled axpy again:
-srun -n 8 ./axpy
+srun -n 8 -c 4 --mem=32G ./axpy
 
 How does the runtime compare?
 

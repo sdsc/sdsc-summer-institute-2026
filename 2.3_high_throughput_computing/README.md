@@ -9,11 +9,19 @@
 
 [Image Credit: The CMS Experiment at CERN](https://cms.cern/detector/computing-grid)
 
-[High-throughput computing (HTC)](https://en.wikipedia.org/wiki/High-throughput_computing) workloads are characterized by large numbers of small jobs. These frequently involve parameter sweeps where the same type of calculation is done repeatedly with different input values or data processing pipelines where an identical set of operations is applied to many files. This session covers the characteristics and potential pitfalls of HTC, job bundling, the [Open Science Grid](https://osg-htc.org)  and the resources available through the [Partnership to Advance Throughput Computing (PATh)](https://path-cc.io).
+[High-throughput computing (HTC)](https://en.wikipedia.org/wiki/High-throughput_computing)
+workloads are characterized by large numbers of small jobs. These
+frequently involve parameter sweeps where the same type of calculation
+is done repeatedly with different input values or data processing
+pipelines where an identical set of operations is applied to many files.
+This session covers the characteristics and potential pitfalls of HTC, 
+job bundling, the [Open Science Grid](https://osg-htc.org)  and the 
+resources available through the
+[Partnership to Advance Throughput Computing (PATh)](https://path-cc.io).
 
 ## Presentation Slides
 
-- [COMPLECS: Batch Computing III - High-Throughput + Many-Task Computing](https://drive.google.com/file/d/1fAI7nrBXy1DQgUVs-IoW-Urpg5iuRnXg/view?usp=drive_link)
+- [COMPLECS: Batch Computing III - High-Throughput + Many-Task Computing](https://drive.google.com/file/d/1iHTpsoWUflnieTpSp6E1ywhKDg2HQEbU/view?usp=drive_link)
 
 ## Tutorials
 
@@ -21,7 +29,6 @@
 - [Batch Job Dependencies](tutorials/dependencies.md)
 - [Batch Job Bundling](tutorials/bundling.md)
 - [Preemptible Batch Jobs](tutorials/preemptiple.md)
-- [Distributed High-Throughput Computing](tutorials/dhtc.md)
 
 ## Additional References
 
@@ -30,12 +37,21 @@
 
 ## About COMPLECS
 
-COMPrehensive Learning for end-users to Effectively utilize CyberinfraStructure ([COMPLECS](https://www.sdsc.edu/education/training-programs/COMPLECS.html)) is a training program offered by the
-[San Diego Supercomputer Center](https://www.sdsc.edu) that covers the most important non-programming concepts and skills that you need to effectively use supercomputers. Topics include parallel
-computing concepts, Linux tools and bash scripting, security, batch and interactive computing, how to get help, and data management.
+COMPrehensive Learning for end-users to Effectively utilize 
+CyberinfraStructure ([COMPLECS](https://www.sdsc.edu/education/training-programs/COMPLECS.html))
+is a training program offered by the [San Diego Supercomputer Center](https://www.sdsc.edu)
+that covers the most important non-programming concepts and skills that
+you need to effectively use supercomputers. Topics include parallel
+computing concepts, Linux tools and bash scripting, security, batch and
+interactive computing, how to get help, and data management.
 
 ## Acknowledgements
 
-This material is based upon work supported by the [U.S. National Science Foundation](https://www.nsf.gov) under [Award No. CISE/OAC-2320934](https://www.nsf.gov/awardsearch/show-award/?AWD_ID=2320934). Any opinions, findings, conclusions, or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of the NSF.
+This material is based upon work supported by the 
+[U.S. National Science Foundation](https://www.nsf.gov) under 
+[Award No. CISE/OAC-2320934](https://www.nsf.gov/awardsearch/show-award/?AWD_ID=2320934). 
+Any opinions, findings, conclusions, or recommendations expressed in this
+material are those of the authors and do not necessarily reflect the views
+of the NSF.
 
 <img src='https://nsf.widen.net/content/josuwjrmy6/png/NSF_Official_logo_Med_Res_600ppi.png' alt='NSF Logo' width='250'/>

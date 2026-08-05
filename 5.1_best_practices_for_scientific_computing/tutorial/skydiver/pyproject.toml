@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "si2026-skydiver"
+dynamic = ["version"]
+description = "Twenty-minute notebook-to-package tutorial for SDSC Summer Institute 2026"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+authors = [{name = "Fernando Garzon"}]
+keywords = ["nbdev", "jupyter", "scientific-computing"]
+dependencies = ["numpy>=1.26"]
+
+[project.urls]
+Repository = "https://github.com/sdsc/sdsc-summer-institute-2026"
+
+[project.scripts]
+skydiver = "skydiver.cli:main"
+
+[project.entry-points.nbdev]
+skydiver = "skydiver._modidx:d"
+
+[project.optional-dependencies]
+dev = [
+  "build>=1.2",
+  "jupyterlab>=4.0",
+  "matplotlib>=3.8",
+  "nbdev>=3.3,<4",
+  "pytest>=8.0",
+]
+
+[tool.setuptools.dynamic]
+version = {attr = "skydiver.__version__"}
+
+[tool.setuptools.packages.find]
+include = ["skydiver"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.nbdev]
+lib_path = "skydiver"
+put_version_in_init = false
+title = "Skydiver tutorial"

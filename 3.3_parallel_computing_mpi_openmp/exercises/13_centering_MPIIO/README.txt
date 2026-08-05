@@ -71,11 +71,11 @@ mpifort -O3 -fopenmp -o centering centering.f90
 python3 create_in.py in.bin 14400
 
 # Run the centering execitable
-srun -n 4 ./centering in.bin out.bin
+srun -n 4 -c 16 --mem=64G ./centering in.bin out.bin
 
 # Validate the result
 # Note: You could also try with a different number of MPI jobs (but check allocation)
-srun -n 4 ./centering out.bin out2.bin
+srun -n 4 -c 16 --mem=64G ./centering out.bin out2.bin
 
 Note:
 out.bin should be very different than in.bin.
