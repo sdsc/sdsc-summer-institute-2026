@@ -25,5 +25,4 @@ NOTEBOOK_FOLDER=$(pwd -P)
   --conda-yml environment.yaml \
   --notebook-dir "${NOTEBOOK_FOLDER}" \
   --interface lab \
-  --cache \
   --quiet
