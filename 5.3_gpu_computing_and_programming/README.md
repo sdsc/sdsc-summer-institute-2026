@@ -14,7 +14,8 @@
 **Source code**:
 * [Official Nvidia CUDA samples](https://github.com/NVIDIA/cuda-samples)
 * [CUDA examples from slides](cuda-samples)
-* [OpenACC examples from slides](openacc-samples)
+* [Python CUDA examples from slides](python-gpu)
+* [Appendix: OpenACC examples from slides](openacc-samples)
 
 ## Accessing GPU nodes and running GPU jobs on SDSC Expanse:
 
@@ -587,7 +588,7 @@ As a general rule:
 
 
 
-## Hands-on exercises on SDSC Expanse – OpenACC (Appendix / Optional)
+## Appendix: Hands-on exercises on SDSC Expanse – OpenACC
 
 This Github repository also contains the OpenACC examples that were discussed during the presentation (directory `openacc-samples`).
 
