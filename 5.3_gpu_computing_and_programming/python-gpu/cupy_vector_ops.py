@@ -42,4 +42,5 @@ if __name__ == "__main__":
     print()
     print(f"NumPy result: {cpu_result:.6e}")
     print(f"CuPy result: {gpu_result:.6e}")
-    print() print("Note: Results will not be identical because random inputs are generated separately.")
+    print()
+    print("Note: Results will not be identical because random inputs are generated separately.")
