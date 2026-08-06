@@ -15,7 +15,7 @@ if [[ "$ALLOCATED_NODES" -lt 2 ]]; then
   exit 1
 fi
 
-SESSION_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+SESSION_ROOT="${SLURM_SUBMIT_DIR:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)}"
 RESULTS_DIR="${SESSION_ROOT}/test-results"
 mkdir -p "$RESULTS_DIR"
 
