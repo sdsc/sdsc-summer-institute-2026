@@ -3,8 +3,8 @@
 
 set -euo pipefail
 
-if [[ "${SLURM_JOB_PARTITION:-}" != "debug" ]]; then
-  echo "ERROR: run this script only inside an Expanse debug allocation."
+if [[ "${SLURM_JOB_PARTITION:-}" != "debug" && "${SLURM_JOB_PARTITION:-}" != "compute" ]]; then
+  echo "ERROR: run this script only inside an Expanse debug or compute allocation."
   exit 1
 fi
 
