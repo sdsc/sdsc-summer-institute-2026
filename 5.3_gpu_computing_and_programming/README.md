@@ -9,7 +9,7 @@
 
 **Presented by:** [Andreas Goetz](https://www.sdsc.edu/research/experts/goetz_andreas.html) (awgoetz @ucsd.edu)
 
-**Presentation Slides**: [GPU Computing and Programming](<GPU Computing SI2026.pdf>)
+**Presentation Slides**: [GPU Computing and Programming](<GPU Computing SDSC SI2026.pdf>)
 
 **Source code**:
 * [Official Nvidia CUDA samples](https://github.com/NVIDIA/cuda-samples)
