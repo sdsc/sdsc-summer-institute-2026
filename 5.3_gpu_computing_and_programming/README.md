@@ -27,9 +27,20 @@ First, log onto Expanse. You can do this either via the Expanse user portal or s
 ssh user@login.expanse.sdsc.edu
 ```
 
-Next we will use the alias for the `srun` command that is defined in your `.bashrc` file to access a single GPU on a shared GPU node:
+Clone the Summer Institute repository and move into its root folder:
 ```
-srun-gpu-shared
+git clone https://github.com/sdsc/sdsc-summer-institute-2026
+cd sdsc-summer-institute-2026
+```
+If you have already cloned the repository, make sure it is up to date by using `git pull`:
+```
+cd sdsc-summer-institute-2026
+git pull
+```
+
+Next we will submit an interactive job to access a single GPU on a shared GPU node:
+```
+bash srun-gpu-shared.sh
 ```
 
 Once we are on a GPU node, we load the `gpu` module to gain access to the GPU software stack. We will also load the `cuda12.2/toolkit` module, which provides the CUDA Toolkit:
@@ -79,14 +90,27 @@ Mon Jun 27 08:39:33 2022
 
 ## Hands-on exercises on SDSC Expanse – CUDA
 
-This Github repository contains the CUDA examples that were discussed during the presentation (directory `cuda-samples`).
+This Github repository contains the CUDA examples that were discussed during the presentation (directory `cuda-samples`). We will look at these later.
 
-If you are interested in additional CUDA samples, take a look at the [official Nvidia CUDA samples Github repository](https://github.com/NVIDIA/cuda-samples). The Nvidia CUDA samples are also available in the `etrainXX` home directory under `~/data/cuda-samples-v12.2.tar.gz`.
+First we will start with the official Nvidia CUDA samples, which are available in the [Nvidia CUDA samples Github repository](https://github.com/NVIDIA/cuda-samples).
 
-We recommend to extract the tarball in the local scratch directory:
+Clone the Nvidia CUDA samples in the local scratch directory. This is recommended because it is faster than the home directory:
 ```
 cd $SLURM_TMPDIR
-tar xvf ~/data/cuda-samples-v12.2.tar.gz
+git clone https://github.com/NVIDIA/cuda-samples
+```
+
+For convenience and ease of navigation, we will set an environment variable that points to the path of the CUDA samples:
+```
+export CUDA_SAMPLES=$(pwd)/cuda-samples
+```
+
+We need to use the CUDA samples version that corresponds to the CUDA version that we are using.
+In our case this is CUDA 12.2. Let's check out this version:
+
+```
+cd $CUDA_SAMPLES
+git checkout v12.2
 ```
 
 We are now ready to look at the Nvidia CUDA samples.
@@ -97,7 +121,7 @@ It can be instructive to look at the source code if you want to learn about CUDA
 
 The first sample we will look at is `device_query`. This is a utility that demonstrates how to query Nvidia GPU properties. It often comes in handy to check information on the GPU that you have available.
 
-First, we check that we have an appropriate NVIDIA CUDA compiler available. The CUDA samples require at least version 11.6. Because we loaded the `nvhpc` module above, we should have the `nvcc` compiler available:
+First, we check that we have an appropriate NVIDIA CUDA compiler available. We loaded the module for version 12.2 of the CUDA toolkit above, hence should see this in the output of the `nvcc` CUDA compiler:
 ```
 nvcc --version
 ```
@@ -114,7 +138,7 @@ We have version 12.2 installed so we are good to go.
 
 We can now move into the `device_query` source directory and compile the code with the `make` command. By default the Makefile will compile for all possible Nvidia GPU architectures. We restrict it to use SM version 7.0, which is the architecture of the V100 GPUs in Expanse (although we could just compile all as well):
 ```
-cd cuda-samples-12.2/Samples/1_Utilities/deviceQuery
+cd $CUDA_SAMPLES/Samples/1_Utilities/deviceQuery
 ```
 ```
 make SMS=70
@@ -133,7 +157,7 @@ you should see an output with details about the GPU that is available. In our ca
 Detected 1 CUDA Capable device(s)
 
 Device 0: "Tesla V100-SXM2-32GB"
-  CUDA Driver Version / Runtime Version          11.6 / 11.2
+  CUDA Driver Version / Runtime Version          13.0 / 12.2
   CUDA Capability Major/Minor version number:    7.0
   Total amount of global memory:                 32511 MBytes (34089926656 bytes)
   (080) Multiprocessors, (064) CUDA Cores/MP:    5120 CUDA Cores
@@ -169,7 +193,7 @@ Device 0: "Tesla V100-SXM2-32GB"
   Compute Mode:
      < Default (multiple host threads can use ::cudaSetDevice() with device simultaneously) >
 
-deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 11.6, CUDA Runtime Version = 11.2, NumDevs = 1
+deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 13.0, CUDA Runtime Version = 12.2, NumDevs = 1
 Result = PASS
 ```
 
@@ -179,8 +203,7 @@ It is instructive to look at two different matrix multiplication examples and co
 
 First we will look at a hand-written matrix multiplication. This implementation features several performance optimizations such as minimize data transfer from GPU RAM to the GPU processors and increase floating point performance.
 ```
-cd $SLURM_TMPDIR
-cd cuda-samples-12.2/Samples/0_Introduction/matrixMul
+cd $CUDA_SAMPLES/Samples/0_Introduction/matrixMul
 ```
 ```
 make SMS=70
@@ -209,8 +232,7 @@ Finally, let us look at a matrix multiplication that uses Nvidia's CUBLAS librar
 
 We are now ready to compile the example:
 ```
-cd $SLURM_TMPDIR
-cd cuda-samples-12.2/Samples/4_CUDA_Libraries/matrixMulCUBLAS
+cd $CUDA_SAMPLES/Samples/4_CUDA_Libraries/matrixMulCUBLAS
 ```
 ```
 make SMS=70
@@ -240,58 +262,87 @@ How does the performance compare to the hand written (but optimized) matrix mult
 
 ### CUDA samples from slides
 
-Now take a look at the directory `cuda-samples` in the SI2025 Github repository, which contains the examples that were discussed during the presentation.
+Now take a look at the directory `cuda-samples` in the SI2026 Github repository, which contains the examples that were discussed during the presentation.
 
-We recommend to clone the SDSC Summer Institute 2025 repository in the local scratch directory:
+If you have already cloned the SDSC Summer Institute 2026 repository, you can work there. Otherwise we recommend to clone it in the local scratch directory:
 ```
 cd $SLURM_TMPDIR
-git clone https://github.com/sdsc/sdsc-summer-institute-2025.git
+git clone https://github.com/sdsc/sdsc-summer-institute-2026.git
 ```
 
 Navigate to the CUDA samples directory:
 ```
-cd sdsc-summer-institute-2025/5.3_gpu_computing_and_programming
+cd sdsc-summer-institute-2026/5.3_gpu_computing_and_programming
 cd cuda-samples
 ```
 
 Take a look at the samples and/or compile and run.
 
 
-## Hands-on exercises on SDSC Expanse – CUDA Python
+## Hands-on exercises on SDSC Expanse – GPU Computing with Python
 
-In this part of the session we will use Python to run computations on the GPU. Many scientific users interact with GPUs through Python libraries rather than writing CUDA C/C++ kernels directly. We will look at two approaches:
+### Learning Objectives
 
-- **CuPy**: NumPy-like array programming on NVIDIA GPUs
-- **Numba CUDA**: writing simple CUDA kernels in Python
+After completing this exercise, participants will be able to:
 
-The goal is not to become expert CUDA Python programmers, but to understand how GPU concepts such as host/device memory, data transfers, kernels, blocks, and threads also appear in Python workflows.
+- Use CuPy arrays for GPU-accelerated NumPy-style computing
+- Transfer data between CPU and GPU memory
+- Measure GPU execution time correctly
+- Write and launch simple CUDA kernels using Numba
+- Understand the tradeoffs between CuPy and Numba
 
-### Load the Python GPU environment
+The goal is not to become expert CUDA Python programmers, 
+but to understand how GPU concepts such as host/device memory, 
+data transfers, kernels, blocks, and threads also appear in Python workflows.
+
+### Why Python?
+
+Many scientific applications today access GPU hardware through
+high-level Python libraries. CuPy provides a NumPy-compatible
+interface for GPU arrays, while Numba allows custom CUDA kernels
+to be written directly in Python. Both rely on the same CUDA
+hardware and programming concepts introduced earlier in this
+tutorial.
+
+
+### Setup
 
 First, make sure you are on an interactive GPU node. Then move to the local scratch directory:
-```
+```bash
 cd $SLURM_TMPDIR
 ```
 
 Clone the Summer Institute repository if you have not already done so:
-```
+```bash
 git clone https://github.com/sdsc/sdsc-summer-institute-2026.git
+```
+
+Then move to the course directory:
+```bash
 cd sdsc-summer-institute-2026/5.3_gpu_computing_and_programming
 ```
 
-Load the required modules and activate the shared Python environment:
-```
+Load the Python GPU environment:
+
+```bash
 source python-gpu/gpu-python-env.sh
 ```
 
-Check that CuPy and Numba are available:
+Verify the environment. Note that first execution will take a few seconds.
+
+```bash
+python -c "import cupy; print(cupy.__version__)"
+python -c "from numba import cuda; print(cuda.is_available())"
 ```
-python -c "import cupy; print('CuPy OK')"
-python -c "import numba; print('Numba OK')"
+
+The Numba test should report:
+
+```text
+True
 ```
 
 Check that Python can see the GPU:
-```
+```bash
 python - <<'EOF'
 import cupy as cp
 print("Number of CUDA devices:", cp.cuda.runtime.getDeviceCount())
@@ -301,66 +352,132 @@ EOF
 
 You should see one CUDA device available.
 
-### CuPy: NumPy-like arrays on the GPU
+---
+
+### Example 1: CuPy, NumPy-like arrays on the GPU
 
 CuPy provides an interface similar to NumPy, but arrays are stored on the GPU and operations are executed on the GPU.
 
-Run the vector operations example:
-```
+Run the vector operations example, 
+which compares simple NumPy and CuPy operations:
+```bash
 cd python-gpu
 python cupy_vector_ops.py
 ```
 
-This script compares simple NumPy and CuPy array operations.
+This example:
 
-Try changing the value of N in the script:
+- Allocates vectors on the GPU
+- Performs vector addition
+- Computes a reduction
+- Measures execution time
+
+Key operations:
+
+```python
+x = cp.random.random(N)
+y = cp.random.random(N)
+
+z = x + y
+result = z.sum()
 ```
+
+Because `x`, `y`, and `z` are CuPy arrays, these operations execute on the GPU.
+
+#### Experiment
+
+Modify:
+```python
 N = 10_000_000
 ```
-to a larger or smaller value and rerun the script.
 
-Questions to consider:
-- Is the GPU faster for small arrays?
-- Is the GPU faster for large arrays?
-- Why do we need to synchronize before measuring time?
-- What happens when data is copied back to the CPU?
+and try:
+```python
+N = 10_000_000
+N = 100_000_000
+```
 
-### CuPy matrix multiplication
+Questions:
+
+1. How does runtime change?
+2. Does the GPU become more effective for larger vectors?
+3. What happens when data is copied back to the CPU?
+4. What happens if the problem size becomes too large?
+
+---
+
+### Example 2: CuPy Matrix Multiplication
 
 Matrix multiplication is a good example of a workload that can run efficiently on GPUs.
 
 Run:
-```
+```bash
 python cupy_matmul.py
 ```
 
-Try changing the matrix size:
+This example performs:
+
+```python
+C = A @ B
 ```
+
+using GPU-accelerated matrix multiplication.
+
+#### Experiment
+
+Change the matrix dimension:
+```python
+N = 512
+N = 1024
 N = 2048
-```
-to
-```
 N = 4096
+N = 8192
+N = 16384
 ```
 
-Questions to consider:
-- How does runtime change as the matrix size increases?
-- Why is matrix multiplication a good GPU workload?
-- How does this connect to the earlier CUDA Toolkit matrixMulCUBLAS example?
+Questions:
 
-### Numba CUDA: a Python CUDA kernel
+1. How does runtime change as the matrix size increases?
+2. Why is matrix multiplication a good GPU workload?
+3. How does this compare to the earlier CUDA Toolkit matrixMulCUBLAS example?
+
+---
+
+### Example 3: Numba CUDA, a Python CUDA kernel
 
 Numba allows you to write CUDA kernels using Python syntax.
 
 Run:
-```
+```bash
 python numba_vector_add.py
 ```
 
-This example launches a CUDA kernel from Python to add two vectors on the GPU.
+This example implements vector addition using a custom CUDA kernel.
 
-Look at the source code. The Numba kernel launch syntax
+Kernel:
+```python
+from numba import cuda
+
+@cuda.jit
+def vector_add_kernel(a, b, c):
+    i = cuda.grid(1)
+
+    if i < c.size:
+        c[i] = a[i] + b[i]
 ```
+
+Kernel launch:
+```python
+threads_per_block = 256
+blocks = (N + threads_per_block - 1) // threads_per_block
+
+vector_add_kernela_d, b_d, c_d
+
+cuda.synchronize()
+```
+
+Note how the Numba kernel launch syntax
+```python
 vector_add_kernel[blocks, threads_per_block](a_d, b_d, c_d)
 ```
 is analogous to the CUDA C launch syntax
@@ -368,24 +485,109 @@ is analogous to the CUDA C launch syntax
 vector_add_kernel<<<blocks, threads_per_block>>>(a_d, b_d, c_d);
 ```
 
-Try changing:
-```
+#### Experiments
+
+Try different vector dimensions:
+```python
 N = 10_000_000
+N = 100_000_000
+N = 1_000_000_000
 ```
-and
-```
+
+Try different block sizes:
+```python
+threads_per_block = 64
+threads_per_block = 128
 threads_per_block = 256
+threads_per_block = 512
+threads_per_block = 1024
 ```
 
-Questions to consider:
-- How is the Numba kernel similar to the CUDA C kernel discussed earlier?
-- What does cuda.grid(1) represent?
-- Why do we call cuda.synchronize() when timing GPU code?
-- Why is the first kernel launch often slower?
+Questions:
+
+1. Does performance change?
+2. Which block size is fastest?
+3. Why might performance differ between block sizes?
+
+More questions:
+
+1. How is the Numba kernel similar to the CUDA C kernel discussed earlier?
+2. What does cuda.grid(1) represent?
+3. Why do we call cuda.synchronize() when timing GPU code?
+4. Why is the first kernel launch often slower?
+
+
+---
+
+### Warm-Up and Synchronization
+
+Notice the examples contain:
+
+```python
+cuda.synchronize()
+```
+
+or
+
+```python
+cp.cuda.Stream.null.synchronize()
+```
+
+GPU operations are often asynchronous. Without synchronization,
+timing measurements may not reflect the actual GPU execution time.
+
+The Numba example also performs a warm-up launch before timing.
+This avoids measuring one-time JIT compilation overhead.
+
+
+---
+
+### Challenge Exercise
+
+Modify:
+
+```python
+c[i] = a[i] + b[i]
+```
+
+to compute:
+
+```python
+c[i] = a[i] * b[i]
+```
+
+and then:
+
+```python
+c[i] = a[i] * a[i] + b[i] * b[i]
+```
+
+Verify that the results are correct.
+
+---
+
+### Discussion
+
+When would you choose CuPy?
+
+- Existing array operations
+- Linear algebra
+- FFTs
+- Rapid GPU acceleration
+
+When would you choose Numba?
+
+- Custom algorithms
+- Specialized kernels
+- Explicit control over threads and blocks
+
+As a general rule:
+
+> Start with CuPy and existing GPU libraries. Write custom Numba kernels only when necessary.
 
 
 
-## Hands-on exercises on SDSC Expanse – OpenACC
+## Hands-on exercises on SDSC Expanse – OpenACC (Appendix / Optional)
 
 This Github repository also contains the OpenACC examples that were discussed during the presentation (directory `openacc-samples`).
 
@@ -412,8 +614,8 @@ Copyright (c) 2021, NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
 Now you can navigate to the OpenACC samples. If you have cloned the SDSC Summer Institute 2025 Github repository to the local scratch directory:
 ```
 cd $SLURM_TMPDIR
-cd sdsc-summer-institute-2025/5.3_gpu_computing_and_programming
-cd cuda-samples
+cd sdsc-summer-institute-2026/5.3_gpu_computing_and_programming
+cd openacc-samples
 ```
 
 The directory `saxpy` contains the C program `saxpy.c` that performs a single precision vector addition (y = a*x + y). It can be compiled with standard C compiler or PGI pgcc compiler with accelerator directives.
