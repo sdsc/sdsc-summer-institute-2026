@@ -1,5 +1,20 @@
 # Validation record
 
+## August 6, 2026 (Singularity worker test)
+
+Tested the Dask distributed capstone with Singularity workers on the SI26
+production reservation. Branch `fix/dask-singularity-workers`, commit
+`adfdd45`.
+
+- Expanse job: `53062179`
+- Nodes: `exp-2-19` and `exp-2-20`
+- Partition: `compute`, reservation: `si26cpu`, QOS: `normal-eot`
+- Two workers connected from two distinct hosts
+  (`198.202.103.176`, `198.202.103.175`)
+- Capstone notebook executed successfully
+- Fixed: `launch_worker.sh` now uses `$(hostname)` instead of `$HOSTNAME`
+  to avoid duplicate worker names inside the container
+
 ## August 6, 2026
 
 Validation was run directly against the live `pythonhpc` Conda environment on
