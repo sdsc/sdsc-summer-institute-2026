@@ -359,6 +359,15 @@ python numba_vector_add.py
 
 This example launches a CUDA kernel from Python to add two vectors on the GPU.
 
+Look at the source code. The Numba kernel launch syntax
+```
+vector_add_kernel[blocks, threads_per_block](a_d, b_d, c_d)
+```
+is analogous to the CUDA C launch syntax
+```
+vector_add_kernel<<<blocks, threads_per_block>>>(a_d, b_d, c_d);
+```
+
 Try changing:
 ```
 N = 10_000_000
