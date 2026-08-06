@@ -25,8 +25,14 @@ SCHEDULER_LOG="${RUN_DIR}/scheduler.log"
 WORKER_LOG="${RUN_DIR}/workers.log"
 NOTEBOOK_LOG="${RUN_DIR}/notebook.log"
 FIRST_NODE=$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n 1)
-export PYHPC_STAGE_SCRIPT="${SESSION_ROOT}/support/condaenv_scratch/stage_condaenv.sh"
+SIF_PATH="${PYHPC_SIF_PATH:-/expanse/lustre/projects/sds166/zonca/dask-numba-si26.sif}"
 export PYHPC_WORKER_SCRIPT="${SESSION_ROOT}/dask_slurm/launch_worker.sh"
+
+if [[ ! -f "$SIF_PATH" ]]; then
+    echo "ERROR: Singularity image not found: $SIF_PATH"
+    echo "       Set PYHPC_SIF_PATH to the image you want to use."
+    exit 1
+fi
 
 cleanup() {
   if [[ -n "${WORKER_STEP_PID:-}" ]]; then
@@ -63,18 +69,21 @@ if [[ ! -s "$SCHEDULER_FILE" ]]; then
 fi
 
 echo "Starting one four-thread worker on each allocated node"
+module load singularitypro
 srun --overlap \
-  --cpu-bind=none \
-  --nodes="$ALLOCATED_NODES" \
-  --ntasks="$ALLOCATED_NODES" \
-  --ntasks-per-node=1 \
-  --cpus-per-task=4 \
-  env DASK_SCHEDULER_FILE="$SCHEDULER_FILE" \
-      DASK_WORKER_THREADS=4 \
-      DASK_WORKER_MEMORY=12GB \
-  bash -lc \
-  'source "$PYHPC_STAGE_SCRIPT" pythonhpc && exec "$PYHPC_WORKER_SCRIPT"' \
-  >"$WORKER_LOG" 2>&1 &
+   --cpu-bind=none \
+   --nodes="$ALLOCATED_NODES" \
+   --ntasks="$ALLOCATED_NODES" \
+   --ntasks-per-node=1 \
+   --cpus-per-task=4 \
+   env DASK_SCHEDULER_FILE="$SCHEDULER_FILE" \
+       DASK_WORKER_THREADS=4 \
+       DASK_WORKER_MEMORY=12GB \
+       PYHPC_WORKER_SCRIPT="$PYHPC_WORKER_SCRIPT" \
+       SIF_PATH="$SIF_PATH" \
+   bash -lc \
+   'singularity exec --bind /expanse "$SIF_PATH" bash -c "exec \"\$PYHPC_WORKER_SCRIPT\""' \
+   >"$WORKER_LOG" 2>&1 &
 WORKER_STEP_PID=$!
 
 export DASK_SCHEDULER_FILE="$SCHEDULER_FILE"
