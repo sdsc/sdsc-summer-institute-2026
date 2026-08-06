@@ -180,13 +180,42 @@ public:
      return sum/els();
   }
 
+  // compute m*m*a, update in-place and return the mean
+  double square_update_and_mean(double a) {
+    double sum = 0.0;
+#pragma omp parallel for reduction(+:sum)
+    for (size_t col=0; col<dims[0]; col++)
+      for (size_t row=0; row<dims[1]; row++) {
+	double val = el(col,row);
+	double res = val*val*a;  // compute square
+        el(col,row) = res;       // save result
+	sum+=res;                // use the result to also compute mean
+      }
+     return sum/els();
+  }
+
+  // compute m+a and return the mean
+  double add_and_mean(double a) const {
+    double sum = 0.0;
+#pragma omp parallel for reduction(+:sum)
+    for (size_t col=0; col<dims[0]; col++)
+      for (size_t row=0; row<dims[1]; row++) {
+	double val = el(col,row);
+	double res = val+a;  // compute add
+	sum+=res;            // use the result to compute mean
+      }
+     return sum/els();
+  }
+
 };
 
-// TODO: Optimize memory access
-double centre_mean(Matrix &m) {
-   Matrix m1 = m*m*(-0.5);
-   Matrix m2 = m1-m1.row_means()-m1.col_means()+m1.mean();
-   return m2.mean();
+// Note: Some steps have already been merged
+// TODO: Further optimize memory access
+double centre_mean(Matrix &m1) {
+   // was m1 = m*m*(-0.5);
+   double m1_mean = m1.square_update_and_mean(-0.5); // m1 is updated in place
+   Matrix m2 = m1-m1.row_means()-m1.col_means();
+   return m2.add_and_mean(m1_mean);
 }
 
 // Default values if no command line arguments are provided
