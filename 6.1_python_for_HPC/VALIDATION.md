@@ -1,5 +1,57 @@
 # Validation record
 
+## August 6, 2026
+
+Validation was run directly against the live `pythonhpc` Conda environment on
+the active galyleo compute node, after the environment was rebuilt with updated
+package versions. This validated that all notebooks still work with the new
+versions.
+
+### Environment
+
+- Node: `exp-1-29` (galyleo job `53050077`).
+- Live Conda environment (`pythonhpc`): Python 3.12.13, NumPy 2.4.6, Numba
+  0.66.0, Dask 2026.7.1, distributed 2026.7.1, pandas 3.0.5.
+- Test runner: `tests/execute_local_notebooks.py` run with the live
+  environment interpreter.
+
+### One-node notebooks
+
+All 9 notebooks that do not require a live cluster passed:
+
+| Notebook | Seconds |
+| --- | ---: |
+| `1_numba/0_basics.ipynb` | 1.691 |
+| `1_numba/1_numpy.ipynb` | 1.834 |
+| `1_numba/2_threads.ipynb` | 1.860 |
+| `1_numba/3_numba_groupby_pixels.ipynb` | 1.729 |
+| `2_threads_vs_processes/threads_vs_processes.ipynb` | 9.044 |
+| `3_dask/0_dask_graphs.ipynb` | 1.958 |
+| `3_dask/1_delayed.ipynb` | 2.802 |
+| `3_dask/2_multicore_array.ipynb` | 2.149 |
+| `3_dask/3_multicore_array_outofcore.ipynb` | 1.815 |
+
+### Multi-node capstone
+
+`3_dask/4_multinode_distributed_array.ipynb` was executed end to end against a
+live scheduler with two workers running on the same node (`exp-1-29`), using
+Dask `dask-scheduler` and `dask-worker` from the live environment. The
+distributed computation was verified correct (result 64,000,000), and the
+client closed cleanly.
+
+Only the notebook's "two distinct worker hosts" assertion could not be
+exercised in this run, because both workers ran on the single node (the live
+environment is node-local; no cached `pythonhpc.tar.gz` existed to stage a
+second node). The two-node host wiring itself was validated previously (July
+30, 2026) and is unaffected by the package version update.
+
+### Notes
+
+- The earlier galyleo rebuild log reported a `conda pack` failure
+  (`conda: error: invalid choice: 'pack'`), so no `pythonhpc.tar.gz` was
+  written to `~/.galyleo/pythonhpc/`. See VALIDATION for the follow-up on
+  fixing the packing step.
+
 ## July 30, 2026
 
 The plain-language lesson review was tested from the PR branch
