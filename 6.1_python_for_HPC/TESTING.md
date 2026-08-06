@@ -59,20 +59,3 @@ salloc \
     bash -lc \
     'cd /path/to/6.1_python_for_HPC && bash tests/run_debug_dask.sh'
 ```
-
-The test creates a temporary scheduler file, runs one worker on each allocated
-node with explicit `srun` steps, executes the capstone computation, checks the
-result, and stops all processes. It does not call the production SLURM script.
-
-## Record the result
-
-For each test, record:
-
-- Git commit.
-- Date and Expanse node names.
-- Python, Numba, Dask, and distributed versions.
-- Notebook pass or failure.
-- Runtime and any warnings that learners will see.
-
-The validation scripts write a machine-readable summary under
-`test-results/`. That directory is ignored by Git.

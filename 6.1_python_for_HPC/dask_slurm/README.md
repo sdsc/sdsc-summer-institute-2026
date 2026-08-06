@@ -29,9 +29,9 @@ assigns ready tasks. Workers store chunks and perform those tasks.
 - 128 threads and 242 GB requested per node
 - 30-minute limit, with immediate cancellation after the result is verified
 
-Workers run inside the SI26 Singularity image at
-`/expanse/lustre/projects/sds166/zonca/dask-numba-si26.sif` by default.
-Override the path with `PYHPC_SIF_PATH` to test a different image.
+- Workers use the `pythonhpc` conda env installed on shared project
+  storage at `/expanse/lustre/projects/sdp173/zonca/miniforge3`.
+  Run `setup_python_env.sh` once to install it.
 
 These are production institute settings. Instructors testing before the event
 must not submit this script. Use [`../TESTING.md`](../TESTING.md) and the debug

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Validate the multi-node capstone inside an existing two-node debug allocation.
+# Validate the multi-node capstone inside an existing two-node allocation.
 
 set -euo pipefail
 
@@ -11,7 +11,7 @@ fi
 ALLOCATED_NODES="${SLURM_JOB_NUM_NODES:-${SLURM_NNODES:-0}}"
 
 if [[ "$ALLOCATED_NODES" -lt 2 ]]; then
-  echo "ERROR: this test requires at least two allocated debug nodes."
+  echo "ERROR: this test requires at least two allocated nodes."
   exit 1
 fi
 
@@ -25,14 +25,10 @@ SCHEDULER_LOG="${RUN_DIR}/scheduler.log"
 WORKER_LOG="${RUN_DIR}/workers.log"
 NOTEBOOK_LOG="${RUN_DIR}/notebook.log"
 FIRST_NODE=$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n 1)
-SIF_PATH="${PYHPC_SIF_PATH:-/expanse/lustre/projects/sds166/zonca/dask-numba-si26.sif}"
-export PYHPC_WORKER_SCRIPT="${SESSION_ROOT}/dask_slurm/launch_worker.sh"
 
-if [[ ! -f "$SIF_PATH" ]]; then
-    echo "ERROR: Singularity image not found: $SIF_PATH"
-    echo "       Set PYHPC_SIF_PATH to the image you want to use."
-    exit 1
-fi
+export PYHPC_WORKER_SCRIPT="${SESSION_ROOT}/dask_slurm/launch_worker.sh"
+export PYHPC_MINIFORGE_DIR="/expanse/lustre/projects/sdp173/zonca/miniforge3"
+export PYHPC_CONDA_ACTIVATE="${PYHPC_MINIFORGE_DIR}/envs/pythonhpc/bin/activate"
 
 cleanup() {
   if [[ -n "${WORKER_STEP_PID:-}" ]]; then
@@ -46,8 +42,6 @@ cleanup() {
 }
 trap cleanup EXIT
 
-module load singularitypro
-
 echo "Starting scheduler on ${FIRST_NODE}"
 srun --overlap \
   --cpu-bind=none \
@@ -55,8 +49,7 @@ srun --overlap \
   --nodelist="$FIRST_NODE" \
   --ntasks=1 \
   --cpus-per-task=1 \
-  singularity exec --bind /expanse "$SIF_PATH" \
-  dask scheduler --scheduler-file "$SCHEDULER_FILE" --port 0 --dashboard-address :0 \
+  bash -lc 'source "$PYHPC_CONDA_ACTIVATE" && dask scheduler --scheduler-file "'"$SCHEDULER_FILE"'" --port 0 --dashboard-address :0' \
   >"$SCHEDULER_LOG" 2>&1 &
 SCHEDULER_STEP_PID=$!
 
@@ -81,15 +74,17 @@ srun --overlap \
        DASK_WORKER_THREADS=4 \
        DASK_WORKER_MEMORY=12GB \
        PYHPC_WORKER_SCRIPT="$PYHPC_WORKER_SCRIPT" \
-   singularity exec --bind /expanse "$SIF_PATH" \
-   bash -c 'exec "$PYHPC_WORKER_SCRIPT"' \
+       PYHPC_CONDA_ACTIVATE="$PYHPC_CONDA_ACTIVATE" \
+   bash -lc 'source "$PYHPC_CONDA_ACTIVATE" && exec "$PYHPC_WORKER_SCRIPT"' \
    >"$WORKER_LOG" 2>&1 &
 WORKER_STEP_PID=$!
 
 export DASK_SCHEDULER_FILE="$SCHEDULER_FILE"
 export PYHPC_TEST_MODE=1
 
-singularity exec --bind /expanse "$SIF_PATH" python - <<'PY' >"$NOTEBOOK_LOG" 2>&1
+source "$PYHPC_CONDA_ACTIVATE"
+
+python - <<'PY' >"$NOTEBOOK_LOG" 2>&1
 import os
 from distributed import Client
 
@@ -104,7 +99,6 @@ print(f"Hosts: {sorted(hosts)}")
 client.close()
 PY
 
-singularity exec --bind /expanse "$SIF_PATH" \
 python -m jupyter nbconvert \
   --to notebook \
   --execute "$SESSION_ROOT/3_dask/4_multinode_distributed_array.ipynb" \
@@ -113,5 +107,5 @@ python -m jupyter nbconvert \
   --output "capstone.executed.ipynb" \
   >>"$NOTEBOOK_LOG" 2>&1
 
-echo "Multi-node debug validation passed."
+echo "Multi-node validation passed."
 echo "Logs: $RUN_DIR"

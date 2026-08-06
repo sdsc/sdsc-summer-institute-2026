@@ -59,13 +59,14 @@ From the repository root on Expanse:
 
 ```bash
 cd 6.1_python_for_HPC
+bash setup_python_env.sh
 bash launch_galyleo_compute.sh
 ```
 
-The launcher asks Galyleo to create or reuse a Conda environment named
-`pythonhpc` from [`environment.yaml`](environment.yaml). A Conda environment is
-the set of Python packages used by the notebooks. You do not need to run
-separate Conda commands during class.
+`setup_python_env.sh` installs Miniforge to shared project storage and
+creates the `pythonhpc` conda env from `environment.yaml`. Run it once
+before the institute. `launch_galyleo_compute.sh` uses that pre-installed
+env.
 
 The production launcher requests the SI26 account, CPU reservation, and
 education QOS. It is intended for the institute. Instructors testing before the

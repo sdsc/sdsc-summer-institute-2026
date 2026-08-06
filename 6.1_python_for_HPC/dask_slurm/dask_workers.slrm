@@ -18,18 +18,8 @@ SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 export PYHPC_WORKER_SCRIPT="${SCRIPT_DIR}/launch_worker.sh"
 export DASK_WORKER_THREADS="${SLURM_CPUS_PER_TASK}"
 export DASK_WORKER_MEMORY="240GB"
-SIF_PATH="${PYHPC_SIF_PATH:-/expanse/lustre/projects/sds166/zonca/dask-numba-si26.sif}"
-
-if [[ ! -f "$SIF_PATH" ]]; then
-    echo "ERROR: Singularity image not found: $SIF_PATH"
-    echo "       Set PYHPC_SIF_PATH to the image you want to use."
-    exit 1
-fi
-
-module load singularitypro
+export PYHPC_MINIFORGE_DIR="/expanse/lustre/projects/sdp173/zonca/miniforge3"
+export PYHPC_CONDA_ACTIVATE="${PYHPC_MINIFORGE_DIR}/envs/pythonhpc/bin/activate"
 
 srun --exact --ntasks="${SLURM_NNODES}" --ntasks-per-node=1 --unbuffered \
-    singularity exec \
-    --bind /expanse \
-    "$SIF_PATH" \
-    bash -c 'exec "$PYHPC_WORKER_SCRIPT"'
+    bash -c 'source "$PYHPC_CONDA_ACTIVATE" && exec "$PYHPC_WORKER_SCRIPT"'

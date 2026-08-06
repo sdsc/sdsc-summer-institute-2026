@@ -1,27 +1,14 @@
-# Stage a Conda environment on local SSD
+# Conda env batch example
 
-This optional workflow copies the cached `pythonhpc` environment from the
-Galyleo cache into each compute node's local SSD. It demonstrates a common HPC
-pattern: keep the authoritative environment on a shared file system, then stage
-frequently accessed files onto node-local storage for a job.
-
-This is an advanced setup example, not part of the core classroom path.
+This directory contains the production two-node batch example and a node
+diagnostic. Both use the shared `pythonhpc` conda env installed on project
+storage by `../../setup_python_env.sh`.
 
 ## Files
 
-- `python_expanse.slurm`: production SI26 two-node batch example.
-- `stage_condaenv.sh`: sourced once per node to install Miniforge and unpack the
-  cached environment under `$SLURM_TMPDIR`.
+- `python_expanse.slurm`: production SI26 two-node batch example. Runs
+  `node_info.py` on each node using the shared conda env.
 - `node_info.py`: prints the node, rank, CPU, memory, and environment path.
-
-## Prerequisite
-
-Run `launch_galyleo_compute.sh` at least once with `--cache` so this archive
-exists:
-
-```text
-~/.galyleo/pythonhpc/pythonhpc.tar.gz
-```
 
 ## Production use during SI26
 
@@ -39,12 +26,4 @@ The script includes account `sdp173`, reservation `si26cpu`, and QOS
 
 Do not submit the production script while validating the lesson. Follow
 [`../../TESTING.md`](../../TESTING.md), request the debug queue directly, and
-source the staging script inside that allocation.
-
-## Expected output
-
-The SLURM output should contain two different hostnames, one task per node, and
-an environment path under each node's `$SLURM_TMPDIR`.
-
-The local environment disappears when the job ends. The cached archive in your
-home directory remains.
+run `tests/run_debug_one_node.sh` inside that allocation.
