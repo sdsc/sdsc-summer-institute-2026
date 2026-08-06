@@ -46,6 +46,8 @@ cleanup() {
 }
 trap cleanup EXIT
 
+module load singularitypro
+
 echo "Starting scheduler on ${FIRST_NODE}"
 srun --overlap \
   --cpu-bind=none \
@@ -53,8 +55,8 @@ srun --overlap \
   --nodelist="$FIRST_NODE" \
   --ntasks=1 \
   --cpus-per-task=1 \
-  bash -lc \
-  "dask scheduler --scheduler-file '$SCHEDULER_FILE' --host \$(hostname -I | awk '{print \$1}') --port 0 --dashboard-address :0" \
+  singularity exec --bind /expanse "$SIF_PATH" \
+  dask scheduler --scheduler-file "$SCHEDULER_FILE" --port 0 --dashboard-address :0 \
   >"$SCHEDULER_LOG" 2>&1 &
 SCHEDULER_STEP_PID=$!
 
@@ -69,7 +71,6 @@ if [[ ! -s "$SCHEDULER_FILE" ]]; then
 fi
 
 echo "Starting one four-thread worker on each allocated node"
-module load singularitypro
 srun --overlap \
    --cpu-bind=none \
    --nodes="$ALLOCATED_NODES" \
@@ -80,16 +81,15 @@ srun --overlap \
        DASK_WORKER_THREADS=4 \
        DASK_WORKER_MEMORY=12GB \
        PYHPC_WORKER_SCRIPT="$PYHPC_WORKER_SCRIPT" \
-       SIF_PATH="$SIF_PATH" \
-   bash -lc \
-   'singularity exec --bind /expanse "$SIF_PATH" bash -c "exec \"\$PYHPC_WORKER_SCRIPT\""' \
+   singularity exec --bind /expanse "$SIF_PATH" \
+   bash -c 'exec "$PYHPC_WORKER_SCRIPT"' \
    >"$WORKER_LOG" 2>&1 &
 WORKER_STEP_PID=$!
 
 export DASK_SCHEDULER_FILE="$SCHEDULER_FILE"
 export PYHPC_TEST_MODE=1
 
-python - <<'PY' >"$NOTEBOOK_LOG" 2>&1
+singularity exec --bind /expanse "$SIF_PATH" python - <<'PY' >"$NOTEBOOK_LOG" 2>&1
 import os
 from distributed import Client
 
@@ -104,6 +104,7 @@ print(f"Hosts: {sorted(hosts)}")
 client.close()
 PY
 
+singularity exec --bind /expanse "$SIF_PATH" \
 python -m jupyter nbconvert \
   --to notebook \
   --execute "$SESSION_ROOT/3_dask/4_multinode_distributed_array.ipynb" \

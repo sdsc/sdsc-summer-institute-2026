@@ -57,7 +57,7 @@ salloc \
     --nodes=1 \
     --ntasks=1 \
     bash -lc \
-    'cd /path/to/6.1_python_for_HPC && source support/condaenv_scratch/stage_condaenv.sh pythonhpc && bash tests/run_debug_dask.sh'
+    'cd /path/to/6.1_python_for_HPC && bash tests/run_debug_dask.sh'
 ```
 
 The test creates a temporary scheduler file, runs one worker on each allocated
