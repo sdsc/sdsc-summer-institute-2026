@@ -21,4 +21,4 @@ dask worker \
     --nworkers 1 \
     --nthreads "$WORKER_THREADS" \
     --memory-limit "$WORKER_MEMORY" \
-    --name "worker-$HOSTNAME"
+    --name "worker-$(hostname)"
