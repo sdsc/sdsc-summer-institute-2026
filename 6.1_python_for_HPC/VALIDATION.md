@@ -165,7 +165,6 @@ The live path now ends with the recap on slides 36 through 38. The AI material
 is an optional appendix on slides 39 through 43.
 
 - The native Google Slides deck contains 43 slides in the intended order.
-- All standard slide titles and bullets match `slides/SLIDES.md`.
 - All 43 speaker-note pages match the source.
 - The exported PDF contains 43 pages.
 - The full-deck contact sheet and both native diagrams passed visual review.
