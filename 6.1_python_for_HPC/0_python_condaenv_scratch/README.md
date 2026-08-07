@@ -9,13 +9,13 @@ SSD and caches it across sessions, so the env is built exactly once.
   node-local scratch and activate it. On the first run it builds `pythonhpc`
   from `../environment.yaml` and caches a conda-pack archive in
   `~/.galyleo/pythonhpc/`, which Galyleo then reuses on every launch.
-- `python_expanse.slurm`: production SI26 two-node batch example. Sources
-  `stage_condaenv.sh` on each node and runs `node_info.py`.
+- `python_expanse.slurm`: one-node, one-process job that creates and caches the
+  env by sourcing `stage_condaenv.sh`. Run it once before the institute.
 - `node_info.py`: prints the node, rank, CPU, memory, and environment path.
 
 ## Production use during SI26
 
-From this directory:
+From this directory, run it once to create and cache the env:
 
 ```bash
 sbatch python_expanse.slurm
