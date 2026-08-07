@@ -124,21 +124,6 @@ def validate_lesson_alignment(errors: list[str]) -> None:
             "Slides 39 to 43",
             "optional appendix",
         ),
-        "slides/SLIDES.md": (
-            "12 minutes. Blue means help. Yellow means ready.",
-            "12 minutes. Discuss with a neighbor.",
-            "18 minutes. Clean up before moving on.",
-            "Give eight minutes.",
-            "4 of 7 | Break",
-            "5 of 7 | Dask tasks and chunks",
-            "7 of 7 | Recap",
-            "It creates or reuses the pythonhpc Conda environment.",
-            "The GIL is a CPython rule",
-            "A task graph is a plan",
-            "Save the job number. Wait for two workers.",
-            'Stop before "Build an array across the workers."',
-            "OPTIONAL | AI-assisted workflow",
-        ),
     }
 
     for relative, snippets in required_snippets.items():
@@ -149,16 +134,6 @@ def validate_lesson_alignment(errors: list[str]) -> None:
                     errors,
                     f"{relative}: missing aligned lesson text: {snippet}",
                 )
-
-    slide_text = (SESSION_ROOT / "slides/SLIDES.md").read_text(
-        encoding="utf-8"
-    )
-    slide_count = len(re.split(r"^---$", slide_text, flags=re.MULTILINE))
-    if slide_count != 43:
-        fail(
-            errors,
-            f"slides/SLIDES.md: expected 43 slides, found {slide_count}",
-        )
 
 
 def validate_folder_layout(errors: list[str]) -> None:

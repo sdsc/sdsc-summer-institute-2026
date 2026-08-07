@@ -52,7 +52,7 @@ language before it appears in a notebook or exercise.
   least 24 points and use the template colors.
 - No raster media appears after the title slide.
 
-Speaker cues are stored as native speaker notes and repeated in `SLIDES.md`.
+Speaker cues are stored as native speaker notes.
 The exported deck must be checked as a complete contact sheet and at full
 resolution. The review must confirm:
 
