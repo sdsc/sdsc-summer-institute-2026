@@ -97,12 +97,11 @@ the blue sticky note so a helper can come to you.
 | Time | Activity | Material |
 | --- | --- | --- |
 | 8:30 to 8:42 | Setup, goals, and a simple performance workflow | Slides 1 to 8 and this README |
-| 8:42 to 9:15 | Numba early win and hands-on exercise | Slides 9 to 14 and [`1_numba/0_basics.ipynb`](1_numba/0_basics.ipynb) |
-| 9:15 to 9:40 | Threads, processes, and predict-then-check exercise | Slides 15 to 20 and [`2_threads_vs_processes/threads_vs_processes.ipynb`](2_threads_vs_processes/threads_vs_processes.ipynb) |
+| 8:42 to 9:40 | Numba early win, loop compilation, and multithreading | Slides 9 to 14 and [`1_numba/0_basics.ipynb`](1_numba/0_basics.ipynb) |
 | 9:40 to 9:50 | Break | Slide 21 |
-| 9:50 to 10:20 | Dask tasks, chunks, and hands-on exercise | Slides 22 to 29, [`3_dask/1_delayed.ipynb`](3_dask/1_delayed.ipynb), then [`3_dask/2_multicore_array.ipynb`](3_dask/2_multicore_array.ipynb) |
+| 9:50 to 10:20 | Dask tasks, chunks, and hands-on exercise | Slides 22 to 29, [`2_dask/1_delayed.ipynb`](2_dask/1_delayed.ipynb), then [`2_dask/2_multicore_array.ipynb`](2_dask/2_multicore_array.ipynb) |
 | 10:20 to 10:30 | Cluster setup | Slide 30 and [`dask_slurm/README.md`](dask_slurm/README.md) |
-| 10:30 to 11:02 | Multi-node capstone | Slides 31 to 35 and [`3_dask/4_multinode_distributed_array.ipynb`](3_dask/4_multinode_distributed_array.ipynb) |
+| 10:30 to 11:02 | Multi-node capstone | Slides 31 to 35 and [`2_dask/4_multinode_distributed_array.ipynb`](2_dask/4_multinode_distributed_array.ipynb) |
 | 11:02 to 11:20 | Decision map, take-home files, and questions | Slides 36 to 38 |
 
 The agenda allocates 170 minutes from 8:30 AM to 11:20 AM. The blocks above
@@ -115,7 +114,7 @@ deck shows the clock time the class should reach it.
 
 These files are for early finishers and post-session study:
 
-- Slides 39 to 43 and [`4_ai_code_assist/README.md`](4_ai_code_assist/README.md):
+- Slides 39 to 43 and [`3_ai_code_assist/README.md`](3_ai_code_assist/README.md):
   a short AI-assisted review exercise. Use this optional appendix only if the
   recap ends early; otherwise it is take-home material.
 - [`1_numba/1_numpy.ipynb`](1_numba/1_numpy.ipynb): how Numba handles different
@@ -124,9 +123,9 @@ These files are for early finishers and post-session study:
   inside one Numba function.
 - [`1_numba/3_numba_groupby_pixels.ipynb`](1_numba/3_numba_groupby_pixels.ipynb):
   an authentic astronomy group-by optimization.
-- [`3_dask/0_dask_graphs.ipynb`](3_dask/0_dask_graphs.ipynb): inspect task
+- [`2_dask/0_dask_graphs.ipynb`](2_dask/0_dask_graphs.ipynb): inspect task
   graphs in more detail.
-- [`3_dask/3_multicore_array_outofcore.ipynb`](3_dask/3_multicore_array_outofcore.ipynb):
+- [`2_dask/3_multicore_array_outofcore.ipynb`](2_dask/3_multicore_array_outofcore.ipynb):
   reason about arrays larger than memory without performing a long classroom
   computation.
 
@@ -135,11 +134,9 @@ Not completing a deep dive is not falling behind.
 ## Folder guide
 
 - [`1_numba/`](1_numba/README.md): single-core and threaded compilation.
-- [`2_threads_vs_processes/`](2_threads_vs_processes/README.md): the GIL and
-  scheduler choice.
-- [`3_dask/`](3_dask/README.md): delayed tasks, arrays, chunking, and the
+- [`2_dask/`](2_dask/README.md): delayed tasks, arrays, chunking, and the
   multi-node capstone.
-- [`4_ai_code_assist/`](4_ai_code_assist/README.md): optional practice using an
+- [`3_ai_code_assist/`](3_ai_code_assist/README.md): optional practice using an
   AI assistant while retaining responsibility for resource requests and
   validation.
 - [`0_python_condaenv_scratch/`](0_python_condaenv_scratch/README.md):

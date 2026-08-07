@@ -74,15 +74,14 @@ All 9 notebooks that do not require a live cluster passed:
 | `1_numba/1_numpy.ipynb` | 1.834 |
 | `1_numba/2_threads.ipynb` | 1.860 |
 | `1_numba/3_numba_groupby_pixels.ipynb` | 1.729 |
-| `2_threads_vs_processes/threads_vs_processes.ipynb` | 9.044 |
-| `3_dask/0_dask_graphs.ipynb` | 1.958 |
-| `3_dask/1_delayed.ipynb` | 2.802 |
-| `3_dask/2_multicore_array.ipynb` | 2.149 |
-| `3_dask/3_multicore_array_outofcore.ipynb` | 1.815 |
+| `2_dask/0_dask_graphs.ipynb` | 1.958 |
+| `2_dask/1_delayed.ipynb` | 2.802 |
+| `2_dask/2_multicore_array.ipynb` | 2.149 |
+| `2_dask/3_multicore_array_outofcore.ipynb` | 1.815 |
 
 ### Multi-node capstone
 
-`3_dask/4_multinode_distributed_array.ipynb` was executed end to end against a
+`2_dask/4_multinode_distributed_array.ipynb` was executed end to end against a
 live scheduler with two workers running on the same node (`exp-1-29`), using
 Dask `dask-scheduler` and `dask-worker` from the live environment. The
 distributed computation was verified correct (result 64,000,000), and the
@@ -127,7 +126,7 @@ included the uncommitted review changes described by the local diff.
 - SI26 Singularity image: Python 3.12.0, NumPy 2.4.6, Numba 0.65.1, Dask
   2026.6.0, distributed 2026.6.0.
 
-All 9 notebooks that do not require a live cluster passed in both
+All 8 notebooks that do not require a live cluster passed in both
 environments:
 
 | Notebook | Conda seconds | Container seconds |
@@ -136,11 +135,10 @@ environments:
 | `1_numba/1_numpy.ipynb` | 1.817 | 2.093 |
 | `1_numba/2_threads.ipynb` | 1.820 | 1.895 |
 | `1_numba/3_numba_groupby_pixels.ipynb` | 1.907 | 1.876 |
-| `2_threads_vs_processes/threads_vs_processes.ipynb` | 9.295 | 9.009 |
-| `3_dask/0_dask_graphs.ipynb` | 1.856 | 2.560 |
-| `3_dask/1_delayed.ipynb` | 3.229 | 2.341 |
-| `3_dask/2_multicore_array.ipynb` | 2.173 | 2.111 |
-| `3_dask/3_multicore_array_outofcore.ipynb` | 1.819 | 1.901 |
+| `2_dask/0_dask_graphs.ipynb` | 1.856 | 2.560 |
+| `2_dask/1_delayed.ipynb` | 3.229 | 2.341 |
+| `2_dask/2_multicore_array.ipynb` | 2.173 | 2.111 |
+| `2_dask/3_multicore_array_outofcore.ipynb` | 1.819 | 1.901 |
 
 The container run printed warnings that the temporary validation kernels used
 unencrypted local TCP connections. These warnings came from the notebook test

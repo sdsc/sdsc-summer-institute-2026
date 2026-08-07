@@ -104,7 +104,7 @@ PY
 
 python -m jupyter nbconvert \
   --to notebook \
-  --execute "$SESSION_ROOT/3_dask/4_multinode_distributed_array.ipynb" \
+  --execute "$SESSION_ROOT/2_dask/4_multinode_distributed_array.ipynb" \
   --ExecutePreprocessor.timeout=300 \
   --output-dir "$RUN_DIR" \
   --output "capstone.executed.ipynb" \

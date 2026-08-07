@@ -102,26 +102,19 @@ def validate_notebooks(errors: list[str]) -> None:
 def validate_lesson_alignment(errors: list[str]) -> None:
     required_snippets = {
         "1_numba/0_basics.ipynb": ("**12 minutes.**",),
-        "2_threads_vs_processes/threads_vs_processes.ipynb": (
-            "**12 minutes.**",
-            "n_workers = min(4, os.cpu_count() or 1)",
-        ),
-        "3_dask/1_delayed.ipynb": ("**5 minutes.**",),
-        "3_dask/2_multicore_array.ipynb": (
+        "2_dask/1_delayed.ipynb": ("**5 minutes.**",),
+        "2_dask/2_multicore_array.ipynb": (
             "**10 minutes.**",
             "da.sin(dask_array) * dask_array * da.log(dask_array)",
         ),
-        "3_dask/4_multinode_distributed_array.ipynb": (
+        "2_dask/4_multinode_distributed_array.ipynb": (
             "18 minutes hands-on",
             "client.wait_for_workers(2",
             "assert len(worker_hosts) >= 2",
             "da.sin(array) * array * da.log(array)",
         ),
-        "4_ai_code_assist/README.md": ("**8 minutes.**",),
+        "3_ai_code_assist/README.md": ("**8 minutes.**",),
         "README.md": (
-            "reserve 57 minutes",
-            "or about 34% of the full session",
-            "Slides 39 to 43",
             "optional appendix",
         ),
     }
@@ -140,16 +133,18 @@ def validate_folder_layout(errors: list[str]) -> None:
     expected = {
         "0_python_condaenv_scratch",
         "1_numba",
-        "2_threads_vs_processes",
-        "3_dask",
-        "4_ai_code_assist",
+        "2_dask",
+        "3_ai_code_assist",
         "support/python_singularity",
     }
     old = {
         "1_python_singularity",
         "2_ai_code_assist",
+        "2_threads_vs_processes",
         "3_numba",
+        "3_dask",
         "4_threads_vs_processes",
+        "4_ai_code_assist",
         "5_dask",
         "support/condaenv_scratch",
     }
@@ -268,7 +263,7 @@ def validate_text(errors: list[str]) -> None:
         "wrong dashboard port": re.compile(r"proxy/22222"),
         "old lesson folder": re.compile(
             r"\b(?:1_python_singularity|"
-            r"2_ai_code_assist|3_numba|4_threads_vs_processes|5_dask)\b"
+            r"2_ai_code_assist|2_threads_vs_processes|3_numba|3_dask|4_threads_vs_processes|4_ai_code_assist|5_dask)\b"
         ),
     }
     unclear_student_phrases = {

@@ -17,7 +17,7 @@ from nbclient import NotebookClient
 
 SESSION_ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = SESSION_ROOT / "test-results"
-SKIP = {Path("3_dask/4_multinode_distributed_array.ipynb")}
+SKIP = {Path("2_dask/4_multinode_distributed_array.ipynb")}
 GENERATED_DIRECTORIES = {"test-results", ".ipynb_checkpoints"}
 NOTEBOOKS = [
     path

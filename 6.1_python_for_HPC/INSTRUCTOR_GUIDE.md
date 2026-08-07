@@ -69,18 +69,6 @@ Question prompt: "Which part of your own Python workflow currently feels slow?"
 
 Question prompt: "How does Numba eliminate temporary allocations in numerical loops?"
 
-### 9:15 to 9:40: Threads and processes
-
-- Use slides 15 through 20.
-- Ask participants to predict both outcomes before timing either choice.
-- Use four workers even on a 128-core node. The purpose is to reveal the
-  execution model, not saturate the machine.
-- Pause near 9:27 for questions before comparing the schedulers.
-- Give 12 minutes for the predict-then-check activity.
-- Explain that starting processes and sending them data takes time and memory.
-
-Question prompt: "What data would be expensive to send to another process?"
-
 ### 9:40 to 9:50: Break
 
 - Use slide 21.
@@ -132,7 +120,7 @@ Question prompt: "What changed in the Python expression when we added nodes?"
 
 - Use slides 39 through 43 only if the recap ends early. Otherwise assign the
   section as take-home material.
-- Use the short workflow in `4_ai_code_assist/README.md`.
+- Use the short workflow in `3_ai_code_assist/README.md`.
 - AI may suggest an individual command or review a small function.
 - AI should not write the entire exercise solution.
 - Require participants to inspect resource requests and run the provided tests.
