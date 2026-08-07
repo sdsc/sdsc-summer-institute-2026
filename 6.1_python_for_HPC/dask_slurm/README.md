@@ -1,6 +1,6 @@
 # Dask workers on Expanse
 
-The multi-node capstone uses three roles:
+The multi-node Dask setup uses three roles:
 
 ```text
 Jupyter notebook
@@ -83,7 +83,7 @@ Read the newest output file for the first error.
 
 ## 3. Connect from the notebook
 
-Open `3_dask/4_multinode_distributed_array.ipynb`. Its connection cell reads
+Open `2_dask/4_multinode_distributed_array.ipynb`. Its connection cell reads
 `~/.dask_scheduler.json`, waits for both workers, and prints worker hosts,
 addresses, and thread counts.
 
@@ -115,4 +115,4 @@ Removing stale scheduler state before a new run is safe:
 rm -f "$HOME/.dask_scheduler.json"
 ```
 
-Do not leave worker jobs running after the capstone.
+Do not leave worker jobs running after the exercise.

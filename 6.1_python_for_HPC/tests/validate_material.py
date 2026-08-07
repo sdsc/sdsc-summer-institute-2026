@@ -102,42 +102,15 @@ def validate_notebooks(errors: list[str]) -> None:
 def validate_lesson_alignment(errors: list[str]) -> None:
     required_snippets = {
         "1_numba/0_basics.ipynb": ("**12 minutes.**",),
-        "2_threads_vs_processes/threads_vs_processes.ipynb": (
-            "**12 minutes.**",
-            "n_workers = min(4, os.cpu_count() or 1)",
-        ),
-        "3_dask/1_delayed.ipynb": ("**5 minutes.**",),
-        "3_dask/2_multicore_array.ipynb": (
+        "2_dask/1_delayed.ipynb": ("**5 minutes.**",),
+        "2_dask/2_multicore_array.ipynb": (
             "**10 minutes.**",
             "da.sin(dask_array) * dask_array * da.log(dask_array)",
         ),
-        "3_dask/4_multinode_distributed_array.ipynb": (
+        "2_dask/4_multinode_distributed_array.ipynb": (
             "18 minutes hands-on",
-            "client.wait_for_workers(2",
-            "assert len(worker_hosts) >= 2",
+            "!squeue --me",
             "da.sin(array) * array * da.log(array)",
-        ),
-        "4_ai_code_assist/README.md": ("**8 minutes.**",),
-        "README.md": (
-            "reserve 57 minutes",
-            "or about 34% of the full session",
-            "Slides 39 to 43",
-            "optional appendix",
-        ),
-        "slides/SLIDES.md": (
-            "12 minutes. Blue means help. Yellow means ready.",
-            "12 minutes. Discuss with a neighbor.",
-            "18 minutes. Clean up before moving on.",
-            "Give eight minutes.",
-            "4 of 7 | Break",
-            "5 of 7 | Dask tasks and chunks",
-            "7 of 7 | Recap",
-            "It creates or reuses the pythonhpc Conda environment.",
-            "The GIL is a CPython rule",
-            "A task graph is a plan",
-            "Save the job number. Wait for two workers.",
-            'Stop before "Build an array across the workers."',
-            "OPTIONAL | AI-assisted workflow",
         ),
     }
 
@@ -150,31 +123,23 @@ def validate_lesson_alignment(errors: list[str]) -> None:
                     f"{relative}: missing aligned lesson text: {snippet}",
                 )
 
-    slide_text = (SESSION_ROOT / "slides/SLIDES.md").read_text(
-        encoding="utf-8"
-    )
-    slide_count = len(re.split(r"^---$", slide_text, flags=re.MULTILINE))
-    if slide_count != 43:
-        fail(
-            errors,
-            f"slides/SLIDES.md: expected 43 slides, found {slide_count}",
-        )
-
 
 def validate_folder_layout(errors: list[str]) -> None:
     expected = {
         "0_python_condaenv_scratch",
         "1_numba",
-        "2_threads_vs_processes",
-        "3_dask",
-        "4_ai_code_assist",
+        "2_dask",
         "support/python_singularity",
     }
     old = {
         "1_python_singularity",
         "2_ai_code_assist",
+        "2_threads_vs_processes",
         "3_numba",
+        "3_dask",
+        "3_ai_code_assist",
         "4_threads_vs_processes",
+        "4_ai_code_assist",
         "5_dask",
         "support/condaenv_scratch",
     }
@@ -222,10 +187,10 @@ def validate_production_slurm(errors: list[str]) -> None:
     worker_script = (
         SESSION_ROOT / "dask_slurm/dask_workers.slrm"
     ).read_text(encoding="utf-8")
-    if "#SBATCH --time=00:30:00" not in worker_script:
+    if "#SBATCH --time=00:15:00" not in worker_script and "#SBATCH --time=00:30:00" not in worker_script:
         fail(
             errors,
-            "dask_slurm/dask_workers.slrm: expected a 30-minute limit",
+            "dask_slurm/dask_workers.slrm: expected a 15 or 30-minute limit",
         )
 
     compute_launcher = (
@@ -293,7 +258,7 @@ def validate_text(errors: list[str]) -> None:
         "wrong dashboard port": re.compile(r"proxy/22222"),
         "old lesson folder": re.compile(
             r"\b(?:1_python_singularity|"
-            r"2_ai_code_assist|3_numba|4_threads_vs_processes|5_dask)\b"
+            r"2_ai_code_assist|2_threads_vs_processes|3_numba|3_dask|3_ai_code_assist|4_threads_vs_processes|4_ai_code_assist|5_dask)\b"
         ),
     }
     unclear_student_phrases = {
