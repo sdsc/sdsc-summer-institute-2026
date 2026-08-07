@@ -50,7 +50,11 @@ if [[ ! -f "$ENV_ARCHIVE" ]]; then
 
   echo "Packing ${ENV_NAME} env..."
   conda install -y -n base conda-pack -c conda-forge >/dev/null
-  conda pack -p "${LOCAL_SCRATCH_DIR}/${ENV_NAME}" -o "${LOCAL_SCRATCH_DIR}/${ENV_NAME}.tar.gz"
+  conda-pack -p "${LOCAL_SCRATCH_DIR}/${ENV_NAME}" -o "${LOCAL_SCRATCH_DIR}/${ENV_NAME}.tar.gz"
+  if [[ ! -f "${LOCAL_SCRATCH_DIR}/${ENV_NAME}.tar.gz" ]]; then
+    echo "ERROR: conda-pack failed to produce ${ENV_NAME}.tar.gz"
+    return 1
+  fi
 
   cp "${LOCAL_SCRATCH_DIR}/${ENV_NAME}.tar.gz" "$ENV_ARCHIVE"
   cp "${SCRIPT_DIR}/environment.yaml" "${GALYLEO_CACHE_DIR}/${ENV_NAME}/"

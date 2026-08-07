@@ -1,5 +1,39 @@
 # Validation record
 
+## August 6, 2026 (conda env staging via 0_python_condaenv_scratch)
+
+Restored the staging workflow: `stage_condaenv.sh` builds the `pythonhpc` env
+once, conda-packs it into `~/.galyleo/pythonhpc/pythonhpc.tar.gz`, and Galyleo
+reuses that archive on every launch instead of rebuilding. Branch
+`fix/dask-singularity-workers`, commit `e3df918`.
+
+- Moved env staging out of `support/` back to `0_python_condaenv_scratch/`.
+- Removed `setup_python_env.sh` (shared-conda-env-on-Lustre approach).
+- `launch_galyleo_compute.sh` now uses `--conda-yml environment.yaml --cache`.
+
+### Staging build and cache
+
+- Expanse job: `53068844`, node `exp-2-09`, partition `compute`, QOS
+  `normal-eot`.
+- Fixed the pack step: use the standalone `conda-pack` binary (the `conda
+  pack` subcommand was not recognized) and fail loudly if the archive is
+  missing.
+- Result: env built once and cached as an 860 MB `pythonhpc.tar.gz` at
+  `~/.galyleo/pythonhpc/` together with `environment.yaml` and
+  `pythonhpc.md5`.
+- Staged and activated on node-local scratch: `import dask, distributed,
+  numpy, numba, pandas` OK (Dask 2026.7.1, Numba 0.66.0).
+
+### Galyleo cache reuse (no second build)
+
+- Expanse job: `53068917`, node `exp-2-09`, partition `compute`, QOS
+  `normal-eot`.
+- Galyleo `--cache` md5 check against `pythonhpc.md5` returned OK
+  (`md5sum -c` exit 0).
+- Generated Galyleo job script used the cache-hit path (cp tar.gz, tar, source
+  activate, conda-unpack) and did NOT run `conda env create`.
+- JupyterLab started successfully from the staged env.
+
 ## August 6, 2026 (Singularity worker test)
 
 Tested the Dask distributed capstone with Singularity workers on the SI26
