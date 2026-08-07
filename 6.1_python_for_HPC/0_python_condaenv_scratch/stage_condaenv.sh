@@ -67,12 +67,17 @@ fi
 cd "$LOCAL_SCRATCH_DIR"
 if [[ ! -d "${LOCAL_SCRATCH_DIR}/${ENV_NAME}/bin" ]]; then
   echo "Staging ${ENV_NAME} from cache..."
+  rm -rf "$ENV_NAME"
   mkdir -p "$ENV_NAME"
   tar -xzf "$ENV_ARCHIVE" -C "$ENV_NAME"
 fi
+# conda's activate script references CONDA_PREFIX before it is set; run it
+# without nounset so a parent shell's `set -u` cannot break activation.
+set +u
 source "${LOCAL_SCRATCH_DIR}/${ENV_NAME}/bin/activate"
 if command -v conda-unpack >/dev/null 2>&1; then
   conda-unpack >/dev/null
 fi
+set -u 2>/dev/null || true
 
 echo "Activated ${ENV_NAME} from ${LOCAL_SCRATCH_DIR}/${ENV_NAME}"
