@@ -15,11 +15,13 @@
 set -euo pipefail
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+export PYHPC_STAGE_SCRIPT="${SCRIPT_DIR}/stage_condaenv.sh"
 export PYHPC_NODE_INFO="${SCRIPT_DIR}/node_info.py"
-export PYHPC_CONDA_ACTIVATE="/expanse/lustre/projects/sdp173/zonca/miniforge3/envs/pythonhpc/bin/activate"
 
 echo "Running on nodes:"
 scontrol show hostname "$SLURM_NODELIST"
 
+# Source the staging script to unpack the cached conda env to node-local
+# scratch, then run python from it. First run builds and caches the env.
 srun --exact --ntasks=2 --ntasks-per-node=1 --unbuffered \
-    bash -c 'source "$PYHPC_CONDA_ACTIVATE" && exec python "$PYHPC_NODE_INFO"'
+    bash -c 'source "$PYHPC_STAGE_SCRIPT" pythonhpc && exec python "$PYHPC_NODE_INFO"'

@@ -59,14 +59,15 @@ From the repository root on Expanse:
 
 ```bash
 cd 6.1_python_for_HPC
-bash setup_python_env.sh
 bash launch_galyleo_compute.sh
 ```
 
-`setup_python_env.sh` installs Miniforge to shared project storage and
-creates the `pythonhpc` conda env from `environment.yaml`. Run it once
-before the institute. `launch_galyleo_compute.sh` uses that pre-installed
-env.
+`launch_galyleo_compute.sh` launches JupyterLab with the `pythonhpc` conda
+env (defined in `environment.yaml`). The env is staged to node-local scratch
+via Galyleo's cache, so it is built once and reused on every session. To
+regenerate it from scratch, remove the cached copy
+(`rm -rf ~/.galyleo/pythonhpc`) or rebuild with
+`0_python_condaenv_scratch/stage_condaenv.sh`.
 
 The production launcher requests the SI26 account, CPU reservation, and
 education QOS. It is intended for the institute. Instructors testing before the
@@ -141,10 +142,13 @@ Not completing a deep dive is not falling behind.
 - [`4_ai_code_assist/`](4_ai_code_assist/README.md): optional practice using an
   AI assistant while retaining responsibility for resource requests and
   validation.
+- [`0_python_condaenv_scratch/`](0_python_condaenv_scratch/README.md):
+  conda environment staging scripts. Students do not open this folder during
+  class.
 - [`dask_slurm/`](dask_slurm/README.md): production SI26 scheduler and worker
   instructions.
-- [`support/`](support/README.md): environment staging, testing support, and an
-  optional container workflow. Students do not open this folder during class.
+- [`support/`](support/README.md): an optional container workflow. Students do
+  not open this folder during class.
 - [`slides/`](slides/README.md): Google Slides link, accessible source, PDF, and
   reference information.
 - [`INSTRUCTOR_GUIDE.md`](INSTRUCTOR_GUIDE.md): pacing, helper cues, and

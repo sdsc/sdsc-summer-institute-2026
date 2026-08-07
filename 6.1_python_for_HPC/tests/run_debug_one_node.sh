@@ -10,15 +10,16 @@ fi
 
 SESSION_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 RESULTS_DIR="${SESSION_ROOT}/test-results"
-export PYHPC_CONDA_ACTIVATE="/expanse/lustre/projects/sdp173/zonca/miniforge3/envs/pythonhpc/bin/activate"
 
 cd "$SESSION_ROOT"
 mkdir -p "$RESULTS_DIR"
 
-source "$PYHPC_CONDA_ACTIVATE"
+# Stage the shared pythonhpc conda env onto node-local scratch, then run the
+# validation steps from it. First run builds and caches the env.
+source 0_python_condaenv_scratch/stage_condaenv.sh pythonhpc
 
 python tests/validate_material.py
-python support/condaenv_scratch/node_info.py
+python 0_python_condaenv_scratch/node_info.py
 python tests/execute_local_notebooks.py
 
 echo "One-node validation passed."

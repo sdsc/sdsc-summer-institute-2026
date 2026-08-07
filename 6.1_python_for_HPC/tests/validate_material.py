@@ -163,20 +163,20 @@ def validate_lesson_alignment(errors: list[str]) -> None:
 
 def validate_folder_layout(errors: list[str]) -> None:
     expected = {
+        "0_python_condaenv_scratch",
         "1_numba",
         "2_threads_vs_processes",
         "3_dask",
         "4_ai_code_assist",
-        "support/condaenv_scratch",
         "support/python_singularity",
     }
     old = {
-        "0_python_condaenv_scratch",
         "1_python_singularity",
         "2_ai_code_assist",
         "3_numba",
         "4_threads_vs_processes",
         "5_dask",
+        "support/condaenv_scratch",
     }
     for relative in expected:
         if not (SESSION_ROOT / relative).is_dir():
@@ -204,7 +204,7 @@ def validate_shell(errors: list[str]) -> None:
 
 def validate_production_slurm(errors: list[str]) -> None:
     required = {
-        "support/condaenv_scratch/python_expanse.slurm",
+        "0_python_condaenv_scratch/python_expanse.slurm",
         "dask_slurm/dask_workers.slrm",
     }
     directives = {
@@ -292,7 +292,7 @@ def validate_text(errors: list[str]) -> None:
         "si25cpu": re.compile(r"\bsi25cpu\b"),
         "wrong dashboard port": re.compile(r"proxy/22222"),
         "old lesson folder": re.compile(
-            r"\b(?:0_python_condaenv_scratch|1_python_singularity|"
+            r"\b(?:1_python_singularity|"
             r"2_ai_code_assist|3_numba|4_threads_vs_processes|5_dask)\b"
         ),
     }

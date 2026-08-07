@@ -31,11 +31,10 @@ cd /path/to/sdsc-summer-institute-2026/6.1_python_for_HPC
 bash tests/run_debug_one_node.sh
 ```
 
-The script stages the cached `pythonhpc` environment, runs every local core and
-optional notebook, and repeats the suite inside the instructor's SI26
-Singularity image. Set `PYHPC_SIF_PATH` first to use a different image. It skips
-only the multi-node notebook, which requires a scheduler and workers and is
-covered by the next test.
+The script stages the `pythonhpc` environment (building and caching it on the
+first run, then reusing it), runs every local core and optional notebook, and
+writes results to `test-results/`. It skips only the multi-node notebook, which
+requires a scheduler and workers and is covered by the next test.
 
 ## Multi-node Dask validation
 

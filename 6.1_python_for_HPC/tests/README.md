@@ -5,8 +5,8 @@
   characters.
 - `execute_local_notebooks.py`: executes every notebook that does not require a
   live distributed cluster.
-- `run_debug_one_node.sh`: stages the cached environment, executes all local
-  notebooks, and repeats the suite inside the SI26 Singularity image.
+- `run_debug_one_node.sh`: stages the `pythonhpc` environment, then executes
+  all local notebooks.
 - `run_debug_dask.sh`: validates a real scheduler, workers on multiple allocated
   debug nodes, and the capstone notebook.
 
