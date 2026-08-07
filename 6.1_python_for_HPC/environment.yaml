@@ -11,6 +11,7 @@ dependencies:
   - pandas
   - matplotlib
   - graphviz
+  - python-graphviz
   - ipycytoscape
   - psutil
   - h5py

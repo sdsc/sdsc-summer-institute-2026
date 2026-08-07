@@ -63,23 +63,11 @@ Question prompt: "Which part of your own Python workflow currently feels slow?"
 - Explain that the first call compiles and runs the function. Later calls reuse
   the compiled code, so time those later calls.
 - Pause near 8:55 for questions before starting the hands-on portion.
-- Give 12 minutes for the sum-of-squares exercise.
+- Give 12 minutes for the moving-average exercise.
 - At minute 9, ask for sticky-note status and announce three minutes remaining.
 - Debrief correctness first, then performance.
 
-Question prompt: "When is a clear NumPy expression already good enough?"
-
-### 9:15 to 9:40: Threads and processes
-
-- Use slides 15 through 20.
-- Ask participants to predict both outcomes before timing either choice.
-- Use four workers even on a 128-core node. The purpose is to reveal the
-  execution model, not saturate the machine.
-- Pause near 9:27 for questions before comparing the schedulers.
-- Give 12 minutes for the predict-then-check activity.
-- Explain that starting processes and sending them data takes time and memory.
-
-Question prompt: "What data would be expensive to send to another process?"
+Question prompt: "How does Numba eliminate temporary allocations in numerical loops?"
 
 ### 9:40 to 9:50: Break
 
@@ -105,10 +93,10 @@ Question prompt: "What must Dask know before it can schedule the work?"
 
 - Use slide 30.
 - Start the scheduler, then submit the worker job.
-- Wait for two workers before opening the capstone notebook.
+- Check worker connection status before opening the multi-node notebook.
 - Move anyone whose workers do not connect promptly to the instructor cluster.
 
-### 10:30 to 11:02: Multi-node capstone
+### 10:30 to 11:02: Multi-node Dask
 
 - Use slides 31 through 35.
 - Use at most two worker nodes per participant. The job has a 30-minute limit,
@@ -128,19 +116,6 @@ Question prompt: "What changed in the Python expression when we added nodes?"
 - Ask participants to choose one take-home file.
 - Invite final questions and point to the optional deep dives.
 
-### Optional appendix: AI-assisted workflow
-
-- Use slides 39 through 43 only if the recap ends early. Otherwise assign the
-  section as take-home material.
-- Use the short workflow in `4_ai_code_assist/README.md`.
-- AI may suggest an individual command or review a small function.
-- AI should not write the entire exercise solution.
-- Require participants to inspect resource requests and run the provided tests.
-- Give 8 minutes for the prompt-and-review exercise.
-
-Question prompt: "Which part of this answer must you verify before submitting a
-job?"
-
 ## Recovery options
 
 If Galyleo startup is slow:
@@ -159,14 +134,14 @@ If Dask workers do not connect:
 - Check that the scheduler file exists.
 - Check the worker job with `squeue -u "$USER"`.
 - Read the worker output file.
-- Use the instructor cluster for the capstone demo.
+- Use the instructor cluster for the multi-node demo.
 - Do not spend more than ten classroom minutes debugging individual clusters.
 
 If time is short:
 
 1. Keep the Numba exercise.
 2. Keep the threads-versus-processes prediction.
-3. Demonstrate the Dask capstone from the instructor cluster.
+3. Demonstrate multi-node Dask from the instructor cluster.
 4. End with the recap and assign the optional appendix as take-home material.
 
 Do not accelerate through concepts to preserve every notebook.
