@@ -101,7 +101,7 @@ the blue sticky note so a helper can come to you.
 | 9:40 to 9:50 | Break | Slide 21 |
 | 9:50 to 10:20 | Dask tasks, chunks, and hands-on exercise | Slides 22 to 29, [`2_dask/1_delayed.ipynb`](2_dask/1_delayed.ipynb), then [`2_dask/2_multicore_array.ipynb`](2_dask/2_multicore_array.ipynb) |
 | 10:20 to 10:30 | Cluster setup | Slide 30 and [`dask_slurm/README.md`](dask_slurm/README.md) |
-| 10:30 to 11:02 | Multi-node capstone | Slides 31 to 35 and [`2_dask/4_multinode_distributed_array.ipynb`](2_dask/4_multinode_distributed_array.ipynb) |
+| 10:30 to 11:02 | Multi-node Dask | Slides 31 to 35 and [`2_dask/4_multinode_distributed_array.ipynb`](2_dask/4_multinode_distributed_array.ipynb) |
 | 11:02 to 11:20 | Decision map, take-home files, and questions | Slides 36 to 38 |
 
 The agenda allocates 170 minutes from 8:30 AM to 11:20 AM. The blocks above
@@ -132,7 +132,7 @@ Not completing a deep dive is not falling behind.
 
 - [`1_numba/`](1_numba/README.md): single-core and threaded compilation.
 - [`2_dask/`](2_dask/README.md): delayed tasks, arrays, chunking, and the
-  multi-node capstone.
+  multi-node Dask exercise.
 - [`0_python_condaenv_scratch/`](0_python_condaenv_scratch/README.md):
   conda environment staging scripts. Students do not open this folder during
   class.

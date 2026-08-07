@@ -1,6 +1,6 @@
 # Dask workers on Expanse
 
-The multi-node capstone uses three roles:
+The multi-node Dask setup uses three roles:
 
 ```text
 Jupyter notebook
@@ -115,4 +115,4 @@ Removing stale scheduler state before a new run is safe:
 rm -f "$HOME/.dask_scheduler.json"
 ```
 
-Do not leave worker jobs running after the capstone.
+Do not leave worker jobs running after the exercise.

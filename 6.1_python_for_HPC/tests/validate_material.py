@@ -109,8 +109,7 @@ def validate_lesson_alignment(errors: list[str]) -> None:
         ),
         "2_dask/4_multinode_distributed_array.ipynb": (
             "18 minutes hands-on",
-            "client.wait_for_workers(2",
-            "assert len(worker_hosts) >= 2",
+            "!squeue --me",
             "da.sin(array) * array * da.log(array)",
         ),
     }

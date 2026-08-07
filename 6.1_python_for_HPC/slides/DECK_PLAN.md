@@ -31,7 +31,7 @@ The 43-slide deck is the session control center:
 | 21 | 9:40 to 9:50 | Break | Divider |
 | 22 to 29 | 9:50 to 10:20 | Dask tasks and chunks | Divider, two introductions, two notebook launches, two exercises, debrief |
 | 30 | 10:20 to 10:30 | Cluster setup | Two-terminal cluster instructions |
-| 31 to 35 | 10:30 to 11:02 | Multi-node capstone | Divider, role diagram, notebook launch, exercise, cleanup debrief |
+| 31 to 35 | 10:30 to 11:02 | Multi-node Dask | Divider, role diagram, notebook launch, exercise, cleanup debrief |
 | 36 to 38 | 11:02 to 11:20 | Recap | Divider, decision map, take-home files |
 | 39 to 43 | Optional | AI workflow | Appendix divider, review loop, page launch, exercise, debrief |
 

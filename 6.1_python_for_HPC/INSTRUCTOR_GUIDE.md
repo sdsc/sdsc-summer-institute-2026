@@ -93,10 +93,10 @@ Question prompt: "What must Dask know before it can schedule the work?"
 
 - Use slide 30.
 - Start the scheduler, then submit the worker job.
-- Wait for two workers before opening the capstone notebook.
+- Check worker connection status before opening the multi-node notebook.
 - Move anyone whose workers do not connect promptly to the instructor cluster.
 
-### 10:30 to 11:02: Multi-node capstone
+### 10:30 to 11:02: Multi-node Dask
 
 - Use slides 31 through 35.
 - Use at most two worker nodes per participant. The job has a 30-minute limit,
@@ -134,14 +134,14 @@ If Dask workers do not connect:
 - Check that the scheduler file exists.
 - Check the worker job with `squeue -u "$USER"`.
 - Read the worker output file.
-- Use the instructor cluster for the capstone demo.
+- Use the instructor cluster for the multi-node demo.
 - Do not spend more than ten classroom minutes debugging individual clusters.
 
 If time is short:
 
 1. Keep the Numba exercise.
 2. Keep the threads-versus-processes prediction.
-3. Demonstrate the Dask capstone from the instructor cluster.
+3. Demonstrate multi-node Dask from the instructor cluster.
 4. End with the recap and assign the optional appendix as take-home material.
 
 Do not accelerate through concepts to preserve every notebook.

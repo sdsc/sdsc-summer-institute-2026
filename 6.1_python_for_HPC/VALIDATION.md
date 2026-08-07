@@ -79,7 +79,7 @@ All 9 notebooks that do not require a live cluster passed:
 | `2_dask/2_multicore_array.ipynb` | 2.149 |
 | `2_dask/3_multicore_array_outofcore.ipynb` | 1.815 |
 
-### Multi-node capstone
+### Multi-node Dask notebook
 
 `2_dask/4_multinode_distributed_array.ipynb` was executed end to end against a
 live scheduler with two workers running on the same node (`exp-1-29`), using
