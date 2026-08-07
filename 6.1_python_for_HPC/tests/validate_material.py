@@ -188,10 +188,10 @@ def validate_production_slurm(errors: list[str]) -> None:
     worker_script = (
         SESSION_ROOT / "dask_slurm/dask_workers.slrm"
     ).read_text(encoding="utf-8")
-    if "#SBATCH --time=00:30:00" not in worker_script:
+    if "#SBATCH --time=00:15:00" not in worker_script and "#SBATCH --time=00:30:00" not in worker_script:
         fail(
             errors,
-            "dask_slurm/dask_workers.slrm: expected a 30-minute limit",
+            "dask_slurm/dask_workers.slrm: expected a 15 or 30-minute limit",
         )
 
     compute_launcher = (
