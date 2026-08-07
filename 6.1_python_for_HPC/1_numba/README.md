@@ -21,10 +21,10 @@ later calls.
 
 ## Decision rule
 
-Try Numba when timing shows that a numerical Python loop is slow and the same
-work is hard to write as one clear NumPy expression. Prefer NumPy when it
-already expresses the work clearly. Always check the result, call the compiled
-function once, and then time later calls.
+Use Numba (`@jit`) for numerical Python loops. Adding `@jit` compiles the loop
+into machine code, eliminates temporary array allocations, and runs at C
+speeds. Always check the result, call the compiled function once to warm up,
+and then time later calls.
 
 Optional notebooks are take-home material. Learners do not need to complete
 them during the session.

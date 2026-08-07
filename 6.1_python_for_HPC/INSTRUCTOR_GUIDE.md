@@ -67,7 +67,7 @@ Question prompt: "Which part of your own Python workflow currently feels slow?"
 - At minute 9, ask for sticky-note status and announce three minutes remaining.
 - Debrief correctness first, then performance.
 
-Question prompt: "When is a clear NumPy expression already good enough?"
+Question prompt: "How does Numba eliminate temporary allocations in numerical loops?"
 
 ### 9:15 to 9:40: Threads and processes
 
