@@ -24,13 +24,14 @@
 
 set -euo pipefail
 
-SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
-export PYHPC_STAGE_SCRIPT="${SCRIPT_DIR}/stage_condaenv.sh"
-
-# Allow conda and per-package post-install builds to use every core.
-export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-$(nproc)}"
-export MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-$(nproc)}"
-export OPENBLAS_NUM_THREADS="${SLURM_CPUS_PER_TASK:-$(nproc)}"
+# Locate stage_condaenv.sh. sbatch copies this script to the spool dir, so
+# resolve from the submission directory instead of BASH_SOURCE[0].
+SCRIPT_DIR="${SLURM_SUBMIT_DIR:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)}"
+if [[ -f "${SCRIPT_DIR}/stage_condaenv.sh" ]]; then
+  PYHPC_STAGE_SCRIPT="${SCRIPT_DIR}/stage_condaenv.sh"
+else
+  PYHPC_STAGE_SCRIPT="${SCRIPT_DIR}/0_python_condaenv_scratch/stage_condaenv.sh"
+fi
 
 source "$PYHPC_STAGE_SCRIPT" pythonhpc
 

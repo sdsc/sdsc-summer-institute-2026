@@ -56,8 +56,13 @@ if [[ ! -f "$ENV_ARCHIVE" ]]; then
 
   echo "Packing ${ENV_NAME} env..."
   conda install -y -n base conda-pack -c conda-forge >/dev/null
-  conda-pack -p "${LOCAL_SCRATCH_DIR}/${ENV_NAME}" -o "${LOCAL_SCRATCH_DIR}/${ENV_NAME}.tar.gz"
-  if [[ ! -f "${LOCAL_SCRATCH_DIR}/${ENV_NAME}.tar.gz" ]]; then
+  if command -v pigz >/dev/null 2>&1; then
+    conda-pack -p "${LOCAL_SCRATCH_DIR}/${ENV_NAME}" -o "${LOCAL_SCRATCH_DIR}/${ENV_NAME}.tar"
+    pigz -p "$ALLOCATED_CPUS" "${LOCAL_SCRATCH_DIR}/${ENV_NAME}.tar"
+  else
+    conda-pack -p "${LOCAL_SCRATCH_DIR}/${ENV_NAME}" -o "${LOCAL_SCRATCH_DIR}/${ENV_NAME}.tar.gz"
+  fi
+  if [[ ! -s "${LOCAL_SCRATCH_DIR}/${ENV_NAME}.tar.gz" ]]; then
     echo "ERROR: conda-pack failed to produce ${ENV_NAME}.tar.gz"
     return 1
   fi

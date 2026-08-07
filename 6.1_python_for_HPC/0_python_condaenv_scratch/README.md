@@ -22,8 +22,9 @@ sbatch python_expanse.slurm
 squeue -u "$USER"
 ```
 
-The script includes account `sdp173`, reservation `si26cpu`, and QOS
-`normal-eot`. It requests two compute nodes for five minutes.
+The script includes account `sdp173`, reservation `si26cpu`, QOS
+`normal-eot`, and requests one compute node with 128 cores and 242 GB of memory
+for one hour.
 
 ## Notes
 
