@@ -116,19 +116,6 @@ Question prompt: "What changed in the Python expression when we added nodes?"
 - Ask participants to choose one take-home file.
 - Invite final questions and point to the optional deep dives.
 
-### Optional appendix: AI-assisted workflow
-
-- Use slides 39 through 43 only if the recap ends early. Otherwise assign the
-  section as take-home material.
-- Use the short workflow in `3_ai_code_assist/README.md`.
-- AI may suggest an individual command or review a small function.
-- AI should not write the entire exercise solution.
-- Require participants to inspect resource requests and run the provided tests.
-- Give 8 minutes for the prompt-and-review exercise.
-
-Question prompt: "Which part of this answer must you verify before submitting a
-job?"
-
 ## Recovery options
 
 If Galyleo startup is slow:

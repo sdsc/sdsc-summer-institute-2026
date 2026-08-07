@@ -114,9 +114,6 @@ deck shows the clock time the class should reach it.
 
 These files are for early finishers and post-session study:
 
-- Slides 39 to 43 and [`3_ai_code_assist/README.md`](3_ai_code_assist/README.md):
-  a short AI-assisted review exercise. Use this optional appendix only if the
-  recap ends early; otherwise it is take-home material.
 - [`1_numba/1_numpy.ipynb`](1_numba/1_numpy.ipynb): how Numba handles different
   NumPy array types and custom array functions.
 - [`1_numba/2_threads.ipynb`](1_numba/2_threads.ipynb): use several threads
@@ -136,9 +133,6 @@ Not completing a deep dive is not falling behind.
 - [`1_numba/`](1_numba/README.md): single-core and threaded compilation.
 - [`2_dask/`](2_dask/README.md): delayed tasks, arrays, chunking, and the
   multi-node capstone.
-- [`3_ai_code_assist/`](3_ai_code_assist/README.md): optional practice using an
-  AI assistant while retaining responsibility for resource requests and
-  validation.
 - [`0_python_condaenv_scratch/`](0_python_condaenv_scratch/README.md):
   conda environment staging scripts. Students do not open this folder during
   class.
