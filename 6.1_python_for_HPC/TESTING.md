@@ -31,11 +31,10 @@ cd /path/to/sdsc-summer-institute-2026/6.1_python_for_HPC
 bash tests/run_debug_one_node.sh
 ```
 
-The script stages the cached `pythonhpc` environment, runs every local core and
-optional notebook, and repeats the suite inside the instructor's SI26
-Singularity image. Set `PYHPC_SIF_PATH` first to use a different image. It skips
-only the multi-node notebook, which requires a scheduler and workers and is
-covered by the next test.
+The script stages the `pythonhpc` environment (building and caching it on the
+first run, then reusing it), runs every local core and optional notebook, and
+writes results to `test-results/`. It skips only the multi-node notebook, which
+requires a scheduler and workers and is covered by the next test.
 
 ## Multi-node Dask validation
 
@@ -57,22 +56,5 @@ salloc \
     --nodes=1 \
     --ntasks=1 \
     bash -lc \
-    'cd /path/to/6.1_python_for_HPC && source support/condaenv_scratch/stage_condaenv.sh pythonhpc && bash tests/run_debug_dask.sh'
+    'cd /path/to/6.1_python_for_HPC && bash tests/run_debug_dask.sh'
 ```
-
-The test creates a temporary scheduler file, runs one worker on each allocated
-node with explicit `srun` steps, executes the capstone computation, checks the
-result, and stops all processes. It does not call the production SLURM script.
-
-## Record the result
-
-For each test, record:
-
-- Git commit.
-- Date and Expanse node names.
-- Python, Numba, Dask, and distributed versions.
-- Notebook pass or failure.
-- Runtime and any warnings that learners will see.
-
-The validation scripts write a machine-readable summary under
-`test-results/`. That directory is ignored by Git.

@@ -29,6 +29,10 @@ assigns ready tasks. Workers store chunks and perform those tasks.
 - 128 threads and 242 GB requested per node
 - 30-minute limit, with immediate cancellation after the result is verified
 
+- Workers use the `pythonhpc` conda env staged to node-local scratch by
+  [`../0_python_condaenv_scratch/stage_condaenv.sh`](../0_python_condaenv_scratch/stage_condaenv.sh).
+  The first worker run builds and caches the env; later runs reuse it.
+
 These are production institute settings. Instructors testing before the event
 must not submit this script. Use [`../TESTING.md`](../TESTING.md) and the debug
 queue.

@@ -5,7 +5,9 @@
 # Launches a JupyterLab session on the Expanse compute partition with:
 #   1 node, 128 CPUs, 242 GB memory, 4 hour time limit
 #   Account: sdp173
-#   Conda environment from environment.yaml (cached via conda-pack)
+#   Conda env: pythonhpc, created once by 0_python_condaenv_scratch/stage_condaenv.sh
+#   and staged to node-local scratch on every launch (--cache). Galyleo reuses
+#   the cached archive, so the env is never rebuilt per session.
 #
 # The reservation and QOS are required for SI26 production sessions.
 # Instructors should use TESTING.md and the debug queue before the institute.

@@ -1,21 +1,25 @@
 #!/bin/bash
-# Validate the multi-node capstone inside an existing two-node debug allocation.
+# Validate the multi-node capstone inside an existing two-node allocation.
 
 set -euo pipefail
 
-if [[ "${SLURM_JOB_PARTITION:-}" != "debug" ]]; then
-  echo "ERROR: run this script only inside an Expanse debug allocation."
+if [[ "${SLURM_JOB_PARTITION:-}" != "debug" && "${SLURM_JOB_PARTITION:-}" != "compute" ]]; then
+  echo "ERROR: run this script only inside an Expanse debug or compute allocation."
   exit 1
 fi
 
 ALLOCATED_NODES="${SLURM_JOB_NUM_NODES:-${SLURM_NNODES:-0}}"
 
 if [[ "$ALLOCATED_NODES" -lt 2 ]]; then
-  echo "ERROR: this test requires at least two allocated debug nodes."
+  echo "ERROR: this test requires at least two allocated nodes."
   exit 1
 fi
 
-SESSION_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+SCRIPT_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+SESSION_ROOT="${SLURM_SUBMIT_DIR:-$SCRIPT_ROOT}"
+if [[ ! -f "${SESSION_ROOT}/dask_slurm/launch_worker.sh" ]]; then
+  SESSION_ROOT="$SCRIPT_ROOT"
+fi
 RESULTS_DIR="${SESSION_ROOT}/test-results"
 mkdir -p "$RESULTS_DIR"
 
@@ -25,8 +29,9 @@ SCHEDULER_LOG="${RUN_DIR}/scheduler.log"
 WORKER_LOG="${RUN_DIR}/workers.log"
 NOTEBOOK_LOG="${RUN_DIR}/notebook.log"
 FIRST_NODE=$(scontrol show hostnames "$SLURM_JOB_NODELIST" | head -n 1)
-export PYHPC_STAGE_SCRIPT="${SESSION_ROOT}/support/condaenv_scratch/stage_condaenv.sh"
+
 export PYHPC_WORKER_SCRIPT="${SESSION_ROOT}/dask_slurm/launch_worker.sh"
+export PYHPC_STAGE_SCRIPT="${SESSION_ROOT}/0_python_condaenv_scratch/stage_condaenv.sh"
 
 cleanup() {
   if [[ -n "${WORKER_STEP_PID:-}" ]]; then
@@ -47,8 +52,7 @@ srun --overlap \
   --nodelist="$FIRST_NODE" \
   --ntasks=1 \
   --cpus-per-task=1 \
-  bash -lc \
-  "dask scheduler --scheduler-file '$SCHEDULER_FILE' --host \$(hostname -I | awk '{print \$1}') --port 0 --dashboard-address :0" \
+  bash -lc 'source "$PYHPC_STAGE_SCRIPT" pythonhpc && dask scheduler --scheduler-file "'"$SCHEDULER_FILE"'" --port 0 --dashboard-address :0' \
   >"$SCHEDULER_LOG" 2>&1 &
 SCHEDULER_STEP_PID=$!
 
@@ -64,21 +68,24 @@ fi
 
 echo "Starting one four-thread worker on each allocated node"
 srun --overlap \
-  --cpu-bind=none \
-  --nodes="$ALLOCATED_NODES" \
-  --ntasks="$ALLOCATED_NODES" \
-  --ntasks-per-node=1 \
-  --cpus-per-task=4 \
-  env DASK_SCHEDULER_FILE="$SCHEDULER_FILE" \
-      DASK_WORKER_THREADS=4 \
-      DASK_WORKER_MEMORY=12GB \
-  bash -lc \
-  'source "$PYHPC_STAGE_SCRIPT" pythonhpc && exec "$PYHPC_WORKER_SCRIPT"' \
-  >"$WORKER_LOG" 2>&1 &
+   --cpu-bind=none \
+   --nodes="$ALLOCATED_NODES" \
+   --ntasks="$ALLOCATED_NODES" \
+   --ntasks-per-node=1 \
+   --cpus-per-task=4 \
+   env DASK_SCHEDULER_FILE="$SCHEDULER_FILE" \
+       DASK_WORKER_THREADS=4 \
+       DASK_WORKER_MEMORY=12GB \
+       PYHPC_WORKER_SCRIPT="$PYHPC_WORKER_SCRIPT" \
+       PYHPC_STAGE_SCRIPT="$PYHPC_STAGE_SCRIPT" \
+   bash -lc 'source "$PYHPC_STAGE_SCRIPT" pythonhpc && exec "$PYHPC_WORKER_SCRIPT"' \
+   >"$WORKER_LOG" 2>&1 &
 WORKER_STEP_PID=$!
 
 export DASK_SCHEDULER_FILE="$SCHEDULER_FILE"
 export PYHPC_TEST_MODE=1
+
+source "$PYHPC_STAGE_SCRIPT" pythonhpc
 
 python - <<'PY' >"$NOTEBOOK_LOG" 2>&1
 import os
@@ -103,5 +110,5 @@ python -m jupyter nbconvert \
   --output "capstone.executed.ipynb" \
   >>"$NOTEBOOK_LOG" 2>&1
 
-echo "Multi-node debug validation passed."
+echo "Multi-node validation passed."
 echo "Logs: $RUN_DIR"
