@@ -63,7 +63,7 @@ Question prompt: "Which part of your own Python workflow currently feels slow?"
 - Explain that the first call compiles and runs the function. Later calls reuse
   the compiled code, so time those later calls.
 - Pause near 8:55 for questions before starting the hands-on portion.
-- Give 12 minutes for the sum-of-squares exercise.
+- Give 12 minutes for the moving-average exercise.
 - At minute 9, ask for sticky-note status and announce three minutes remaining.
 - Debrief correctness first, then performance.
 

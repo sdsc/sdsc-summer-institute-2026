@@ -141,7 +141,7 @@ before the speed comparison.
 
 # NUMBA | Hands-on
 
-- Complete sum_of_squares.
+- Complete moving_average.
 - Check the result against NumPy.
 - Warm up, then time both versions.
 - 12 minutes. Blue means help. Yellow means ready.
