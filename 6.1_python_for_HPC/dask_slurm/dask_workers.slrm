@@ -5,12 +5,12 @@
 #SBATCH --reservation=si26cpu
 #SBATCH --qos=normal-eot
 #SBATCH --account=sdp173
-#SBATCH --nodes=1
+#SBATCH --nodes=2
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=128
 #SBATCH --export=ALL
 #SBATCH --mem=242G
-#SBATCH --time=00:15:00
+#SBATCH --time=00:30:00
 
 set -euo pipefail
 
