@@ -15,7 +15,11 @@ if [[ "$ALLOCATED_NODES" -lt 2 ]]; then
   exit 1
 fi
 
-SESSION_ROOT="${SLURM_SUBMIT_DIR:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)}"
+SCRIPT_ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+SESSION_ROOT="${SLURM_SUBMIT_DIR:-$SCRIPT_ROOT}"
+if [[ ! -f "${SESSION_ROOT}/dask_slurm/launch_worker.sh" ]]; then
+  SESSION_ROOT="$SCRIPT_ROOT"
+fi
 RESULTS_DIR="${SESSION_ROOT}/test-results"
 mkdir -p "$RESULTS_DIR"
 
