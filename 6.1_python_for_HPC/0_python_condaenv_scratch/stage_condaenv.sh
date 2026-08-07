@@ -36,6 +36,12 @@ if [[ ! -f "$ENV_ARCHIVE" ]]; then
   echo "No cached archive at $ENV_ARCHIVE; building ${ENV_NAME} env once..."
   mkdir -p "$GALYLEO_CACHE_DIR/$ENV_NAME"
   export CONDA_PKGS_DIRS
+  # Let conda and per-package post-install builds use every available core.
+  ALLOCATED_CPUS="${SLURM_CPUS_PER_TASK:-$(nproc)}"
+  export OMP_NUM_THREADS="$ALLOCATED_CPUS"
+  export MKL_NUM_THREADS="$ALLOCATED_CPUS"
+  export OPENBLAS_NUM_THREADS="$ALLOCATED_CPUS"
+  echo "Using ${ALLOCATED_CPUS} cores for env build..."
 
   cd "$LOCAL_SCRATCH_DIR"
   if [[ ! -f Miniforge3-Linux-x86_64.sh ]]; then
