@@ -16,16 +16,15 @@ path:
 3. Divide work and arrays into smaller pieces with Dask.
 4. Run the same Dask calculation on two Expanse nodes.
 
-The [supporting slides](slides/README.md) coordinate the session. They identify
-the file to open, mark where to stop, display each timed activity, prompt the
-debrief, and introduce the next section. Keep the current slide visible while
-working in a notebook. The notebooks contain the executable explanations and
-code.
+The supporting slides coordinate the session. They identify the file to open,
+mark where to stop, display each timed activity, prompt the debrief, and
+introduce the next section. Keep the current slide visible while working in a
+notebook. The notebooks contain the executable explanations and code.
 
 Presentation:
 
 - [Google Slides deck](https://docs.google.com/presentation/d/1-aMB0CObn17n5KSDIbXWiiAnl5nN6rg5q4ni8lYor0U/edit?usp=sharing)
-- [PDF copy](slides/Python_for_HPC_SI26.pdf)
+- [PDF copy](Python_for_HPC_SI26.pdf)
 
 ## Learning objectives
 
@@ -149,8 +148,6 @@ Not completing a deep dive is not falling behind.
   instructions.
 - [`support/`](support/README.md): an optional container workflow. Students do
   not open this folder during class.
-- [`slides/`](slides/README.md): Google Slides link, accessible source, PDF, and
-  reference information.
 - [`INSTRUCTOR_GUIDE.md`](INSTRUCTOR_GUIDE.md): pacing, helper cues, and
   recovery options.
 - [`TESTING.md`](TESTING.md): debug-queue validation procedure.
