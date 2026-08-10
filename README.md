@@ -10,4 +10,10 @@ For the complete agenda, see [AGENDA.md](AGENDA.md).
 
 ## License
 
-All the teaching material in this repository is licensed under [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+All the teaching material in this repository is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/). See [LICENSE.md](LICENSE.md) for the full license text.
+
+### How to credit
+
+When reusing or adapting material from this repository, please credit it as:
+
+"SDSC Summer Institute 2026, San Diego Supercomputer Center, licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Source: https://github.com/sdsc/sdsc-summer-institute-2026"
