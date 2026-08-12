@@ -1,0 +1,13 @@
+{
+  "creators": [
+    {
+      "name": "San Diego Supercomputer Center",
+      "affiliation": "UC San Diego"
+    }
+  ],
+  "title": "SDSC Summer Institute 2026: HPC & Data Science",
+  "description": "This repository hosts all teaching material, slides, and tutorials for the SDSC Summer Institute 2026 on High-Performance Computing and Data Science. The institute ran from July 23 to August 7, 2026, covering topics including HPC fundamentals, running batch and interactive jobs, high-throughput computing, data management, Python for HPC, and parallel computing concepts.",
+  "license": "CC-BY-NC-SA-4.0",
+  "keywords": ["HPC", "data science", "supercomputing", "SDSC", "Expanse", "training", "tutorial"],
+  "communities": ["sdsc"]
+}
