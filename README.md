@@ -1,7 +1,7 @@
 # SDSC Summer Institute 2026
 <a name="top"></a>
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21909244.svg)](https://doi.org/10.5281/zenodo.21909244)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21909401.svg)](https://doi.org/10.5281/zenodo.21909401)
 
 This repository hosts all material and slides for the SDSC Summer Institute 2026.
 
