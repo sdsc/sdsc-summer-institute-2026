@@ -18,4 +18,4 @@ All the teaching material in this repository is licensed under the [Creative Com
 
 When reusing or adapting material from this repository, please credit it as:
 
-"SDSC Summer Institute 2026, San Diego Supercomputer Center, licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). Source: https://github.com/sdsc/sdsc-summer-institute-2026"
+"SDSC Summer Institute 2026, San Diego Supercomputer Center, licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/). DOI: [10.5281/zenodo.21909401](https://doi.org/10.5281/zenodo.21909401). Source: https://github.com/sdsc/sdsc-summer-institute-2026"
