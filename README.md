@@ -1,6 +1,8 @@
 # SDSC Summer Institute 2026
 <a name="top"></a>
 
+[![DOI](https://zenodo.org/badge/DOI/PLACEHOLDER.svg)](https://doi.org/PLACEHOLDER)
+
 This repository hosts all material and slides for the SDSC Summer Institute 2026.
 
 For the complete agenda, see [AGENDA.md](AGENDA.md).
